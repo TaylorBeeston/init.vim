@@ -1,0 +1,13 @@
+{ 
+  "coc.preferences.formatOnSaveFiletypes": [
+    "css", 
+    "Markdown", 
+    "javascript", 
+    "javascriptreact", 
+    "typescript", 
+    "typescriptreact", 
+    "rust"
+  ],
+  "jest.configFileName":"",
+  "tsserver.implicitProjectConfig.checkJs": true
+}
