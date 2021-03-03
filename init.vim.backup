@@ -6,29 +6,17 @@ syntax on                     " enable syntax highlighting
 " *** Vim-Plug  ***
 
 " Make sure to run
-" curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+" curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
+" https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 " prior to using
 "
 call plug#begin('~/.local/share/nvim/plugged')
 " Fuzzy searching
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
-Plug 'nvim-telescope/telescope-github.nvim'
-
-" LSP
-Plug 'neovim/nvim-lspconfig'
-Plug 'glepnir/lspsaga.nvim'
-Plug 'kosayoda/nvim-lightbulb'
-Plug 'onsails/lspkind-nvim'
-Plug 'mhartington/formatter.nvim'
-
-" Treesitter
-Plug 'nvim-treesitter/nvim-treesitter', { 'do': 'TSUpdate' }
-Plug 'nvim-treesitter/playground'
-
-" Autocompletion
-Plug 'hrsh7th/nvim-compe'
 
 " This requires running
 " sudo npm -g install instant-markdown-d
@@ -36,8 +24,36 @@ Plug 'hrsh7th/nvim-compe'
 Plug 'suan/vim-instant-markdown', {'for': 'markdown'} " Good Markdown support
 Plug 'SidOfc/mkdx'
 
-" Async Test Running
+" Autocompletion
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" Plug 'roxma/nvim-yarp'
+
+" Plug 'neoclide/coc-json', {'do': 'yarn install --frozen-lockfile'}         " JSON
+Plug 'neoclide/coc-tsserver', {'do': 'yarn install --frozen-lockfile'}     " JS/TS
+Plug 'neoclide/coc-html', {'do': 'yarn install --frozen-lockfile'}         " HTML
+" Plug 'neoclide/coc-css', {'do': 'yarn install --frozen-lockfile'}          " CSS
+" Plug 'neoclide/coc-phpls', {'do': 'yarn install --frozen-lockfile'}        " PHP
+Plug 'neoclide/coc-java', {'do': 'yarn install --frozen-lockfile'}         " Java
+Plug 'neoclide/coc-solargraph', {'do': 'yarn install --frozen-lockfile'}   " Ruby
+Plug 'neoclide/coc-yaml', {'do': 'yarn install --frozen-lockfile'}         " YAML
+Plug 'neoclide/coc-python', {'do': 'yarn install --frozen-lockfile'}       " Python
+" Plug 'neoclide/coc-omnisharp', {'do': 'yarn install --frozen-lockfile'}    " C#
+" Plug 'neoclide/coc-markdownlint', {'do': 'yarn install --frozen-lockfile'} " Markdown
+
+Plug 'neoclide/coc-highlight', {'do': 'yarn install --frozen-lockfile'}
+Plug 'neoclide/coc-emmet', {'do': 'yarn install --frozen-lockfile'}
+" Plug 'neoclide/coc-snippets', {'do': 'yarn install --frozen-lockfile'}
+Plug 'neoclide/coc-yank', {'do': 'yarn install --frozen-lockfile'}
+
+" To use this, first do :CocConfig
+" Then add "coc.preferences.formatOnSaveFiletypes": ["css", "Markdown", "javascript"]
+" Plug 'neoclide/coc-prettier', {'do': 'yarn install --frozen-lockfile'}
+
 Plug 'tpope/vim-dispatch'
+Plug 'autozimu/LanguageClient-neovim', {
+  \ 'branch': 'next',
+  \ 'do': 'bash install.sh',
+  \ }
 Plug 'vim-test/vim-test'
 
 " Documentation
@@ -46,24 +62,23 @@ Plug 'kkoomen/vim-doge', { 'do': { -> doge#install() } }
 " UI
 Plug 'chriskempson/base16-vim'
 Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 Plug 'dawikur/base16-vim-airline-themes'
 Plug 'mhinz/vim-signify'
 Plug 'junegunn/limelight.vim'
 Plug 'junegunn/goyo.vim'
+Plug 'wellle/context.vim'
 Plug 'ryanoasis/vim-devicons'
-Plug 'kyazdani42/nvim-web-devicons'
-Plug 'kevinhwang91/rnvimr'
-Plug 'norcalli/nvim-colorizer.lua'
+Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': 'python3 -m chadtree deps'}
 
 " use :SCROLL to test color schemes
 Plug 'https://github.com/vim-scripts/ScrollColors'
 
 " Show Indent Guides
-Plug 'lukas-reineke/indent-blankline.nvim', { 'branch': 'lua' }
+Plug 'nathanaelkane/vim-indent-guides'
 
 " Code folding
-Plug 'pseewald/vim-anyfold' " Enter to cycle folds
-Plug 'arecarn/vim-fold-cycle'
+Plug 'pseewald/vim-anyfold'
 " Try it out!
 " za: toggle folds at current line
 " zo: open fold
@@ -71,18 +86,27 @@ Plug 'arecarn/vim-fold-cycle'
 " zR: open all folds
 " zM: close all folds
 
-" Close things like { and [ and "
-Plug 'cohama/lexima.vim'
+" Close things like { and [
+Plug 'jiangmiao/auto-pairs'
 
 " Underline word under cursor
 Plug 'itchyny/vim-cursorword'
 
 " Syntax checking/highlighting
+Plug 'scrooloose/syntastic'
 Plug 'justinmk/vim-syntax-extra'
 Plug 'vim-python/python-syntax'
+Plug 'othree/javascript-libraries-syntax.vim'
+Plug 'maxmellon/vim-jsx-pretty'
+Plug 'briancollins/vim-jst'
+Plug 'pangloss/vim-javascript'
+Plug 'leafgarland/typescript-vim'
+Plug 'ianks/vim-tsx'
+Plug 'mustache/vim-mustache-handlebars'
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 Plug 'jparise/vim-graphql'
 Plug 'mboughaba/i3config.vim'
+Plug 'sainnhe/sonokai'
 
 " Motions
 Plug 'chaoren/vim-wordmotion'
@@ -90,9 +114,16 @@ Plug 'chaoren/vim-wordmotion'
 " HTML
 Plug 'mattn/emmet-vim'
 
+" CSS
+Plug 'ap/vim-css-color' " Displays colors inline (#FFFFFF should appear as white)
+
+" Ruby on Rails plugin
+Plug 'tpope/vim-rails'
+
 " Code snippets plugin
-" Plug 'MarcWeber/vim-addon-mw-utils'
-" Plug 'tomtom/tlib_vim'
+Plug 'MarcWeber/vim-addon-mw-utils'
+Plug 'tomtom/tlib_vim'
+Plug 'isRuslan/vim-es6'
 Plug 'epilande/vim-react-snippets'
 Plug 'epilande/vim-es2015-snippets'
 Plug 'SirVer/ultisnips'
@@ -131,6 +162,9 @@ Plug 'tpope/vim-repeat'
 " Personal wiki!
 " See https://github.com/vimwiki/vimwiki
 Plug 'vimwiki/vimwiki'
+
+" Time Management
+Plug 'git-time-metric/gtm-vim-plugin'
 
 " View Mappings
 Plug 'liuchengxu/vim-which-key'
@@ -190,10 +224,12 @@ nnoremap <leader><Tab> :bd<CR>
 nnoremap <leader><S-Tab> :bd!<CR>
 
 " FZF
+" nnoremap <leader>ef :Files<CR>
+nnoremap <leader>eg :GFiles --exclude-standard --others --cached<CR>
+" nnoremap <leader>rg :Rg<CR>
 set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case
 set grepformat=%f:%l:%c:%m
 
-" Telescope
 nnoremap <leader>ef <cmd>Telescope find_files<cr>
 nnoremap <leader>rg <cmd>Telescope live_grep<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
@@ -201,34 +237,10 @@ nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 nnoremap <leader>ch <cmd>Telescope command_history<cr>
 nnoremap <leader>km <cmd>Telescope keymaps<cr>
 nnoremap <leader>sb <cmd>Telescope current_buffer_fuzzy_find<cr>
-
 nnoremap <leader>gc <cmd>Telescope git_commits<cr>
 nnoremap <leader>bc <cmd>Telescope git_bcommits<cr>
 nnoremap <leader>br <cmd>Telescope git_branches<cr>
 nnoremap <leader>gs <cmd>Telescope git_status<cr>
-
-nnoremap <leader>gr <cmd>Telescope lsp_references<cr>
-nnoremap gr <cmd>Telescope lsp_references<cr>
-nnoremap <leader>ds <cmd>Telescope lsp_document_symbols<cr>
-nnoremap <leader>dws <cmd>Telescope lsp_workspace_symbols<cr>
-nnoremap <leader>trs <cmd>Telescope treesitter<cr>
-
-nnoremap <leader>gti <cmd>Telescope gh issues<cr>
-nnoremap <leader>gtp <cmd>Telescope gh pull_request<cr>
-nnoremap <leader>gtg <cmd>Telescope gh gist<cr>
-
-" Saga
-nnoremap <silent> gh :Lspsaga lsp_finder<CR>
-nnoremap <silent><leader>ca :Lspsaga code_action<CR>
-vnoremap <silent><leader>ca :<C-U>Lspsaga range_code_action<CR>
-nnoremap <silent>K :Lspsaga hover_doc<CR>
-nnoremap <silent> <C-f> <cmd>lua require('lspsaga.action').smart_scroll_with_saga(1)<CR>
-nnoremap <silent> <C-b> <cmd>lua require('lspsaga.action').smart_scroll_with_saga(-1)<CR>
-nnoremap <silent> gs :Lspsaga signature_help<CR>
-nnoremap <silent><leader>rn :Lspsaga rename<CR>
-nnoremap <silent> <leader>cd :Lspsaga show_line_diagnostics<CR>
-nnoremap <silent> [e :Lspsaga diagnostic_jump_next<CR>
-nnoremap <silent> ]e :Lspsaga diagnostic_jump_prev<CR>
 
 " Key Mappings
 nnoremap <silent> <leader> :WhichKey '<Space>'<CR>
@@ -240,6 +252,9 @@ set stl+=%{ConflictedVersion()}
 :tnoremap <Esc> <C-\><C-n>
 
 set rnu " relative line numberes
+
+" Autoformatting
+command! -nargs=0 Prettier :CocCommand prettier.formatFile
 
 " if hidden is not set, TextEdit might fail.
 set hidden
@@ -264,6 +279,140 @@ set signcolumn=yes
 cmap w!! w !sudo tee %
 
 nmap <leader>l :Goyo<CR>
+nnoremap <leader>cp :ContextPeek<CR>
+
+" Coc Snippets
+
+" Use tab for trigger completion with characters ahead and navigate.
+" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
+" inoremap <silent><expr> <TAB>
+"       \ pumvisible() ? "\<C-n>" :
+"       \ <SID>check_back_space() ? "\<TAB>" :
+"       \ coc#refresh()
+" inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? coc#_select_confirm() :
+      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use <c-space> to trigger completion.
+inoremap <silent><expr> <c-space> coc#refresh()
+
+" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
+" Coc only does snippet and additional edit on confirm.
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+" Or use `complete_info` if your vim support it, like:
+" inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+
+" Use `[g` and `]g` to navigate diagnostics
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" Remap keys for gotos
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Use K to show documentation in preview window
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+" Highlight symbol under cursor on CursorHold
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" Remap for rename current word
+nmap <leader>rn <Plug>(coc-rename)
+
+" Remap for format selected region
+xmap <leader>f  <Plug>(coc-format-selected)
+nmap <leader>f  <Plug>(coc-format-selected)
+
+" Remap for restart CoC Server
+nmap <leader>cr :CocRestart<CR>
+
+nmap <leader>ex :CocCommand explorer --position floating<CR>
+
+augroup mygroup
+  autocmd!
+  " Setup formatexpr specified filetype(s).
+  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+  " Update signature help on jump placeholder
+  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+augroup end
+
+" Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
+xmap <leader>a  <Plug>(coc-codeaction-selected)
+nmap <leader>a  <Plug>(coc-codeaction-selected)
+
+" Remap for do codeAction of current line
+nmap <leader>ac  <Plug>(coc-codeaction)
+" Fix autofix problem of current line
+nmap <leader>qf  <Plug>(coc-fix-current)
+
+" Create mappings for function text object, requires document symbols feature of languageserver.
+xmap if <Plug>(coc-funcobj-i)
+xmap af <Plug>(coc-funcobj-a)
+omap if <Plug>(coc-funcobj-i)
+omap af <Plug>(coc-funcobj-a)
+
+" Use `:Format` to format current buffer
+command! -nargs=0 Format :call CocAction('format')
+
+" Use `:Fold` to fold current buffer
+command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+
+" use `:OR` for organize import of current buffer
+command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+
+" Add status line support, for integration with other plugin, checkout `:h coc-status`
+set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+
+" Using CocList
+" Show all diagnostics
+nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
+" Manage extensions
+nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
+" Show commands
+nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
+" Find symbol of current document
+nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
+" Search workspace symbols
+nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
+" Do default action for next item.
+nnoremap <silent> <space>j  :<C-u>CocNext<CR>
+" Do default action for previous item.
+nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
+" Resume latest coc list
+nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
+
+" Coc Jest
+" Run jest for current project
+command! -nargs=0 Jest :call  CocAction('runCommand', 'jest.projectTest')
+
+" Run jest for current file
+command! -nargs=0 JestCurrent :call  CocAction('runCommand', 'jest.fileTest', ['%'])
+
+" Run jest for current test
+nnoremap <leader>te :call CocAction('runCommand', 'jest.singleTest')<CR>
+
+" Init jest in current cwd, require global jest command exists
+command! JestInit :call CocAction('runCommand', 'jest.init')
 
 let g:OmniSharp_server_stdio = 1
 
@@ -305,6 +454,8 @@ let g:blamer_show_in_visual_modes = 0
 let g:blamer_date_format = '%m/%d/%y %H:%M'
 let g:blamer_relative_time = 1
 let g:git_messenger_always_into_popup = 1
+let g:context_nvim_no_redraw = 1
+let g:context_enabled = 0
 let g:vimwiki_list = [{'path': '~/vimwiki/',
                       \'syntax': 'markdown', 'ext': '.md'}]
 let g:vimwiki_global_ext = 0
@@ -328,7 +479,6 @@ set tags=./tags;
 " Anyfold
 autocmd Filetype * AnyFoldActivate
 set foldlevel=99
-let g:anyfold_fold_comments=1
 
 " Syntax Highlighting
 aug i3config_ft_detection
@@ -347,193 +497,8 @@ function! s:goyo_leave()
     BlamerToggle
 endfunction
 
-" Ranger
-nnoremap <leader>ex <cmd>RnvimrToggle<cr>
-
-let g:rnvimr_enable_ex = 1
-let g:rnvimr_enable_picker = 1
+" CHADTree
+nnoremap <leader>v <cmd>CHADopen<cr>
 
 autocmd! User GoyoEnter nested call <SID>goyo_enter()
 autocmd! User GoyoLeave nested call <SID>goyo_leave()
-
-lua << EOF
-local function eslint_config_exists()
-  local eslintrc = vim.fn.glob(".eslintrc*", 0, 1)
-
-  if not vim.tbl_isempty(eslintrc) then
-    return true
-  end
-
-  if vim.fn.filereadable("package.json") then
-    if vim.fn.json_decode(vim.fn.readfile("package.json"))["eslintConfig"] then
-      return true
-    end
-  end
-
-  return false
-end
-
-local nvim_lsp = require('lspconfig')
-
-local on_attach = function(client, bufnr)
-  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
-
-  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
-
-  -- Mappings.
-  local opts = { noremap=true, silent=true }
-  buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-  buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
-  buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-  buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-  buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-  buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-  buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
-  buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-  buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
-end
-
-nvim_lsp.tsserver.setup {
-    on_attach = on_attach
-}
-
-nvim_lsp.cssls.setup {
-    on_attach = on_attach
-}
-
-nvim_lsp.graphql.setup {
-    on_attach = on_attach
-}
-
-local eslint = {
-  lintCommand = "eslint_d -f unix --stdin --stdin-filename ${INPUT}",
-  lintStdin = true,
-  lintFormats = {"%f:%l:%c: %m"},
-  lintIgnoreExitCode = true,
-}
-
-nvim_lsp.efm.setup {
-  on_attach = function(client)
-    client.resolved_capabilities.document_formatting = true
-    client.resolved_capabilities.goto_definition = false
-    set_lsp_config(client)
-  end,
-  root_dir = function()
-    if not eslint_config_exists() then
-      return nil
-    end
-    return vim.fn.getcwd()
-  end,
-  settings = {
-    languages = {
-      javascript = {eslint},
-      javascriptreact = {eslint},
-      ["javascript.jsx"] = {eslint},
-      typescript = {eslint},
-      ["typescript.tsx"] = {eslint},
-      typescriptreact = {eslint}
-    }
-  },
-  filetypes = {
-    "javascript",
-    "javascriptreact",
-    "javascript.jsx",
-    "typescript",
-    "typescript.tsx",
-    "typescriptreact"
-  },
-}
-
-require'nvim-treesitter.configs'.setup {
-  highlight = {
-    enable = true,
-  },
-  playground = {
-    enable = true,
-    disable = {},
-    updatetime = 25,
-    persit_queries = false
-  }
-}
-
-require'compe'.setup {
-  enabled = true;
-  autocomplete = true;
-  debug = false;
-  min_length = 1;
-  preselect = 'enable';
-  throttle_time = 80;
-  source_timeout = 200;
-  incomplete_delay = 400;
-  max_abbr_width = 100;
-  max_kind_width = 100;
-  max_menu_width = 100;
-  documentation = true;
-
-  source = {
-    path = true;
-    nvim_lsp = true;
-    nvim_lua = true;
-    ultisnips = true;
-    treesitter = true;
-  };
-}
-
-require('formatter').setup({
-  logging = false,
-  filetype = {
-    javascript = {
-        -- prettier
-       function()
-          return {
-            exe = "prettier",
-            args = {"--stdin-filepath", vim.api.nvim_buf_get_name(0)},
-            stdin = true
-          }
-        end
-    },
-  }
-})
-
-vim.api.nvim_exec([[
-augroup FormatAutogroup
-  autocmd!
-  autocmd BufWritePost *.js,*.rs,*.lua FormatWrite
-augroup END
-]], true)
-
-require('lspkind').init()
-
-require('telescope').load_extension('gh')
-
-require'nvim-web-devicons'.setup {
-    default = true;
-}
-
-require 'colorizer'.setup(nil, { css = true; })
-EOF
-
-" NOTE: Order is important. You can't lazy loading lexima.vim.
-let g:lexima_no_default_rules = v:true
-call lexima#set_default_rules()
-inoremap <silent><expr> <C-Space> compe#complete()
-inoremap <silent><expr> <CR>      compe#confirm(lexima#expand('<LT>CR>', 'i'))
-inoremap <silent><expr> <C-e>     compe#close('<C-e>')
-inoremap <silent><expr> <C-f>     compe#scroll({ 'delta': +4 })
-inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 })
-
-" Set completeopt to have a better completion experience
-set completeopt=menuone,noselect
-
-" Avoid showing message extra message when using completion
-set shortmess+=c
-
-" Vim Lightbulb
-autocmd CursorHold,CursorHoldI * lua require'nvim-lightbulb'.update_lightbulb()
-
-" Lua
-let g:vimsyn_embed = 'l'
-
-" Indent Lines
-let g:indent_blankline_char_highlight = 'DevIconAwk'

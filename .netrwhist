@@ -1,3 +1,11 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhistcnt =1
+let g:netrw_dirhistcnt =9
+let g:netrw_dirhist_9='/home/taylor/workStuff/WeLibrary/client/sass/dsc/forms'
+let g:netrw_dirhist_8='/home/taylor/workStuff/WeLibrary/client/sass/dsc'
+let g:netrw_dirhist_7='/home/taylor/workStuff/WeLibrary/imports/wl-web/ui/dsc/svgs'
+let g:netrw_dirhist_6='/home/taylor/workStuff/WeLibrary/imports/wl-web/ui/dsc'
+let g:netrw_dirhist_5='/home/taylor/workStuff/WeLibrary/imports/wl-web/ui'
+let g:netrw_dirhist_4='/home/taylor/workStuff/WeLibrary/imports/wl-web/ui/dsc/forms/customInputs'
+let g:netrw_dirhist_3='/home/taylor/workStuff/WeLibrary/imports/wl-web/ui/dsc/forms'
+let g:netrw_dirhist_2='/home/taylor/workStuff/WeLibrary/imports/wl-web/ui/dsc'
 let g:netrw_dirhist_1='/home/taylor/.cache/typescript/4.0/node_modules/@types/meteor'
