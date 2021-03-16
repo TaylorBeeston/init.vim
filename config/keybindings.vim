@@ -77,7 +77,7 @@ nnoremap <silent><leader>rn :Lspsaga rename<CR>
 nnoremap <silent> <leader>cd :Lspsaga show_line_diagnostics<CR>
 nnoremap <silent> [e :Lspsaga diagnostic_jump_next<CR>
 nnoremap <silent> ]e :Lspsaga diagnostic_jump_prev<CR>
-nnoremap <silent><leader>tt :Lspsaga open_floaterm<CR>
+nnoremap <silent><leader>tt :Lspsaga open_floaterm fish<CR>
 tnoremap <silent><Esc> <C-\><C-n>:Lspsaga close_floaterm<CR>
 tnoremap <silent><C-c><C-c> <C-\><C-n>:Lspsaga close_floaterm<CR>
 

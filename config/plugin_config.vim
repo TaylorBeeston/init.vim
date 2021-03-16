@@ -41,9 +41,6 @@ endfunction
 autocmd! User GoyoEnter nested call <SID>goyo_enter()
 autocmd! User GoyoLeave nested call <SID>goyo_leave()
 
-" Vim Lightbulb
-autocmd CursorHold,CursorHoldI * lua require'nvim-lightbulb'.update_lightbulb()
-
 " FZF
 set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case
 set grepformat=%f:%l:%c:%m
@@ -54,3 +51,18 @@ let g:OmniSharp_server_stdio = 1
 " rnvimr (Ranger)
 let g:rnvimr_enable_ex = 1
 let g:rnvimr_enable_picker = 1
+
+" mkdx
+let g:mkdx#settings     = { 'highlight': { 'enable': 1 },
+                        \ 'enter': { 'shift': 1 },
+                        \ 'links': { 'external': { 'enable': 1 } },
+                        \ 'toc': { 'text': 'Table of Contents', 'update_on_write': 1 },
+                        \ 'fold': { 'enable': 1 } }
+
+" Sonokai
+let g:sonokai_transparent_background = 1
+let g:sonokai_style = 'shusia'
+
+" Edge
+let g:edge_transparent_background = 1
+let g:edge_style = 'default'

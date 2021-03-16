@@ -19,6 +19,9 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
   buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
   buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+
+  -- Let Prettier do its job
+  client.resolved_capabilities.document_formatting = false
 end
 
 -- JS/TS
@@ -40,6 +43,9 @@ nvim_lsp.graphql.setup {
 nvim_lsp.vimls.setup {
     on_attach = on_attach
 }
+
+-- Rust
+nvim_lsp.rust_analyzer.setup({})
 
 -- EFM (ESLint)
 local function eslint_config_exists()
@@ -70,7 +76,9 @@ nvim_lsp.efm.setup {
   on_attach = function(client)
     client.resolved_capabilities.document_formatting = true
     client.resolved_capabilities.goto_definition = false
-    set_lsp_config(client)
+    if set_lsp_config then 
+        set_lsp_config(client)
+    end
   end,
   root_dir = function()
     if not eslint_config_exists() then

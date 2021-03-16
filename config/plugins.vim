@@ -14,7 +14,6 @@ Plug 'nvim-telescope/telescope-github.nvim'
 " LSP
 Plug 'neovim/nvim-lspconfig'
 Plug 'glepnir/lspsaga.nvim'
-Plug 'kosayoda/nvim-lightbulb'
 Plug 'onsails/lspkind-nvim'
 Plug 'mhartington/formatter.nvim'
 
@@ -39,6 +38,8 @@ Plug 'vim-test/vim-test'
 Plug 'kkoomen/vim-doge', { 'do': { -> doge#install() } }
 
 " UI
+Plug 'sainnhe/sonokai'
+Plug 'sainnhe/edge'
 Plug 'chriskempson/base16-vim'
 Plug 'vim-airline/vim-airline'
 Plug 'dawikur/base16-vim-airline-themes'
@@ -49,6 +50,8 @@ Plug 'ryanoasis/vim-devicons'
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'kevinhwang91/rnvimr'
 Plug 'norcalli/nvim-colorizer.lua'
+Plug 'kevinhwang91/nvim-bqf'
+Plug 'fladson/vim-kitty'
 
 " use :SCROLL to test color schemes
 Plug 'https://github.com/vim-scripts/ScrollColors'

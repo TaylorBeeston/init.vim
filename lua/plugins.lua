@@ -8,7 +8,8 @@ require'nvim-treesitter.configs'.setup {
     disable = {},
     updatetime = 25,
     persit_queries = false
-  }
+  },
+    indent = { enable = true },
 }
 
 -- Vim-Compe (Autocompletion)
@@ -28,14 +29,17 @@ require'compe'.setup {
 
   source = {
     path = true;
+    spell = true;
+    calc = true;
     nvim_lsp = true;
     nvim_lua = true;
-    ultisnips = true;
     treesitter = true;
+    buffer = true;
+    ultisnips = true;
   };
 }
 
--- Formattter (Run Prettier on save)
+-- Formatter (Run Prettier on save)
 require('formatter').setup({
   logging = false,
   filetype = {
@@ -49,13 +53,43 @@ require('formatter').setup({
           }
         end
     },
+    typescript = {
+        -- prettier
+       function()
+          return {
+            exe = "prettier",
+            args = {"--stdin-filepath", vim.api.nvim_buf_get_name(0)},
+            stdin = true
+          }
+        end
+    },
+    typescriptreact = {
+        -- prettier
+       function()
+          return {
+            exe = "prettier",
+            args = {"--stdin-filepath", vim.api.nvim_buf_get_name(0)},
+            stdin = true
+          }
+        end
+    },
+    scss = {
+        -- prettier
+       function()
+          return {
+            exe = "prettier",
+            args = {"--stdin-filepath", vim.api.nvim_buf_get_name(0)},
+            stdin = true
+          }
+        end
+    }
   }
 })
 
 vim.api.nvim_exec([[
 augroup FormatAutogroup
   autocmd!
-  autocmd BufWritePost *.js,*.rs,*.lua FormatWrite
+  autocmd BufWritePost *.js,*.ts,*.tsx,*.scss FormatWrite
 augroup END
 ]], true)
 
@@ -64,6 +98,9 @@ require('lspkind').init()
 
 -- Telescope
 require('telescope').load_extension('gh')
+
+-- Saga
+require('lspsaga').init_lsp_saga()
 
 -- Colored Icons
 require'nvim-web-devicons'.setup {

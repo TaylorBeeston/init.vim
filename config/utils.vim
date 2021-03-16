@@ -32,6 +32,7 @@ set cmdheight=2                  " Better display for messages
 set updatetime=300               " You will have bad experience for diagnostic messages when it's default 4000.
 set signcolumn=yes               " always show signcolumns
 set foldlevel=99                 " unfold everything
+set guifont=Fira\ Code\ Nerd\ Font:h18     " set font for graphical frontends
 
 " Some servers have issues with backup files (I think this is from a plugin?)
 set nobackup
@@ -51,3 +52,8 @@ cmap w!! w !sudo tee %
 
 " Syntax highlighting for embedded lua in vimscript
 let g:vimsyn_embed = 'l'
+
+" Neovide stuff
+let g:neovide_refresh_rate=144
+let g:neovide_cursor_antialiasing=v:true
+let g:neovide_cursor_vfx_mode="pixiedust"
