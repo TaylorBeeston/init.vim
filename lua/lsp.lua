@@ -36,9 +36,13 @@ nvim_lsp.tsserver.setup {
         client.resolved_capabilities.document_formatting = false
 
         -- Better TS Experience
-        require("nvim-lsp-ts-utils").setup {
+        local ts_utils = require("nvim-lsp-ts-utils")
+
+        ts_utils.setup {
             eslint_bin = "eslint_d"
         }
+
+        ts_utils.setup_client(client)
 
         -- Virtual Text Types!
         require("virtualtypes").on_attach(client, bufnr)
@@ -75,38 +79,37 @@ nvim_lsp.vimls.setup {
 local sumneko_root_path = "/home/taylor/luaHelpers/lua-language-server"
 local sumneko_binary = sumneko_root_path .. "/bin/Linux/lua-language-server"
 
-local luadev =
-    require("lua-dev").setup {
-    lspconfig = {
-        cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"},
-        on_attach = on_attach,
-        settings = {
-            Lua = {
-                runtime = {
-                    -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
-                    version = "LuaJIT",
-                    -- Setup your lua path
-                    path = vim.split(package.path, ";")
-                },
-                diagnostics = {
-                    enable = true,
-                    -- Get the language server to recognize the awesome globals
-                    globals = {"awesome", "client", "root", "screen"}
-                },
-                telemetry = {
-                    enable = false
-                },
-                workspace = {
-                    ignoreSubmodules = false,
-                    -- Make the server aware of Neovim runtime files
-                    library = {
-                        ["/usr/share/awesome/lib"] = true
-                    }
+local lspconfig = {
+    cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"},
+    on_attach = on_attach,
+    settings = {
+        Lua = {
+            runtime = {
+                -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+                version = "LuaJIT",
+                -- Setup your lua path
+                path = vim.split(package.path, ";")
+            },
+            diagnostics = {
+                enable = true,
+                -- Get the language server to recognize the awesome globals
+                globals = {"awesome", "client", "root", "screen"}
+            },
+            telemetry = {
+                enable = false
+            },
+            workspace = {
+                ignoreSubmodules = false,
+                -- Make the server aware of Neovim runtime files
+                library = {
+                    [vim.fn.expand("/usr/share/awesome/lib")] = true
                 }
             }
         }
     }
 }
+
+local luadev = require("lua-dev").setup {lspconfig = lspconfig}
 
 nvim_lsp.sumneko_lua.setup(luadev)
 

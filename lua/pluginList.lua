@@ -63,6 +63,13 @@ return require("packer").startup(
                 require("todo-comments").setup()
             end
         }
+        use {
+            "rmagatti/goto-preview",
+            requires = "neovim/nvim-lspconfig",
+            config = function()
+                require("goto-preview").setup {default_mappings = true}
+            end
+        }
 
         -- Treesitter
         use {"nvim-treesitter/nvim-treesitter", run = ":TSUpdate"}
@@ -99,6 +106,7 @@ return require("packer").startup(
 
         -- UI
         use "chriskempson/base16-vim"
+        use "siduck76/nvim-base16.lua"
         use {
             "lewis6991/gitsigns.nvim",
             requires = {"nvim-lua/plenary.nvim"},
