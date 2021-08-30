@@ -70,6 +70,19 @@ return require("packer").startup(
                 require("goto-preview").setup {default_mappings = true}
             end
         }
+        use {
+            "jose-elias-alvarez/null-ls.nvim",
+            requires = {"nvim-lua/plenary.nvim", "neovim/nvim-lspconfig"},
+            config = function()
+                --[[ local null_ls = require("null-ls")
+                null_ls.config(
+                    {
+                        sources = {null_ls.builtins.diagnostics.eslint_d}
+                    }
+                ) ]]
+                require("lspconfig")["null-ls"].setup {}
+            end
+        }
 
         -- Treesitter
         use {"nvim-treesitter/nvim-treesitter", run = ":TSUpdate"}
@@ -77,14 +90,45 @@ return require("packer").startup(
         use {"p00f/nvim-ts-rainbow", requires = "nvim-treesitter/nvim-treesitter"}
         use {"JoosepAlviste/nvim-ts-context-commentstring", requires = "nvim-treesitter/nvim-treesitter"}
         use {"windwp/nvim-ts-autotag", requires = "nvim-treesitter/nvim-treesitter"}
-        use {
+        --[[ use {
             "lewis6991/spellsitter.nvim",
             requires = "nvim-treesitter/nvim-treesitter",
             config = function()
                 require("spellsitter").setup()
             end
-        }
+        } ]]
         use {"haringsrob/nvim_context_vt", requires = "nvim-treesitter/nvim-treesitter"}
+        use {
+            "nvim-treesitter/nvim-treesitter-textobjects",
+            requires = "nvim-treesitter/nvim-treesitter",
+            config = function()
+                require "nvim-treesitter.configs".setup {
+                    textobjects = {
+                        select = {
+                            enable = true,
+                            -- Automatically jump forward to textobj, similar to targets.vim
+                            lookahead = true,
+                            keymaps = {
+                                -- You can use the capture groups defined in textobjects.scm
+                                ["af"] = "@function.outer",
+                                ["if"] = "@function.inner",
+                                ["ac"] = "@class.outer",
+                                ["ic"] = "@class.inner"
+                            }
+                        },
+                        swap = {
+                            enable = true,
+                            swap_next = {
+                                ["<leader>a"] = "@parameter.inner"
+                            },
+                            swap_previous = {
+                                ["<leader>A"] = "@parameter.inner"
+                            }
+                        }
+                    }
+                }
+            end
+        }
 
         -- Autocompletion
         use "hrsh7th/nvim-compe"
@@ -106,7 +150,8 @@ return require("packer").startup(
 
         -- UI
         use "chriskempson/base16-vim"
-        use "siduck76/nvim-base16.lua"
+        use "norcalli/nvim-base16.lua"
+        use "folke/tokyonight.nvim"
         use {
             "lewis6991/gitsigns.nvim",
             requires = {"nvim-lua/plenary.nvim"},
@@ -143,13 +188,14 @@ return require("packer").startup(
         use "junegunn/goyo.vim"
         use "ryanoasis/vim-devicons"
         use "kyazdani42/nvim-web-devicons"
+        use {"yamatsum/nvim-nonicons", requires = "kyazdani42/nvim-web-devicons"}
         use "kevinhwang91/rnvimr"
         use "norcalli/nvim-colorizer.lua"
         use "kevinhwang91/nvim-bqf"
         use "fladson/vim-kitty"
         use "akinsho/nvim-bufferline.lua"
         use "glepnir/galaxyline.nvim"
-        use "folke/lsp-colors.nvim"
+        -- use "folke/lsp-colors.nvim"
         use {
             "edluffy/specs.nvim",
             config = function()
@@ -173,12 +219,13 @@ return require("packer").startup(
             end
         }
         use "pocco81/HighStr.nvim"
+        use "glepnir/dashboard-nvim"
 
         -- use :SCROLL to test color schemes
         use "https://github.com/vim-scripts/ScrollColors"
 
         -- Show Indent Guides
-        use {"lukas-reineke/indent-blankline.nvim", branch = "lua"}
+        use "lukas-reineke/indent-blankline.nvim"
 
         -- Code folding
         use "arecarn/vim-fold-cycle" -- Enter to cycle folds
@@ -206,6 +253,16 @@ return require("packer").startup(
 
         -- Motions
         use "chaoren/vim-wordmotion"
+        use {
+            "ggandor/lightspeed.nvim",
+            config = function()
+                require("lightspeed").setup {
+                    highlight_unique_chars = true,
+                    cycle_group_fwd_key = "<space>",
+                    cycle_group_bwd_key = "<tab>"
+                }
+            end
+        }
 
         -- HTML
         use "mattn/emmet-vim"
@@ -214,13 +271,22 @@ return require("packer").startup(
         use "tjdevries/nlua.nvim"
         use "rafcamlet/nvim-luapad"
 
+        -- JS
+        use {
+            "vuki656/package-info.nvim",
+            config = function()
+                require("package-info").setup()
+            end
+        }
+
         -- Code snippets plugin
         use "epilande/vim-react-snippets"
         use "epilande/vim-es2015-snippets"
         use "SirVer/ultisnips"
 
         -- Smooth scrolling with <C u> and <C d>
-        use {
+        use "psliwka/vim-smoothie"
+        --[[ use {
             "karb94/neoscroll.nvim",
             config = function()
                 require("neoscroll").setup(
@@ -232,8 +298,7 @@ return require("packer").startup(
                     }
                 )
             end
-        }
-
+        } ]]
         -- Exchange text objects with cx
         use "tommcdo/vim-exchange"
 
@@ -259,6 +324,14 @@ return require("packer").startup(
         -- Open GH Repo with <leader>go
         use "ruanyl/vim-gh-line"
 
+        -- Octo
+        use {
+            "pwntester/octo.nvim",
+            config = function()
+                require "octo".setup()
+            end
+        }
+
         -- Repeat more than just native commands
         use "tpope/vim-repeat"
 
@@ -274,7 +347,24 @@ return require("packer").startup(
             end
         }
 
-        -- Video Games
-        use "ThePrimeagen/vim-be-good"
+        -- Neorg
+        use {
+            "vhyrro/neorg",
+            config = function()
+                require("neorg").setup {
+                    -- Tell Neorg what modules to load
+                    load = {
+                        ["core.defaults"] = {}, -- Load all the default modules
+                        ["core.keybinds"] = {config = {default_keybinds = true, neorg_leader = "<Leader>o"}},
+                        ["core.norg.concealer"] = {}, -- Allows for use of icons
+                        ["core.norg.dirman"] = {
+                            -- Manage your directories with Neorg
+                            config = {workspaces = {main = "~/neorg"}}
+                        }
+                    }
+                }
+            end,
+            requires = "nvim-lua/plenary.nvim"
+        }
     end
 )

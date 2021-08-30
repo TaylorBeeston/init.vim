@@ -64,10 +64,9 @@ nnore("<leader>wK", ":wincmd K<CR>")
 nnore("<leader>wL", ":wincmd L<CR>")
 nnore("<leader>w=", ":wincmd =<CR>") ]]
 -- Buffers
-nnore("<Tab>", ":bn<CR>")
-nnore("<S-Tab>", ":bp<CR>")
+nnore("<S-Tab>", ":bn<CR>")
+nnore("<leader><S-Tab>", ":bp<CR>")
 nnore("<leader><Tab>", ":bd<CR>")
-nnore("<leader><S-Tab>", ":bd!<CR>")
 
 -- Package Management And Config Helpers
 nnore("<leader>up", ":PackerUpdate<CR>")
@@ -126,31 +125,11 @@ nnore("<leader>ex", "<cmd>RnvimrToggle<cr>")
 nnore("<leader>cc", "<cmd>LspTroubleDocumentToggle<cr>")
 
 -- Neoscroll
-nnore("<C-u>", ":lua require('neoscroll').scroll(-0.19, true, 10)<CR>", {silent = true})
+--[[ nnore("<C-u>", ":lua require('neoscroll').scroll(-0.19, true, 10)<CR>", {silent = true})
 nnore("<C-d>", ":lua require('neoscroll').scroll(0.19, true, 10)<CR>", {silent = true})
 xnore("<C-u>", ":lua require('neoscroll').scroll(-0.19, true, 8)<CR>", {silent = true})
-xnore("<C-d>", ":lua require('neoscroll').scroll(0.19, true, 8)<CR>", {silent = true})
-
+xnore("<C-d>", ":lua require('neoscroll').scroll(0.19, true, 8)<CR>", {silent = true}) ]]
 -- Vim-Compe
-local npairs = require("nvim-autopairs")
-
--- skip it, if you use another global object
-_G.Mutils = {}
-
-vim.g.completion_confirm_key = ""
-Mutils.completion_confirm = function()
-    if vim.fn.pumvisible() ~= 0 then
-        if vim.fn.complete_info()["selected"] ~= -1 then
-            return vim.fn["compe#confirm"](npairs.esc("<cr>"))
-        else
-            return npairs.esc("<cr>")
-        end
-    else
-        return npairs.autopairs_cr()
-    end
-end
-
-inore("<CR>", "v:lua.Mutils.completion_confirm()", {expr = true})
 inore("<C-Space>", "compe#complete()", {silent = true, expr = true})
 inore("<C-e>", "compe#close('<C-e>')", {silent = true, expr = true})
 inore("<C-f>", "compe#scroll({ 'delta': +4})", {silent = true, expr = true})

@@ -39,7 +39,10 @@ nvim_lsp.tsserver.setup {
         local ts_utils = require("nvim-lsp-ts-utils")
 
         ts_utils.setup {
-            eslint_bin = "eslint_d"
+            eslint_enable_diagnostics = true,
+            eslint_bin = "eslint_d",
+            update_imports_on_move = true,
+            require_confirmation_on_move = true
         }
 
         ts_utils.setup_client(client)
@@ -115,61 +118,3 @@ nvim_lsp.sumneko_lua.setup(luadev)
 
 -- Rust
 nvim_lsp.rust_analyzer.setup({})
-
--- EFM (ESLint)
-local function eslint_config_exists()
-    local eslintrc = vim.fn.glob(".eslintrc*", 0, 1)
-
-    if not vim.tbl_isempty(eslintrc) then
-        return true
-    end
-
-    if vim.fn.filereadable("package.json") then
-        if vim.fn.json_decode(vim.fn.readfile("package.json"))["eslintConfig"] then
-            return true
-        end
-    end
-
-    return false
-end
-
-local eslint = {
-    lintCommand = "eslint_d -f unix --stdin --stdin-filename ${INPUT}",
-    lintStdin = true,
-    lintFormats = {"%f:%l:%c: %m"},
-    lintIgnoreExitCode = true
-}
-
-nvim_lsp.efm.setup {
-    on_attach = function(client)
-        client.resolved_capabilities.document_formatting = true
-        client.resolved_capabilities.goto_definition = false
-        if set_lsp_config then
-            set_lsp_config(client)
-        end
-    end,
-    root_dir = function()
-        if not eslint_config_exists() then
-            return nil
-        end
-        return vim.fn.getcwd()
-    end,
-    settings = {
-        languages = {
-            javascript = {eslint},
-            javascriptreact = {eslint},
-            ["javascript.jsx"] = {eslint},
-            typescript = {eslint},
-            ["typescript.tsx"] = {eslint},
-            typescriptreact = {eslint}
-        }
-    },
-    filetypes = {
-        "javascript",
-        "javascriptreact",
-        "javascript.jsx",
-        "typescript",
-        "typescript.tsx",
-        "typescriptreact"
-    }
-}

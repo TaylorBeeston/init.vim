@@ -11,18 +11,19 @@ require "compe".setup {
     max_abbr_width = 100,
     max_kind_width = 100,
     max_menu_width = 100,
-    documentation = true,
+    documentation = {border = "rounded"},
     source = {
         path = {priority = 98},
         spell = true,
         calc = true,
         nvim_lsp = {priority = 100},
         nvim_lua = {priority = 100},
-        treesitter = {priority = 99},
+        tabnine = {priority = 99, max_num_results = 6},
+        treesitter = {priority = 98},
         buffer = {priority = 97},
         ultisnips = {priority = 101},
         emoji = true,
-        tabnine = {priority = 96, max_num_results = 6}
+        neorg = true
     }
 }
 
@@ -62,11 +63,11 @@ require "formatter".setup(
 
 vim.api.nvim_exec(
     [[
-augroup FormatAutogroup
-  autocmd!
-  autocmd BufWritePost *.js,*.ts,*.tsx,*.scss,*.lua FormatWrite
-augroup END
-]],
+    augroup FormatAutogroup
+      autocmd!
+      autocmd BufWritePost *.js,*.ts,*.tsx,*.scss,*.lua FormatWrite
+    augroup END
+    ]],
     true
 )
 
@@ -101,6 +102,7 @@ require "bufferline".setup {
 
 -- Autopairs
 require("nvim-autopairs").setup()
+require("nvim-autopairs.completion.compe").setup({map_cr = true, map_complete = true})
 
 -- Git Messenger
 vim.g.git_messenger_always_into_popup = 1
@@ -140,3 +142,6 @@ vim.g["mkdx#settings"] = {
 -- Indent Blankline
 vim.g.indent_blankline_show_current_context = true
 vim.g.indent_blankline_show_trailing_blankline_indent = false
+
+-- Dashboard
+vim.g.dashboard_default_executive = "telescope"

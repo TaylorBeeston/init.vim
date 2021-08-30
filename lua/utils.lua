@@ -60,6 +60,8 @@ vim.cmd "set guifont=Fira\\ Code\\ Nerd\\ Font:h18" -- set font for graphical fr
 vim.cmd "set nobackup"
 vim.cmd "set nowritebackup"
 
+vim.opt.pumblend = 20
+
 -- Persistent Undos
 vim.cmd [[
 if has('persistent_undo')

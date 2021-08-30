@@ -13,7 +13,23 @@ gl.short_line_list = {
     "plug"
 }
 
+-- Tokyo Night
 local colors = {
+    bg = "#1a1b26",
+    line_bg = "#292e42",
+    fg = "#c0caf5",
+    fg_green = "#545c7e",
+    yellow = "#e0af68",
+    cyan = "#7dcfff",
+    green = "#9ece6a",
+    orange = "#e0af68",
+    purple = "#bb9af7",
+    blue = "#7aa2f7",
+    red = "#f7768e"
+}
+
+-- Tomorrow Night
+--[[ local colors = {
     bg = "#1d1f21",
     line_bg = "#282a2e",
     fg = "#c5c8c6",
@@ -25,8 +41,7 @@ local colors = {
     purple = "#b294bb",
     blue = "#81a2be",
     red = "#cc6666"
-}
-
+} ]]
 local checkwidth = function()
     local squeeze_width = vim.fn.winwidth(0) / 2
     if squeeze_width > 40 then
