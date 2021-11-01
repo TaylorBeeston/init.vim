@@ -27,7 +27,7 @@ vim.cmd "set nocompatible" -- be iMproved
 vim.cmd "set encoding=utf-8" -- use UTF-8 Encoding
 vim.cmd "set shell=/bin/bash" -- use bash, not fish or zsh
 vim.cmd "set showcmd" -- display incomplete commands
-vim.cmd "set scrolloff=999" -- keep the cursor in the middle of the screen
+vim.opt.scrolloff = 999 -- keep the cursor in the middle of the screen
 vim.cmd "set nu rnu" -- relative line numberes
 vim.cmd "set hidden" -- if hidden is not set, TextEdit might fail.
 vim.cmd "set tags=./tags;" -- Search for CTags

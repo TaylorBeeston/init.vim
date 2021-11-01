@@ -28,7 +28,7 @@ require "compe".setup {
 }
 
 -- Autocomplete Function Signatures
-require "lsp_signature".on_attach()
+-- require "lsp_signature".on_attach()
 
 -- Formatter (Run Prettier on save)
 local prettier = function()
@@ -43,9 +43,6 @@ require "formatter".setup(
     {
         logging = false,
         filetype = {
-            javascript = {prettier},
-            typescript = {prettier},
-            typescriptreact = {prettier},
             scss = {prettier},
             lua = {
                 -- luafmt
@@ -65,7 +62,17 @@ vim.api.nvim_exec(
     [[
     augroup FormatAutogroup
       autocmd!
-      autocmd BufWritePost *.js,*.ts,*.tsx,*.scss,*.lua FormatWrite
+      autocmd BufWritePost *.scss,*.lua FormatWrite
+    augroup END
+    ]],
+    true
+)
+
+vim.api.nvim_exec(
+    [[
+    augroup NullLsFormatAutogroup
+      autocmd!
+      autocmd BufWritePre *.js,*.ts,*.tsx,*.rs lua vim.lsp.buf.formatting_sync(nil, 1000)
     augroup END
     ]],
     true
@@ -73,6 +80,7 @@ vim.api.nvim_exec(
 
 -- Telescope
 require "telescope".load_extension("gh")
+require "telescope".load_extension("fzf")
 
 -- Colored Icons
 require "nvim-web-devicons".setup {

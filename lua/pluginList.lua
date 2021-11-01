@@ -24,16 +24,10 @@ return require("packer").startup(
             requires = {{"nvim-lua/popup.nvim"}, {"nvim-lua/plenary.nvim"}}
         }
         use {"nvim-telescope/telescope-github.nvim", requires = "nvim-telescope/telescope.nvim"}
+        use {"nvim-telescope/telescope-fzf-native.nvim", requires = "nvim-telescope/telescope.nvim", run = "make"}
 
         -- LSP
         use "neovim/nvim-lspconfig"
-        use {
-            "glepnir/lspsaga.nvim",
-            requires = "neovim/nvim-lspconfig",
-            config = function()
-                require "lspsaga".init_lsp_saga()
-            end
-        }
         use {
             "onsails/lspkind-nvim",
             requires = "neovim/nvim-lspconfig",
@@ -43,6 +37,7 @@ return require("packer").startup(
         }
         use "mhartington/formatter.nvim"
         use {"jose-elias-alvarez/nvim-lsp-ts-utils", requires = "neovim/nvim-lspconfig"}
+        use "simrat39/rust-tools.nvim"
         use {
             "folke/lsp-trouble.nvim",
             config = function()
@@ -56,7 +51,6 @@ return require("packer").startup(
                 require("symbols-outline").setup()
             end
         }
-        use {"jubnzv/virtual-types.nvim", requires = "neovim/nvim-lspconfig"}
         use {
             "folke/todo-comments.nvim",
             config = function()
@@ -74,14 +68,26 @@ return require("packer").startup(
             "jose-elias-alvarez/null-ls.nvim",
             requires = {"nvim-lua/plenary.nvim", "neovim/nvim-lspconfig"},
             config = function()
-                --[[ local null_ls = require("null-ls")
+                local null_ls = require("null-ls")
+
                 null_ls.config(
                     {
-                        sources = {null_ls.builtins.diagnostics.eslint_d}
+                        sources = {
+                            null_ls.builtins.formatting.rustfmt.with(
+                                {
+                                    filetypes = {"rust"}
+                                }
+                            )
+                        }
                     }
-                ) ]]
+                )
                 require("lspconfig")["null-ls"].setup {}
             end
+        }
+        use {
+            "weilbith/nvim-code-action-menu",
+            requires = "neovim/nvim-lspconfig",
+            cmd = "CodeActionMenu"
         }
 
         -- Treesitter
@@ -90,13 +96,6 @@ return require("packer").startup(
         use {"p00f/nvim-ts-rainbow", requires = "nvim-treesitter/nvim-treesitter"}
         use {"JoosepAlviste/nvim-ts-context-commentstring", requires = "nvim-treesitter/nvim-treesitter"}
         use {"windwp/nvim-ts-autotag", requires = "nvim-treesitter/nvim-treesitter"}
-        --[[ use {
-            "lewis6991/spellsitter.nvim",
-            requires = "nvim-treesitter/nvim-treesitter",
-            config = function()
-                require("spellsitter").setup()
-            end
-        } ]]
         use {"haringsrob/nvim_context_vt", requires = "nvim-treesitter/nvim-treesitter"}
         use {
             "nvim-treesitter/nvim-treesitter-textobjects",
@@ -133,10 +132,10 @@ return require("packer").startup(
         -- Autocompletion
         use "hrsh7th/nvim-compe"
         use {"tzachar/compe-tabnine", run = "./install.sh"}
-        use "ray-x/lsp_signature.nvim"
+        -- use "ray-x/lsp_signature.nvim"
 
         -- This requires running
-        -- sudo npm -g install instant-markdown-d
+        -- npm -g install instant-markdown-d
         -- prior to use
         use {"suan/vim-instant-markdown", ft = "markdown"} -- Good Markdown support
         use "SidOfc/mkdx"
@@ -149,6 +148,7 @@ return require("packer").startup(
         use {"kkoomen/vim-doge", run = vim.fn["doge#install()"]}
 
         -- UI
+        use "numtostr/FTerm.nvim"
         use "chriskempson/base16-vim"
         use "norcalli/nvim-base16.lua"
         use "folke/tokyonight.nvim"
@@ -219,7 +219,19 @@ return require("packer").startup(
             end
         }
         use "pocco81/HighStr.nvim"
-        use "glepnir/dashboard-nvim"
+        use {
+            "goolord/alpha-nvim",
+            requires = {"kyazdani42/nvim-web-devicons"},
+            config = function()
+                require "alpha".setup(require "alpha.themes.startify".opts)
+            end
+        }
+        use {
+            "beauwilliams/focus.nvim",
+            config = function()
+                require("focus").setup({enable = true, cursorline = true, signcolumn = true, hybridnumber = true})
+            end
+        }
 
         -- use :SCROLL to test color schemes
         use "https://github.com/vim-scripts/ScrollColors"
@@ -228,7 +240,7 @@ return require("packer").startup(
         use "lukas-reineke/indent-blankline.nvim"
 
         -- Code folding
-        use "arecarn/vim-fold-cycle" -- Enter to cycle folds
+        -- use "arecarn/vim-fold-cycle" -- Enter to cycle folds
         -- use "pseewald/vim-anyfold"
         -- Try it out!
         -- za: toggle folds at current line
@@ -256,11 +268,7 @@ return require("packer").startup(
         use {
             "ggandor/lightspeed.nvim",
             config = function()
-                require("lightspeed").setup {
-                    highlight_unique_chars = true,
-                    cycle_group_fwd_key = "<space>",
-                    cycle_group_bwd_key = "<tab>"
-                }
+                require("lightspeed").setup {highlight_unique_chars = true}
             end
         }
 
@@ -274,6 +282,7 @@ return require("packer").startup(
         -- JS
         use {
             "vuki656/package-info.nvim",
+            requires = "MunifTanjim/nui.nvim",
             config = function()
                 require("package-info").setup()
             end
@@ -286,19 +295,6 @@ return require("packer").startup(
 
         -- Smooth scrolling with <C u> and <C d>
         use "psliwka/vim-smoothie"
-        --[[ use {
-            "karb94/neoscroll.nvim",
-            config = function()
-                require("neoscroll").setup(
-                    {
-                        mappings = {"<C-b>", "<C-f>", "<C-y>", "<C-e>", "zt", "zz", "zb"},
-                        hide_cursor = true,
-                        easing = true,
-                        easing_function = "cubic"
-                    }
-                )
-            end
-        } ]]
         -- Exchange text objects with cx
         use "tommcdo/vim-exchange"
 
@@ -349,7 +345,7 @@ return require("packer").startup(
 
         -- Neorg
         use {
-            "vhyrro/neorg",
+            "nvim-neorg/neorg",
             config = function()
                 require("neorg").setup {
                     -- Tell Neorg what modules to load

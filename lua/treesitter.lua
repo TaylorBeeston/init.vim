@@ -4,7 +4,7 @@ require "nvim-treesitter.configs".setup {
         enable = true,
         disable = {},
         updatetime = 25,
-        persit_queries = false
+        persist_queries = false
     },
     indent = {enable = true},
     rainbow = {enable = true},
