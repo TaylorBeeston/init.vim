@@ -21,7 +21,6 @@ vim.bo.expandtab = true
 vim.o.backspace = "indent,eol,start"
 vim.o.cc = "80,100" ]]
 -- Basics
-vim.cmd "syntax on" -- enable syntax highlighting
 vim.cmd "filetype plugin indent on" -- required?
 vim.cmd "set nocompatible" -- be iMproved
 vim.cmd "set encoding=utf-8" -- use UTF-8 Encoding
@@ -48,7 +47,7 @@ vim.cmd "set smartcase" -- ... unless they contain at least one capital letter
 -- UI Stuff
 vim.cmd "set noshowmode" -- let airline show the current mode
 vim.cmd "set nolazyredraw" -- don't render half of the screen
-vim.cmd "set completeopt=menuone,noselect" -- Set completeopt to have a better completion experience
+vim.cmd "set completeopt=menu,menuone,noselect" -- Set completeopt to have a better completion experience
 vim.cmd "set shortmess+=c" -- don't give |ins-completion-menu| messages.
 vim.cmd "set cmdheight=2" -- Better display for messages
 vim.cmd "set updatetime=300" -- You will have bad experience for diagnostic messages when it's default 4000.
@@ -82,3 +81,6 @@ vim.g.neovide_cursor_vfx_mode = "pixiedust"
 
 -- AutoCompile
 vim.cmd("au BufWritePost pluginList.lua PackerCompile")
+
+-- filetype.nvim
+vim.g.did_load_filetypes = 1

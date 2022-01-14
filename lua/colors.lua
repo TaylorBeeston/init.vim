@@ -5,7 +5,7 @@ vim.cmd("colorscheme base16-tomorrow-night")
 vim.o.background = "dark"
 vim.g.airline_theme = "base16_tomorrow_night" ]]
 vim.g.tokyonight_style = "night"
-vim.cmd("colorscheme tokyonight")
+vim.cmd("colorscheme kanagawa")
 
 -- True Color Support if it's available in terminal
 vim.cmd [[

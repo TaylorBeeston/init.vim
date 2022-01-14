@@ -136,3 +136,7 @@ cnore("w!!", "w !sudo tee %")
 -- Highlight Stuff
 vnore("<F3>", ":<C-u>HSHighlight 1<CR>", {silent = true})
 vnore("<F4>", ":<C-u>HSRmHighlight<CR>", {silent = true})
+
+-- Search
+nnore("/", '<cmd>lua require("searchbox").incsearch()<CR>')
+nnore("?", '<cmd>lua require("searchbox").incsearch({ reverse = true})<CR>')

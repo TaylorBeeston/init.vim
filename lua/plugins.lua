@@ -1,31 +1,73 @@
--- Vim-Compe (Autocompletion)
-require "compe".setup {
-    enabled = true,
-    autocomplete = true,
-    debug = false,
-    min_length = 1,
-    preselect = "enable",
-    throttle_time = 80,
-    source_timeout = 200,
-    incomplete_delay = 400,
-    max_abbr_width = 100,
-    max_kind_width = 100,
-    max_menu_width = 100,
-    documentation = {border = "rounded"},
-    source = {
-        path = {priority = 98},
-        spell = true,
-        calc = true,
-        nvim_lsp = {priority = 100},
-        nvim_lua = {priority = 100},
-        tabnine = {priority = 99, max_num_results = 6},
-        treesitter = {priority = 98},
-        buffer = {priority = 97},
-        ultisnips = {priority = 101},
-        emoji = true,
-        neorg = true
+local cmp = require("cmp")
+
+cmp.setup(
+    {
+        formatting = {
+            format = require("lspkind").cmp_format {
+                with_text = false,
+                maxwidth = 50,
+                menu = {
+                    nvim_lsp = "LSP",
+                    nvim_lsp_document_symbol = "LSP",
+                    buffer = "BUF",
+                    fuzzy_buffer = "FUZ",
+                    path = "PATH",
+                    -- cmp_tabnine = "AI",
+                    ultisnips = "SNIP",
+                    emoji = "EMOJI",
+                    cmdline = "CMD"
+                }
+            }
+        },
+        snippet = {
+            expand = function(args)
+                vim.fn["UltiSnips#Anon"](args.body)
+            end
+        },
+        mapping = {
+            ["<C-d>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), {"i", "c"}),
+            ["<C-f>"] = cmp.mapping(cmp.mapping.scroll_docs(4), {"i", "c"}),
+            ["<C-Space>"] = cmp.mapping(cmp.mapping.complete(), {"i", "c"}),
+            ["<C-y>"] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
+            ["<C-e>"] = cmp.mapping(
+                {
+                    i = cmp.mapping.abort(),
+                    c = cmp.mapping.close()
+                }
+            ),
+            ["<CR>"] = cmp.mapping.confirm({select = true}),
+            ["<Tab>"] = cmp.mapping(
+                function(fallback)
+                    fallback()
+                end
+            )
+        },
+        sources = cmp.config.sources(
+            {
+                {name = "nvim_lsp", priority = 1000},
+                {name = "path"},
+                -- {name = "cmp_tabnine"},
+                {name = "treesitter"},
+                {name = "fuzzy_buffer", max_item_count = 5},
+                {name = "ultisnips"},
+                {name = "emoji"}
+            }
+        )
     }
-}
+)
+
+cmp.setup.cmdline(
+    "/",
+    {
+        sources = cmp.config.sources({{name = "nvim_lsp_document_symbol"}}, {{name = "buffer"}})
+    }
+)
+cmp.setup.cmdline(
+    ":",
+    {
+        sources = cmp.config.sources({{name = "path"}, {name = "buffer"}, {name = "cmdline"}})
+    }
+)
 
 -- Autocomplete Function Signatures
 -- require "lsp_signature".on_attach()
@@ -110,7 +152,9 @@ require "bufferline".setup {
 
 -- Autopairs
 require("nvim-autopairs").setup()
-require("nvim-autopairs.completion.compe").setup({map_cr = true, map_complete = true})
+-- require("nvim-autopairs.completion.compe").setup({map_cr = true, map_complete = true})
+local cmp_autopairs = require("nvim-autopairs.completion.cmp")
+cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done({map_char = {tex = ""}}))
 
 -- Git Messenger
 vim.g.git_messenger_always_into_popup = 1

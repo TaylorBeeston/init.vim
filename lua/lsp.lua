@@ -1,6 +1,9 @@
 -- LSP
 local nvim_lsp = require("lspconfig")
 
+-- cmp
+local capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities())
+
 -- Generic LSP Settings
 local on_attach = function(client, bufnr)
     local function buf_set_keymap(...)
@@ -13,8 +16,7 @@ local on_attach = function(client, bufnr)
     buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
 
     vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {border = "double"})
-    vim.lsp.handlers["textDocument/publishDiagnostics"] =
-        vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {virtual_text = {source = "if_many", prefix = "●"}})
+    vim.diagnostic.config({virtual_text = {source = "if_many", prefix = "●", border = "rounded"}})
 
     -- Mappings.
     local opts = {noremap = true, silent = true}
@@ -26,19 +28,36 @@ local on_attach = function(client, bufnr)
     buf_set_keymap("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
     buf_set_keymap("n", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
     buf_set_keymap("n", "<leader>D", "<cmd>lua vim.lsp.buf.type_definition()<CR>", opts)
-    buf_set_keymap(
-        "n",
-        "<leader>cd",
-        '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics({ border = "double"})<CR>',
-        opts
-    )
-    buf_set_keymap("n", "[d", '<cmd>lua vim.lsp.diagnostic.goto_prev({ popup_opts = { border = "double" }})<CR>', opts)
-    buf_set_keymap("n", "]d", '<cmd>lua vim.lsp.diagnostic.goto_next({ popup_opts = { border = "double" }})<CR>', opts)
-    buf_set_keymap("n", "<leader>q", "<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>", opts)
+    buf_set_keymap("n", "<leader>cd", '<cmd>lua vim.diagnostic.open_float({ border = "rounded" })<CR>', opts)
+    buf_set_keymap("n", "[d", '<cmd>lua vim.diagnostic.goto_prev({ popup_opts = { border = "double" }})<CR>', opts)
+    buf_set_keymap("n", "]d", '<cmd>lua vim.diagnostic.goto_next({ popup_opts = { border = "double" }})<CR>', opts)
+    buf_set_keymap("n", "<leader>q", "<cmd>lua vim.diagnostic.set_loclist()<CR>", opts)
 end
+
+-- NullLS
+local null_ls = require("null-ls")
+
+null_ls.setup(
+    {
+        sources = {
+            null_ls.builtins.formatting.prettier,
+            null_ls.builtins.diagnostics.eslint_d,
+            null_ls.builtins.code_actions.eslint_d,
+            null_ls.builtins.formatting.rustfmt.with(
+                {
+                    filetypes = {"rust"}
+                }
+            ),
+            null_ls.builtins.code_actions.gitrebase
+        },
+        capabilities = capabilities
+    }
+)
 
 -- JS/TS
 nvim_lsp.tsserver.setup {
+    capabilities = capabilities,
+    init_options = require("nvim-lsp-ts-utils").init_options,
     on_attach = function(client, bufnr)
         on_attach(client, bufnr)
 
@@ -49,35 +68,41 @@ nvim_lsp.tsserver.setup {
         local ts_utils = require("nvim-lsp-ts-utils")
 
         ts_utils.setup {
-            eslint_enable_diagnostics = true,
-            eslint_bin = "eslint_d",
-            enable_formatting = true,
-            formatter = "prettier",
             update_imports_on_move = true,
-            require_confirmation_on_move = true
+            require_confirmation_on_move = true,
+            auto_inlay_hints = true,
+            inly_hints_highlight = "Comment"
         }
 
         ts_utils.setup_client(client)
     end
 }
 
+-- ESLint
+--[[ nvim_lsp.eslint.setup {
+    capabilities = capabilities,
+    on_attach = on_attach
+} ]]
 -- CSS
 nvim_lsp.cssls.setup {
+    capabilities = capabilities,
     on_attach = on_attach
 }
 
 -- GraphQL
-nvim_lsp.graphql.setup {
+--[[ nvim_lsp.graphql.setup {
+    capabilities = capabilities,
     on_attach = on_attach
-}
-
+} ]]
 -- Docker
 nvim_lsp.dockerls.setup {
+    capabilities = capabilities,
     on_attach = on_attach
 }
 
 -- VimL
 nvim_lsp.vimls.setup {
+    capabilities = capabilities,
     on_attach = on_attach
 }
 
@@ -87,6 +112,7 @@ local sumneko_binary = sumneko_root_path .. "/bin/Linux/lua-language-server"
 
 local lspconfig = {
     cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"},
+    capabilities = capabilities,
     on_attach = on_attach,
     settings = {
         Lua = {
@@ -123,6 +149,7 @@ nvim_lsp.sumneko_lua.setup(luadev)
 require("rust-tools").setup(
     {
         server = {
+            capabilities = capabilities,
             on_attach = function(client, bufnr)
                 on_attach(client, bufnr)
 

@@ -32,7 +32,35 @@ return require("packer").startup(
             "onsails/lspkind-nvim",
             requires = "neovim/nvim-lspconfig",
             config = function()
-                require "lspkind".init()
+                require "lspkind".init(
+                    {
+                        Text = "",
+                        Method = "",
+                        Function = "",
+                        Constructor = "",
+                        Field = "ﰠ",
+                        Variable = "",
+                        Class = "ﴯ",
+                        Interface = "",
+                        Module = "",
+                        Property = "ﰠ",
+                        Unit = "塞",
+                        Value = "",
+                        Enum = "",
+                        Keyword = "",
+                        Snippet = "",
+                        Color = "",
+                        File = "",
+                        Reference = "",
+                        Folder = "",
+                        EnumMember = "",
+                        Constant = "",
+                        Struct = "פּ",
+                        Event = "",
+                        Operator = "",
+                        TypeParameter = ""
+                    }
+                )
             end
         }
         use "mhartington/formatter.nvim"
@@ -58,31 +86,8 @@ return require("packer").startup(
             end
         }
         use {
-            "rmagatti/goto-preview",
-            requires = "neovim/nvim-lspconfig",
-            config = function()
-                require("goto-preview").setup {default_mappings = true}
-            end
-        }
-        use {
             "jose-elias-alvarez/null-ls.nvim",
-            requires = {"nvim-lua/plenary.nvim", "neovim/nvim-lspconfig"},
-            config = function()
-                local null_ls = require("null-ls")
-
-                null_ls.config(
-                    {
-                        sources = {
-                            null_ls.builtins.formatting.rustfmt.with(
-                                {
-                                    filetypes = {"rust"}
-                                }
-                            )
-                        }
-                    }
-                )
-                require("lspconfig")["null-ls"].setup {}
-            end
+            requires = {"nvim-lua/plenary.nvim", "neovim/nvim-lspconfig"}
         }
         use {
             "weilbith/nvim-code-action-menu",
@@ -130,10 +135,31 @@ return require("packer").startup(
         }
 
         -- Autocompletion
-        use "hrsh7th/nvim-compe"
-        use {"tzachar/compe-tabnine", run = "./install.sh"}
-        -- use "ray-x/lsp_signature.nvim"
-
+        use "hrsh7th/cmp-nvim-lsp"
+        use "hrsh7th/cmp-nvim-lsp-document-symbol"
+        use "hrsh7th/cmp-buffer"
+        use "hrsh7th/cmp-path"
+        use "hrsh7th/cmp-cmdline"
+        use "hrsh7th/cmp-emoji"
+        use "hrsh7th/nvim-cmp"
+        use "quangnguyen30192/cmp-nvim-ultisnips"
+        use "ray-x/cmp-treesitter"
+        use {"tzachar/cmp-fuzzy-buffer", requires = {"hrsh7th/nvim-cmp", "tzachar/fuzzy.nvim"}}
+        --[[ use {
+            "tzachar/cmp-tabnine",
+            run = "./install.sh",
+            config = function()
+                local tabnine = require("cmp_tabnine.config")
+                tabnine:setup(
+                    {
+                        max_num_results = 20,
+                        sort = true,
+                        run_on_every_keystroke = true,
+                        snippet_placeholder = ".."
+                    }
+                )
+            end
+        } ]]
         -- This requires running
         -- npm -g install instant-markdown-d
         -- prior to use
@@ -148,10 +174,18 @@ return require("packer").startup(
         use {"kkoomen/vim-doge", run = vim.fn["doge#install()"]}
 
         -- UI
+        use "stevearc/dressing.nvim"
+        use {
+            "rcarriga/nvim-notify",
+            config = function()
+                vim.notify = require("notify")
+            end
+        }
         use "numtostr/FTerm.nvim"
         use "chriskempson/base16-vim"
         use "norcalli/nvim-base16.lua"
         use "folke/tokyonight.nvim"
+        use "rebelot/kanagawa.nvim"
         use {
             "lewis6991/gitsigns.nvim",
             requires = {"nvim-lua/plenary.nvim"},
@@ -194,7 +228,9 @@ return require("packer").startup(
         use "kevinhwang91/nvim-bqf"
         use "fladson/vim-kitty"
         use "akinsho/nvim-bufferline.lua"
-        use "glepnir/galaxyline.nvim"
+        -- use "glepnir/galaxyline.nvim"
+        use "nvim-lualine/lualine.nvim"
+        use "arkav/lualine-lsp-progress"
         -- use "folke/lsp-colors.nvim"
         use {
             "edluffy/specs.nvim",
@@ -232,12 +268,12 @@ return require("packer").startup(
                 require("focus").setup({enable = true, cursorline = true, signcolumn = true, hybridnumber = true})
             end
         }
+        use {"VonHeikemen/searchbox.nvim", requires = {"MunifTanjim/nui.nvim"}}
+        use "lukas-reineke/indent-blankline.nvim"
+        use "yamatsum/nvim-cursorline"
 
         -- use :SCROLL to test color schemes
         use "https://github.com/vim-scripts/ScrollColors"
-
-        -- Show Indent Guides
-        use "lukas-reineke/indent-blankline.nvim"
 
         -- Code folding
         -- use "arecarn/vim-fold-cycle" -- Enter to cycle folds
@@ -248,13 +284,39 @@ return require("packer").startup(
         -- zc: close fold
         -- zR: open all folds
         -- zM: close all folds
+        --
+        -- F u n c t i o n a l i t y
+
+        -- Tab in insert mode to escape parentheses hell
+        use {
+            "abecodes/tabout.nvim",
+            config = function()
+                require("tabout").setup {
+                    tabkey = "<Tab>", -- key to trigger tabout, set to an empty string to disable
+                    backwards_tabkey = "<S-Tab>", -- key to trigger backwards tabout, set to an empty string to disable
+                    act_as_tab = true, -- shift content if tab out is not possible
+                    act_as_shift_tab = false, -- reverse shift content if tab out is not possible (if your keyboard/terminal supports <S-Tab>)
+                    enable_backwards = true, -- well ...
+                    completion = true, -- if the tabkey is used in a completion pum
+                    tabouts = {
+                        {open = "'", close = "'"},
+                        {open = '"', close = '"'},
+                        {open = "`", close = "`"},
+                        {open = "(", close = ")"},
+                        {open = "[", close = "]"},
+                        {open = "{", close = "}"}
+                    },
+                    ignore_beginning = true --[[ if the cursor is at the beginning of a filled element it will rather tab out than shift the content ]],
+                    exclude = {} -- tabout will ignore these filetypes
+                }
+            end,
+            wants = {"nvim-treesitter"}, -- or require if not used so far
+            after = {"nvim-cmp", "cmp-nvim-ultisnips", "ultisnips"} -- if a completion plugin is using tabs load it before
+        }
 
         -- Close things like { and [ and --
         -- use 'cohama/lexima.vim'
         use "windwp/nvim-autopairs"
-
-        -- Underline word under cursor
-        use "yamatsum/nvim-cursorline"
 
         -- Syntax checking/highlighting
         use "justinmk/vim-syntax-extra"
@@ -265,12 +327,7 @@ return require("packer").startup(
 
         -- Motions
         use "chaoren/vim-wordmotion"
-        use {
-            "ggandor/lightspeed.nvim",
-            config = function()
-                require("lightspeed").setup {highlight_unique_chars = true}
-            end
-        }
+        use "ggandor/lightspeed.nvim"
 
         -- HTML
         use "mattn/emmet-vim"
@@ -362,5 +419,8 @@ return require("packer").startup(
             end,
             requires = "nvim-lua/plenary.nvim"
         }
+
+        -- Performance
+        use "nathom/filetype.nvim"
     end
 )
