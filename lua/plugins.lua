@@ -1,77 +1,3 @@
-local cmp = require("cmp")
-
-cmp.setup(
-    {
-        formatting = {
-            format = require("lspkind").cmp_format {
-                with_text = false,
-                maxwidth = 50,
-                menu = {
-                    nvim_lsp = "LSP",
-                    nvim_lsp_document_symbol = "LSP",
-                    buffer = "BUF",
-                    fuzzy_buffer = "FUZ",
-                    path = "PATH",
-                    -- cmp_tabnine = "AI",
-                    ultisnips = "SNIP",
-                    emoji = "EMOJI",
-                    cmdline = "CMD"
-                }
-            }
-        },
-        snippet = {
-            expand = function(args)
-                vim.fn["UltiSnips#Anon"](args.body)
-            end
-        },
-        mapping = {
-            ["<C-d>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), {"i", "c"}),
-            ["<C-f>"] = cmp.mapping(cmp.mapping.scroll_docs(4), {"i", "c"}),
-            ["<C-Space>"] = cmp.mapping(cmp.mapping.complete(), {"i", "c"}),
-            ["<C-y>"] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
-            ["<C-e>"] = cmp.mapping(
-                {
-                    i = cmp.mapping.abort(),
-                    c = cmp.mapping.close()
-                }
-            ),
-            ["<CR>"] = cmp.mapping.confirm({select = true}),
-            ["<Tab>"] = cmp.mapping(
-                function(fallback)
-                    fallback()
-                end
-            )
-        },
-        sources = cmp.config.sources(
-            {
-                {name = "nvim_lsp", priority = 1000},
-                {name = "path"},
-                -- {name = "cmp_tabnine"},
-                {name = "treesitter"},
-                {name = "fuzzy_buffer", max_item_count = 5},
-                {name = "ultisnips"},
-                {name = "emoji"}
-            }
-        )
-    }
-)
-
-cmp.setup.cmdline(
-    "/",
-    {
-        sources = cmp.config.sources({{name = "nvim_lsp_document_symbol"}}, {{name = "buffer"}})
-    }
-)
-cmp.setup.cmdline(
-    ":",
-    {
-        sources = cmp.config.sources({{name = "path"}, {name = "buffer"}, {name = "cmdline"}})
-    }
-)
-
--- Autocomplete Function Signatures
--- require "lsp_signature".on_attach()
-
 -- Formatter (Run Prettier on save)
 local prettier = function()
     return {
@@ -121,6 +47,15 @@ vim.api.nvim_exec(
 )
 
 -- Telescope
+require "telescope".setup {
+    pickers = {
+        live_grep = {
+            additional_args = function(opts)
+                return {"-g", "!pnpm-lock.yaml"}
+            end
+        }
+    }
+}
 require "telescope".load_extension("gh")
 require "telescope".load_extension("fzf")
 
@@ -130,7 +65,7 @@ require "nvim-web-devicons".setup {
 }
 
 -- CSS Colors
-require "colorizer".setup(nil, {css = true})
+-- require "colorizer".setup(nil, {css = true})
 
 -- Bufferline
 require "bufferline".setup {
@@ -149,12 +84,6 @@ require "bufferline".setup {
         }
     }
 }
-
--- Autopairs
-require("nvim-autopairs").setup()
--- require("nvim-autopairs.completion.compe").setup({map_cr = true, map_complete = true})
-local cmp_autopairs = require("nvim-autopairs.completion.cmp")
-cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done({map_char = {tex = ""}}))
 
 -- Git Messenger
 vim.g.git_messenger_always_into_popup = 1

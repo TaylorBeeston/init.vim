@@ -142,7 +142,7 @@ return require("packer").startup(
         use "hrsh7th/cmp-cmdline"
         use "hrsh7th/cmp-emoji"
         use "hrsh7th/nvim-cmp"
-        use "quangnguyen30192/cmp-nvim-ultisnips"
+        use "saadparwaiz1/cmp_luasnip"
         use "ray-x/cmp-treesitter"
         use {"tzachar/cmp-fuzzy-buffer", requires = {"hrsh7th/nvim-cmp", "tzachar/fuzzy.nvim"}}
         --[[ use {
@@ -171,9 +171,29 @@ return require("packer").startup(
         use "vim-test/vim-test"
 
         -- Documentation
-        use {"kkoomen/vim-doge", run = vim.fn["doge#install()"]}
+        -- use {"kkoomen/vim-doge", run = vim.fn["doge#install()"]}
+        use {
+            "danymat/neogen",
+            config = function()
+                require("neogen").setup {
+                    enabled = true
+                }
+            end,
+            requires = "nvim-treesitter/nvim-treesitter"
+        }
 
         -- UI
+        --[[ use {
+            "sidebar-nvim/sidebar.nvim",
+            config = function()
+                require("sidebar-nvim").setup(
+                    {
+                        side = "right",
+                        sections = {"git", "diagnostics"}
+                    }
+                )
+            end
+        } ]]
         use "stevearc/dressing.nvim"
         use {
             "rcarriga/nvim-notify",
@@ -224,7 +244,7 @@ return require("packer").startup(
         use "kyazdani42/nvim-web-devicons"
         use {"yamatsum/nvim-nonicons", requires = "kyazdani42/nvim-web-devicons"}
         use "kevinhwang91/rnvimr"
-        use "norcalli/nvim-colorizer.lua"
+        -- use "norcalli/nvim-colorizer.lua"
         use "kevinhwang91/nvim-bqf"
         use "fladson/vim-kitty"
         use "akinsho/nvim-bufferline.lua"
@@ -265,12 +285,29 @@ return require("packer").startup(
         use {
             "beauwilliams/focus.nvim",
             config = function()
-                require("focus").setup({enable = true, cursorline = true, signcolumn = true, hybridnumber = true})
+                require("focus").setup()
             end
         }
-        use {"VonHeikemen/searchbox.nvim", requires = {"MunifTanjim/nui.nvim"}}
         use "lukas-reineke/indent-blankline.nvim"
-        use "yamatsum/nvim-cursorline"
+        use {
+            "yamatsum/nvim-cursorline",
+            config = function()
+                require("nvim-cursorline").setup {
+                    cursorword = {enable = true, min_length = 3, hl = {underline = true}}
+                }
+            end
+        }
+        use "chrisbra/csv.vim"
+        use {
+            "bennypowers/nvim-regexplainer",
+            config = function()
+                require "regexplainer".setup {auto = true}
+            end,
+            requires = {
+                "nvim-lua/plenary.nvim",
+                "MunifTanjim/nui.nvim"
+            }
+        }
 
         -- use :SCROLL to test color schemes
         use "https://github.com/vim-scripts/ScrollColors"
@@ -311,7 +348,7 @@ return require("packer").startup(
                 }
             end,
             wants = {"nvim-treesitter"}, -- or require if not used so far
-            after = {"nvim-cmp", "cmp-nvim-ultisnips", "ultisnips"} -- if a completion plugin is using tabs load it before
+            after = {"nvim-cmp"} -- if a completion plugin is using tabs load it before
         }
 
         -- Close things like { and [ and --
@@ -348,7 +385,12 @@ return require("packer").startup(
         -- Code snippets plugin
         use "epilande/vim-react-snippets"
         use "epilande/vim-es2015-snippets"
-        use "SirVer/ultisnips"
+        use {
+            "L3MON4D3/LuaSnip",
+            config = function()
+                require("luasnip.loaders.from_snipmate").load()
+            end
+        }
 
         -- Smooth scrolling with <C u> and <C d>
         use "psliwka/vim-smoothie"

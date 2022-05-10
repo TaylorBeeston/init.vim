@@ -1,0 +1,137 @@
+snippet rsc React Simple Component
+	import React from 'react';
+
+	const ${1:${TM_FILENAME_BASE}}: React.FC = () => (
+		<${2:div}>
+			$0
+		</${2/(\w+).*/$1/}>
+	);
+
+	export default $1;
+
+snippet rfc React Functional Component
+	import React from 'react';
+
+	const ${1:${TM_FILENAME_BASE}}: React.FC = () => {
+		return (
+			<${2:div}>
+			  $0
+			</${2/(\w+).*/$1/}>
+		);
+	};
+
+	export default $1;
+
+snippet rfpc React Functional Props Component
+	import React from 'react';
+
+	type ${1:${TM_FILENAME_BASE}}Props = {
+ 	 	$2
+	};
+
+	const $1: React.FC<$1Props> = ({ $3 }) => {
+		return (
+			<${4:div}>
+			  $0
+			</${4/(\w+).*/$1/}>
+		);
+	};
+
+	export default $1;
+
+snippet us.s useState
+	const [$1, set${1/\w+\s*/\u$0/g}] = useState(${3:''})${0:;}
+
+snippet us.e useEffect
+	useEffect(() => {
+	  $1
+	})${0:;}
+
+snippet us.er useEffect with return
+	useEffect(() => {
+	  $1
+		return () => {
+		$2
+		};
+	})${0:;}
+
+snippet us.c useContext
+	const $1 = useContext($2)${0:;}
+
+snippet us.r useReducer
+	const [$1, dispatch] = useReducer($1Reducer, ${2:${VISUAL:initialState}})
+	const $1Reducer = (state, action) => {
+		switch (action.type) {
+			default:
+				return state;
+		}
+	}${0:;}
+
+snippet us.cb useCallback
+	useCallback(
+		() => {
+			$1
+		},
+		[$2],
+	)${0:;}
+
+snippet us.m useMemo
+	const $1 = useMemo(() => {
+		$2
+	}, [$3])${0:;}
+
+snippet us.rf useRef
+	const $1 = useRef($2)${0:;}
+
+snippet j JSX Element
+ 	<${1:section}>
+	    $0
+ 	</$1>
+
+snippet jc Self Closed JSX Element
+ 	<${1:section} />
+
+snippet map Map
+ 	${1:iterable}.map((${2:item}) => {
+	    $0
+	\});
+
+snippet filter Filter
+ 	${1:iterable}.filter((${2:item}) => {
+	    $0
+	\});
+
+snippet find Find
+ 	${1:iterable}.find((${2:item}) => {
+	    $0
+	\});
+
+snippet every Every
+ 	${1:iterable}.every((${2:item}) => {
+	    $0
+	\});
+
+snippet some Some
+ 	${1:iterable}.some((${2:item}) => {
+	    $0
+	\});
+
+snippet reduce Reduce
+ 	${1:iterable}.reduce((${2:previous}, ${3:current}) => {
+	 	$0
+	\}, ${4:initial});
+
+snippet it import useTranslation
+ 	import { useTranslation } from 'react-i18next';
+
+snippet ut useTranslation
+ 	const { t } = useTranslation();
+
+snippet ity Import Type
+ 	import { $1 } from '@graphql/types';
+
+snippet iu Import currentUser
+ 	import { useUserContext } from '@core/client/contexts/CurrentUserContext';
+
+snippet uc useUserContext
+ 	const { currentUser } = useUserContext();

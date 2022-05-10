@@ -43,11 +43,7 @@ null_ls.setup(
             null_ls.builtins.formatting.prettier,
             null_ls.builtins.diagnostics.eslint_d,
             null_ls.builtins.code_actions.eslint_d,
-            null_ls.builtins.formatting.rustfmt.with(
-                {
-                    filetypes = {"rust"}
-                }
-            ),
+            null_ls.builtins.formatting.rustfmt.with({filetypes = {"rust"}}),
             null_ls.builtins.code_actions.gitrebase
         },
         capabilities = capabilities
@@ -85,6 +81,24 @@ nvim_lsp.tsserver.setup {
 } ]]
 -- CSS
 nvim_lsp.cssls.setup {
+    capabilities = capabilities,
+    on_attach = on_attach
+}
+
+-- Tailwind
+nvim_lsp.tailwindcss.setup {
+    capabilities = capabilities,
+    on_attach = on_attach
+}
+
+-- JSON
+nvim_lsp.jsonls.setup {
+    capabilities = capabilities,
+    on_attach = on_attach
+}
+
+-- Svelte
+nvim_lsp.svelte.setup {
     capabilities = capabilities,
     on_attach = on_attach
 }

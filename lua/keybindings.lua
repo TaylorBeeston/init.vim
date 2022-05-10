@@ -36,6 +36,12 @@ local cnore = function(binding, command, options)
     remap("c", binding, command, remapOptions)
 end
 
+local snore = function(binding, command, options)
+    local remapOptions = options or {}
+    remapOptions.noremap = true
+    remap("s", binding, command, remapOptions)
+end
+
 -- Use space as leader key
 -- nnore("<Space>", "<Nop>")
 vim.g.mapleader = " "
@@ -64,7 +70,6 @@ nnore("<leader>wK", ":wincmd K<CR>")
 nnore("<leader>wL", ":wincmd L<CR>")
 nnore("<leader>w=", ":wincmd =<CR>") ]]
 -- Buffers
-nnore("<S-Tab>", ":bn<CR>")
 nnore("<leader><S-Tab>", ":bp<CR>")
 nnore("<leader><Tab>", ":bd<CR>")
 
@@ -81,7 +86,7 @@ nnore("<leader>fb", "<cmd>Telescope buffers<cr>")
 nnore("<leader>fh", "<cmd>Telescope help_tags<cr>")
 nnore("<leader>ch", "<cmd>Telescope command_history<cr>")
 nnore("<leader>km", "<cmd>Telescope keymaps<cr>")
-nnore("<leader>sb", "<cmd>Telescope current_buffer_fuzzy_find<cr>")
+nnore("<l>sb", "<cmd>Telescope current_buffer_fuzzy_find<cr>")
 
 nnore("<leader>gc", "<cmd>Telescope git_commits<cr>")
 nnore("<leader>bc", "<cmd>Telescope git_bcommits<cr>")
@@ -137,6 +142,9 @@ cnore("w!!", "w !sudo tee %")
 vnore("<F3>", ":<C-u>HSHighlight 1<CR>", {silent = true})
 vnore("<F4>", ":<C-u>HSRmHighlight<CR>", {silent = true})
 
--- Search
-nnore("/", '<cmd>lua require("searchbox").incsearch()<CR>')
-nnore("?", '<cmd>lua require("searchbox").incsearch({ reverse = true})<CR>')
+-- Snippets
+snore("<Tab>", "<cmd>lua require('luasnip').jump(1)<CR>")
+snore("<S-Tab>", "<cmd>lua require('luasnip').jump(-1)<CR>")
+
+-- Doc Comments
+nnore("<leader>doc", "<cmd>lua require('neogen').generate()<CR>")
