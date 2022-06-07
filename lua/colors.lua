@@ -8,35 +8,35 @@ vim.g.tokyonight_style = "night"
 vim.cmd("colorscheme kanagawa")
 
 -- True Color Support if it's available in terminal
-vim.cmd [[
+vim.cmd([[
 if exists('+termguicolors') && ($TERM == "st-256color" || $TERM == "tmux-256color")
 	let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 	let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 	set termguicolors
 endif 
-]]
+]])
 
 -- i3 Config Syntax Highlighting
-vim.cmd [[
+vim.cmd([[
 " aug i3config_ft_detection
 "    au!
     au BufNewFile,BufRead ~/.i3/config set filetype=i3config
 " aug end
-]]
+]])
 
 -- Indent Lines
 -- vim.g.indent_blankline_char_highlight = "DevIconAwk"
 
 vim.g.indent_blankline_context_patterns = {
-    "class",
-    "function",
-    "method",
-    "^if",
-    "^while",
-    "^for",
-    "^object",
-    "^table",
-    "block"
+	"class",
+	"function",
+	"method",
+	"^if",
+	"^while",
+	"^for",
+	"^object",
+	"^table",
+	"block",
 }
 
 -- Rainbow Brackets (base16-tomorrow-night)
