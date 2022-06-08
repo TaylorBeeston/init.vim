@@ -95,6 +95,28 @@ return require("packer").startup(function(use)
 
 	-- Treesitter
 	use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" })
+	use({
+		"nvim-treesitter/nvim-treesitter-context",
+		requires = "nvim-treesitter/nvim-treesitter",
+		config = function()
+			require("treesitter-context").setup({
+				patterns = {
+					default = {
+						"class",
+						"function",
+						"method",
+						"for",
+						"while",
+						"if",
+						"else",
+						"switch",
+						"case",
+						"object",
+					},
+				},
+			})
+		end,
+	})
 	use({ "nvim-treesitter/playground", requires = "nvim-treesitter/nvim-treesitter" })
 	use({ "p00f/nvim-ts-rainbow", requires = "nvim-treesitter/nvim-treesitter" })
 	use({ "JoosepAlviste/nvim-ts-context-commentstring", requires = "nvim-treesitter/nvim-treesitter" })
