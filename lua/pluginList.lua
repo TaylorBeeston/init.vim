@@ -262,7 +262,10 @@ return require("packer").startup(function(use)
 	-- use "norcalli/nvim-colorizer.lua"
 	use("kevinhwang91/nvim-bqf")
 	use("fladson/vim-kitty")
-	use("akinsho/nvim-bufferline.lua")
+	use({
+		"romgrk/barbar.nvim",
+		requires = { "kyazdani42/nvim-web-devicons" },
+	})
 	-- use "glepnir/galaxyline.nvim"
 	use("nvim-lualine/lualine.nvim")
 	use("arkav/lualine-lsp-progress")
