@@ -1,6 +1,12 @@
 local wk = require("which-key")
 
+-- Leader Keybindings
 wk.register({
+	-- Buffers
+	["<Tab>"] = { ":bd<CR>", "Close buffer" },
+	["<S-Tab>"] = { ":bp<CR>", "Cycle through buffers" },
+
+	-- Tabs
 	t = {
 		name = "+tab",
 		s = { ":tab split<CR>", "New Tab With This Buffer" },
@@ -9,7 +15,15 @@ wk.register({
 		n = { ":tabn<CR>", "Next Tab" },
 		p = { ":tabp<CR>", "Previous Tab" },
 		b = { ":tabp<CR>", "Previous Tab" },
+		d = {
+			name = "+TODO",
+			q = { ":TodoQuickFix<CR>", "TODOS in Quick Fix List" },
+			s = { ":TodoTelescope<CR>", "TODOS in Telescope" },
+			t = { ":TodoTrouble<CR>", "TODOS in Trouble" },
+		},
 	},
+
+	-- Windows
 	w = {
 		name = "+window",
 		v = { "<cmd>vs<cr>", "Vertical Split" },
@@ -29,14 +43,59 @@ wk.register({
 		["+"] = { " :wincmd +<CR>", "Increase Window Height" },
 		["-"] = { " :wincmd -<CR>", "Decrease Window Height" },
 	},
+
+	-- Package Management And Config Helpers
+	up = { ":PackerUpdate<CR>", "Update Packages" },
+	pu = { ":PackerUpdate<CR>", "Update Packages" },
+	pr = { ":luafile %<CR>:PackerUpdate<CR>", "Source Current File and Update Packages" },
+	rf = { ":luafile %<CR>", "Source Current File" },
+
+	-- Telescope
+	ef = { "<cmd>Telescope find_files<cr>", "Search by Filename" },
+	rg = { "<cmd>Telescope live_grep<cr>", "Ripgrep" },
+	fb = { "<cmd>Telescope buffers<cr>", "Find Buffer" },
+	fh = { "<cmd>Telescope help_tags<cr>", "Find Help" },
+	ch = { "<cmd>Telescope command_history<cr>", "Command History" },
+	km = { "<cmd>Telescope keymaps<cr>", "Keymaps" },
+	sb = { "<cmd>Telescope current_buffer_fuzzy_find<cr>", "Search Buffer" },
+
+	gc = { "<cmd>Telescope git_commits<cr>", "Git Commits" },
+	bc = { "<cmd>Telescope git_bcommits<cr>", "Buffer Git Commits" },
+	br = { "<cmd>Telescope git_branches<cr>", "Git Branches" },
+	gs = { "<cmd>Telescope git_status<cr>", "Git status" },
+
+	gr = { "<cmd>Telescope lsp_references<cr>", "Go to References" },
+	ds = { "<cmd>Telescope lsp_document_symbols<cr>", "Document Symbols" },
+	dws = { "<cmd>Telescope lsp_workspace_symbols<cr>", "Workspace Symbols" },
+	trs = { "<cmd>Telescope treesitter<cr>", "Treesitter" },
+
+	gt = {
+		name = "+Github",
+		i = { "<cmd>Telescope gh issues<cr>", "Issues" },
+		p = { "<cmd>Telescope gh pull_request<cr>", "Pull Requests" },
+		g = { "<cmd>Telescope gh gist<cr>", "Gists" },
+	},
+
+	-- Ranger
+	ex = { "<cmd>RnvimrToggle<cr>", "Explore Files" },
+
+	-- LspTrouble
+	cc = { "<cmd>LspTroubleDocumentToggle<cr>", "Document Trouble" }, -- TODO: this is broken D=
+
+	-- Symbols Outline
+	so = { "<cmd>lua vim.lsp.buf.hover()<CR>", "Symbols Outline" },
+
+	-- Doc Comments
+	doc = { "<cmd>lua require('neogen').generate()<CR>", "Generate Doc Comments" },
+
+	-- Generic
+	K = { "<cmd>lua vim.lsp.buf.hover()<CR>", "Forcibly Hover" },
 }, { prefix = "<leader>" })
 
--- TODOs
+-- No prefix
 wk.register({
-	d = {
-		name = "+TODO",
-		q = { ":TodoQuickFix<CR>", "TODOS in Quick Fix List" },
-		s = { ":TodoTelescope<CR>", "TODOS in Telescope" },
-		t = { ":TodoTrouble<CR>", "TODOS in Trouble" },
-	},
-}, { prefix = "<leader>t" })
+	["<A-,>"] = { ":bp<CR>", "Buffer previous" },
+	["<A-.>"] = { ":bn<CR>", "Buffer next" },
+	-- Allow Clicking without effing up scroll position (can still double click/drag etc)
+	["<LeftMouse>"] = { "<Nop>", "" },
+})

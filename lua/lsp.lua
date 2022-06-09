@@ -123,7 +123,7 @@ nvim_lsp.vimls.setup({
 })
 
 -- Solidity
-nvim_lsp.solc.setup({
+nvim_lsp.solidity_ls.setup({
 	capabilities = capabilities,
 	on_attach = on_attach,
 })
