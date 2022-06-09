@@ -96,6 +96,23 @@ wk.register({
 wk.register({
 	["<A-,>"] = { ":bp<CR>", "Buffer previous" },
 	["<A-.>"] = { ":bn<CR>", "Buffer next" },
+
+	["<A-1>"] = { ":BufferGoto1<CR>", "Go to buffer 1" },
+	["<A-2>"] = { ":BufferGoto2<CR>", "Go to buffer 2" },
+	["<A-3>"] = { ":BufferGoto3<CR>", "Go to buffer 3" },
+	["<A-4>"] = { ":BufferGoto4<CR>", "Go to buffer 4" },
+	["<A-5>"] = { ":BufferGoto5<CR>", "Go to buffer 5" },
+	["<A-6>"] = { ":BufferGoto6<CR>", "Go to buffer 6" },
+	["<A-7>"] = { ":BufferGoto7<CR>", "Go to buffer 7" },
+	["<A-8>"] = { ":BufferGoto8<CR>", "Go to buffer 8" },
+	["<A-9>"] = { ":BufferGoto9<CR>", "Go to buffer 9" },
+	["<A-0>"] = { ":BufferLast<CR>", "Go to last buffer" },
+
+	["<A-i>"] = { ":BufferPin<CR>", "Pin/unpin buffer" },
+	["<A-c>"] = { ":BufferClose<CR>", "Close buffer" },
+
+	["<A-p>"] = { ":BufferPick<CR>", "Magic buffer-picking mode" },
+
 	-- Allow Clicking without effing up scroll position (can still double click/drag etc)
 	["<LeftMouse>"] = { "<Nop>", "" },
 })
