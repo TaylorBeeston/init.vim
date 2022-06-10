@@ -90,6 +90,7 @@ wk.register({
 
 	-- Generic
 	K = { "<cmd>lua vim.lsp.buf.hover()<CR>", "Forcibly Hover" },
+	fm = { "<cmd>lua vim.lsp.buf.formatting_sync(nil, 5000)<CR>", "Format Buffer" },
 }, { prefix = "<leader>" })
 
 -- No prefix

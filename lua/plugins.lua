@@ -3,7 +3,7 @@ vim.api.nvim_exec(
 	[[
     augroup NullLsFormatAutogroup
       autocmd!
-      autocmd BufWritePre *.js,*.ts,*.tsx,*.rs,*.scss,*.lua lua vim.lsp.buf.formatting_sync(nil, 1000)
+      autocmd BufWritePre *.js,*.jsx,*.ts,*.tsx,*.rs,*.css,*.scss,*.lua lua vim.lsp.buf.formatting_sync(nil, 1000)
     augroup END
     ]],
 	true
