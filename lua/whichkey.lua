@@ -107,4 +107,6 @@ wk.register({
 
 	-- Allow Clicking without effing up scroll position (can still double click/drag etc)
 	["<LeftMouse>"] = { "<Nop>", "" },
+
+	zz = { "za", "Toggle fold" },
 })

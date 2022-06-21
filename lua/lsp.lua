@@ -6,6 +6,10 @@ lsp_installer.setup({ automatic_installation = true, ui = { border = "rounded" }
 
 -- cmp
 local capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities())
+capabilities.textDocument.foldingRange = {
+	dynamicRegistration = false,
+	lineFoldingOnly = true,
+}
 
 -- Generic LSP Settings
 local on_attach = function(client, bufnr)

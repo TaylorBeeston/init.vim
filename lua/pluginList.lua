@@ -321,8 +321,15 @@ return require("packer").startup(function(use)
 	-- Code folding
 	-- use "arecarn/vim-fold-cycle" -- Enter to cycle folds
 	-- use "pseewald/vim-anyfold"
+	use({
+		"kevinhwang91/nvim-ufo",
+		requires = "kevinhwang91/promise-async",
+		config = function()
+			require("ufo").setup()
+		end,
+	})
 	-- Try it out!
-	-- za: toggle folds at current line
+	-- za (or zz): toggle folds at current line
 	-- zo: open fold
 	-- zc: close fold
 	-- zR: open all folds

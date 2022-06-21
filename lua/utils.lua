@@ -52,7 +52,10 @@ vim.cmd("set shortmess+=c") -- don't give |ins-completion-menu| messages.
 vim.cmd("set cmdheight=2") -- Better display for messages
 vim.cmd("set updatetime=300") -- You will have bad experience for diagnostic messages when it's default 4000.
 vim.cmd("set signcolumn=yes") -- always show signcolumns
-vim.cmd("set foldlevel=99") -- unfold everything
+
+vim.wo.foldcolumn = "1"
+vim.wo.foldlevel = 99 -- unfold everything
+vim.wo.foldenable = true -- enable folds
 
 vim.cmd("set mouse+=a")
 vim.cmd("set guifont=Fira\\ Code\\ Nerd\\ Font:h18") -- set font for graphical frontends
