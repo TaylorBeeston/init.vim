@@ -15,12 +15,6 @@ wk.register({
 		n = { ":tabn<CR>", "Next Tab" },
 		p = { ":tabp<CR>", "Previous Tab" },
 		b = { ":tabp<CR>", "Previous Tab" },
-		d = {
-			name = "+TODO",
-			q = { ":TodoQuickFix<CR>", "TODOS in Quick Fix List" },
-			s = { ":TodoTelescope<CR>", "TODOS in Telescope" },
-			t = { ":TodoTrouble<CR>", "TODOS in Trouble" },
-		},
 	},
 
 	-- Windows
@@ -78,9 +72,6 @@ wk.register({
 
 	-- Ranger
 	ex = { "<cmd>RnvimrToggle<cr>", "Explore Files" },
-
-	-- LspTrouble
-	cc = { "<cmd>LspTroubleDocumentToggle<cr>", "Document Trouble" }, -- TODO: this is broken D=
 
 	-- Symbols Outline
 	so = { "<cmd>lua vim.lsp.buf.hover()<CR>", "Symbols Outline" },

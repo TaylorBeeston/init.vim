@@ -64,22 +64,10 @@ return require("packer").startup(function(use)
 	use({ "jose-elias-alvarez/nvim-lsp-ts-utils", requires = "neovim/nvim-lspconfig" })
 	use("simrat39/rust-tools.nvim")
 	use({
-		"folke/lsp-trouble.nvim",
-		config = function()
-			require("trouble").setup({})
-		end,
-	})
-	use({
 		"simrat39/symbols-outline.nvim",
 		requires = "neovim/nvim-lspconfig",
 		config = function()
 			require("symbols-outline").setup()
-		end,
-	})
-	use({
-		"folke/todo-comments.nvim",
-		config = function()
-			require("todo-comments").setup()
 		end,
 	})
 	use({

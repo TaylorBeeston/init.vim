@@ -73,7 +73,6 @@ nnore("<leader>bc", "<cmd>Telescope git_bcommits<cr>")
 nnore("<leader>br", "<cmd>Telescope git_branches<cr>")
 nnore("<leader>gs", "<cmd>Telescope git_status<cr>") ]]
 
-nnore("gr", "<cmd>LspTroubleToggle lsp_references<cr>")
 --[[ nnore("<leader>gr", "<cmd>Telescope lsp_references<cr>")
 nnore("<leader>ds", "<cmd>Telescope lsp_document_symbols<cr>")
 nnore("<leader>dws", "<cmd>Telescope lsp_workspace_symbols<cr>")
@@ -91,9 +90,6 @@ vnore("<leader>ca", ":<C-U>CodeActionMenu<CR>", { silent = true })
 
 -- Ranger
 -- nnore("<leader>ex", "<cmd>RnvimrToggle<cr>")
-
--- LspTrouble
--- nnore("<leader>cc", "<cmd>LspTroubleDocumentToggle<cr>")
 
 -- Symbols Outline
 -- nnore("<leader>so", "<cmd>SymbolsOutline<CR>")
