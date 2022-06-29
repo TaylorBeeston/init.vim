@@ -1,13 +1,25 @@
 -- Autoformat on save
-vim.api.nvim_exec(
-	[[
+if vim.lsp.buf.format == nil then
+	vim.api.nvim_exec(
+		[[
     augroup NullLsFormatAutogroup
       autocmd!
       autocmd BufWritePre *.js,*.jsx,*.ts,*.tsx,*.rs,*.css,*.scss,*.lua lua vim.lsp.buf.formatting_sync(nil, 1000)
     augroup END
     ]],
-	true
-)
+		true
+	)
+else
+	vim.api.nvim_exec(
+		[[
+    augroup NullLsFormatAutogroup
+      autocmd!
+      autocmd BufWritePre *.js,*.jsx,*.ts,*.tsx,*.rs,*.css,*.scss,*.lua lua vim.lsp.buf.format({ timeout_ms = 1000 })
+    augroup END
+    ]],
+		true
+	)
+end
 
 -- Telescope
 require("telescope").setup({

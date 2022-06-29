@@ -1,5 +1,6 @@
 local wk = require("which-key")
-
+local fmtCmd = vim.lsp.buf.format == nil and "<cmd>lua vim.lsp.buf.formatting_sync(nil, 5000)<CR>"
+    or "<cmd>lua vim.lsp.buf.format({ timeout_ms = 5000 })<CR>"
 -- Leader Keybindings
 wk.register({
     -- Buffers
@@ -110,7 +111,7 @@ wk.register({
 
     -- Generic
     K = { "<cmd>lua vim.lsp.buf.hover()<CR>", "Forcibly Hover" },
-    fm = { "<cmd>lua vim.lsp.buf.format({ timeout_ms = 5000 })<CR>", "Format Buffer" },
+    fm = { fmtCmd, "Format Buffer" },
 }, { prefix = "<leader>" })
 
 -- No prefix
