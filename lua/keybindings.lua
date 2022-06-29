@@ -84,6 +84,7 @@ nnore("<leader>gtg", "<cmd>Telescope gh gist<cr>") ]]
 
 nnore("<leader>tt", ":lua require('FTerm').open()<CR>", { silent = true })
 tnore("<Esc>", "<C-\\><C-n>:lua require('FTerm').exit()<CR>", { silent = true })
+tnore("<C-[>", "<C-\\><C-n>:lua require('FTerm').exit()<CR>", { silent = true })
 tnore("<C-c><C-c>", "<C-\\><C-n>:lua require('FTerm').exit()<CR>", { silent = true })
 nnore("<leader>ca", ":CodeActionMenu<CR>", { silent = true })
 vnore("<leader>ca", ":<C-U>CodeActionMenu<CR>", { silent = true })
