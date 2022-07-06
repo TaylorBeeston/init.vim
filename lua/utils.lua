@@ -58,7 +58,7 @@ vim.wo.foldlevel = 99 -- unfold everything
 vim.wo.foldenable = true -- enable folds
 
 vim.cmd("set mouse+=a")
-vim.cmd("set guifont=Fira\\ Code\\ Nerd\\ Font:h18") -- set font for graphical frontends
+vim.cmd("set guifont=FiraCode\\ Nerd\\ Font\\ Mono:h10.0") -- set font for graphical frontends
 
 -- Some servers have issues with backup files (I think this is from a plugin?)
 vim.cmd("set nobackup")
