@@ -177,7 +177,12 @@ return require("packer").startup(function(use)
 	-- Test Running
 	use("tpope/vim-dispatch")
 	use("vim-test/vim-test")
-	use({ "David-Kunz/jester" })
+	use({
+		"David-Kunz/jester",
+		config = function()
+			require("jester").setup({ path_to_jest_run = "pnpm exec jest" })
+		end,
+	})
 
 	-- Debugging
 	use("mfussenegger/nvim-dap")
