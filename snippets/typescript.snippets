@@ -131,10 +131,10 @@ snippet importtype Import Type
  	import { $1 } from '@graphql/types';
 
 snippet iu Import currentUser
- 	import { useUserContext } from '@core/client/contexts/CurrentUserContext';
+    import { useCurrentUser } from '@stores/User';
 
 snippet uc useUserContext
- 	const { currentUser } = useUserContext();
+    const { currentUser } = useCurrentUser();
 
 snippet log Log
  	console.log($1);
