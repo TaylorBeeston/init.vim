@@ -108,7 +108,33 @@ return require("packer").startup(function(use)
 	use({ "nvim-treesitter/playground", requires = "nvim-treesitter/nvim-treesitter" })
 	use({ "p00f/nvim-ts-rainbow", requires = "nvim-treesitter/nvim-treesitter" })
 	use({ "JoosepAlviste/nvim-ts-context-commentstring", requires = "nvim-treesitter/nvim-treesitter" })
-	use({ "windwp/nvim-ts-autotag", requires = "nvim-treesitter/nvim-treesitter" })
+	use({
+		"windwp/nvim-ts-autotag",
+		requires = "nvim-treesitter/nvim-treesitter",
+		config = function()
+			require("nvim-ts-autotag").setup({
+				filetypes = {
+					"html",
+					"javascript",
+					"typescript",
+					"javascriptreact",
+					"typescriptreact",
+					"astro",
+					"svelte",
+					"vue",
+					"tsx",
+					"jsx",
+					"rescript",
+					"xml",
+					"php",
+					"markdown",
+					"glimmer",
+					"handlebars",
+					"hbs",
+				},
+			})
+		end,
+	})
 	use({ "haringsrob/nvim_context_vt", requires = "nvim-treesitter/nvim-treesitter" })
 	use({
 		"nvim-treesitter/nvim-treesitter-textobjects",

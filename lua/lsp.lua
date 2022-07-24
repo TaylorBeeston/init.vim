@@ -43,7 +43,10 @@ local null_ls = require("null-ls")
 
 null_ls.setup({
 	sources = {
-		null_ls.builtins.formatting.prettier,
+		null_ls.builtins.formatting.prettier.with({
+			extra_args = { "--plugin-search-dir=." },
+			extra_filetypes = { "astro" },
+		}),
 		null_ls.builtins.diagnostics.eslint_d,
 		null_ls.builtins.code_actions.eslint_d,
 		null_ls.builtins.formatting.rustfmt.with({ filetypes = { "rust" } }),
@@ -78,6 +81,21 @@ nvim_lsp.tsserver.setup({
 		})
 
 		ts_utils.setup_client(client)
+	end,
+})
+
+-- Astro
+nvim_lsp.astro.setup({
+	capabilities = capabilities,
+	on_attach = function(client, bufnr)
+		on_attach(client, bufnr)
+
+		-- Let NullLs handle formatting
+		if client.server_capabilities.document_formatting == nil then
+			client.resolved_capabilities.document_formatting = false
+		else
+			client.server_capabilities.document_formatting = false
+		end
 	end,
 })
 
