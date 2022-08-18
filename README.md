@@ -22,6 +22,7 @@ Complete list of shortcuts can be found in `~/.config/nvim/lua/whichkey.lua` (ne
 | (from ripgrep window) ctrl+q     | quickfix | Throws all results into a quickfix list | {space} \[q = jump to next quickfix item, {space} \]q = jump to previous quickfix item, {space} ts = hide quickfix list~, {space} tab (when quickfix window is focused) = close quickfix list |
 | gcc     | comment | Toggles comment for line | Can be used with other vim modifiers: e.g. gc5j = comment out 6 lines (current + 5 below) |
 | ysiw)   | **y**ank, **s**urround **i**nner **w**ord with **)** | Surrounds current word with parenthesis | Can be used with other vim modifiers |
+| {space} cd | Check Diagnostic | Opens error message | Type cd again to enter into the window; then {space} ts (tab split) to full screen window; then {space} tab to get out |
 
 # Install
 (All of these install steps were done on a relatively fresh Ubuntu machine, modify as needed)
