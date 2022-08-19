@@ -13,6 +13,7 @@ Want to be fancy and use neovim, but don't want to have to figure out all the pl
 | {space} ex     | No good one, EXplore? | Explore files/directories with ranger | Need to do :q to quit ranger |
 | Alt+...        | None | Navigate tabs | num keys = go to tab X, p = tab **p**icker mode (follow up with key that appears next to the tab that you want, ,. = prev/next tab, i = p**i**n tab, c = close tab |
 | {space} m{letter}  | Mark | Sets a bookmark bound to that letter | {space} '{letter} = go to bookmark (\` also works), Capital {letter} is a global bookmark, lowercase is local to that file. |
+| {space} rn | Rename | Renames a variable. | :wa will write to all files. | 
 
 Complete list of shortcuts can be found in `~/.config/nvim/lua/whichkey.lua` (newer, more readable) and `~/.config/nvim/lua/keybindings.lua` (deprecated)
 
