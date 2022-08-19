@@ -8,7 +8,7 @@ Want to be fancy and use neovim, but don't want to have to figure out all the pl
 | {space} ef     | Explore Files | Searches files | ctrl+p, ctrl+n to move up/down the list |
 | {space} rg     | Rip Grep      | Find everywhere | ctrl+p, ctrl+n to move up/down the list. This is a regex, so you'll need to do things like escape periods like \\. |
 | {space} w...   | Window splits | Navigate window splits | s = split horizontal, v = split veritcal, hjkl = move focus left/down/up/right |
-| {space} gd     | Go to Definition | Jumps to definition | |
+| {space} gd     | Go to Definition | Jumps to definition | ctrl + o (go back) / ctrl + i (go forward) moves you in the jump list |
 | {space} gr     | Go to References | Opens references  | |
 | {space} ex     | No good one, EXplore? | Explore files/directories with ranger | Need to do :q to quit ranger |
 | Alt+...        | None | Navigate tabs | num keys = go to tab X, p = tab **p**icker mode (follow up with key that appears next to the tab that you want, ,. = prev/next tab, i = p**i**n tab, c = close tab |
