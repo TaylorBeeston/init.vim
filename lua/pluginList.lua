@@ -237,6 +237,7 @@ return require("packer").startup(function(use)
                 )
             end
         } ]]
+	use("MunifTanjim/nui.nvim")
 	use("stevearc/dressing.nvim")
 	use({
 		"rcarriga/nvim-notify",
