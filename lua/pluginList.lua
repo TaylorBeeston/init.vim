@@ -432,6 +432,7 @@ return require("packer").startup(function(use)
 		config = function()
 			require("luasnip.loaders.from_snipmate").load()
 		end,
+		run = "make install_jsregexp",
 	})
 
 	-- Smooth scrolling with <C u> and <C d>
@@ -485,7 +486,7 @@ return require("packer").startup(function(use)
 	})
 
 	-- Neorg
-	use({
+	--[[ use({
 		"nvim-neorg/neorg",
 		config = function()
 			require("neorg").setup({
@@ -502,7 +503,7 @@ return require("packer").startup(function(use)
 			})
 		end,
 		requires = "nvim-lua/plenary.nvim",
-	})
+	}) ]]
 
 	-- Performance
 	use("nathom/filetype.nvim")
