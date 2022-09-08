@@ -1,24 +1,41 @@
 local neogen = require("neogen")
 local luasnip = require("luasnip")
 local cmp = require("cmp")
+local compare = require("cmp.config.compare")
 
 cmp.setup({
+	window = {
+		completion = {
+			winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,Search:None",
+			col_offset = -3,
+			side_padding = 0,
+		},
+	},
 	formatting = {
-		format = require("lspkind").cmp_format({
-			with_text = false,
-			maxwidth = 50,
-			menu = {
-				nvim_lsp = "LSP",
-				nvim_lsp_document_symbol = "LSP",
-				buffer = "BUF",
-				fuzzy_buffer = "FUZ",
-				path = "PATH",
-				-- cmp_tabnine = "AI",
-				luasnip = "SNIP",
-				emoji = "EMOJI",
-				cmdline = "CMD",
-			},
-		}),
+		fields = { "kind", "abbr", "menu" },
+		format = function(entry, vim_item)
+			local kind = require("lspkind").cmp_format({
+				mode = "symbol_text",
+				maxwidth = 50,
+				menu = {
+					nvim_lsp = "LSP",
+					nvim_lsp_document_symbol = "LSP",
+					buffer = "BUF",
+					fuzzy_buffer = "FUZ",
+					path = "PATH",
+					-- cmp_tabnine = "AI",
+					luasnip = "SNIP",
+					emoji = "EMOJI",
+					cmdline = "CMD",
+				},
+			})(entry, vim_item)
+
+			local strings = vim.split(kind.kind, "%s", { trimempty = true })
+			kind.kind = " " .. strings[1] .. " "
+			kind.menu = "    " .. (kind.menu or "") .. " (" .. strings[2] .. ")"
+
+			return kind
+		end,
 	},
 	snippet = {
 		expand = function(args)
@@ -60,13 +77,27 @@ cmp.setup({
 			end
 		end,
 	}),
+	sorting = {
+		priority_weight = 2,
+		comparators = {
+			compare.score,
+			require("cmp_fuzzy_buffer.compare"),
+			compare.offset,
+			compare.exact,
+			compare.recently_used,
+			compare.kind,
+			compare.sort_text,
+			compare.length,
+			compare.order,
+		},
+	},
 	sources = cmp.config.sources({
 		{ name = "luasnip", priority = 1000000 },
-		{ name = "nvim_lsp", priority = 1000 },
+		{ name = "nvim_lsp", priority = 100 },
 		{ name = "path" },
 		-- {name = "cmp_tabnine"},
 		{ name = "treesitter" },
-		{ name = "fuzzy_buffer", max_item_count = 5 },
+		{ name = "fuzzy_buffer", max_item_count = 5, priority = 1 },
 		{ name = "emoji" },
 	}),
 })
