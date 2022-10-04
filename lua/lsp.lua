@@ -111,10 +111,10 @@ nvim_lsp.cssls.setup({
 })
 
 -- Tailwind
---[[ nvim_lsp.tailwindcss.setup({
-	capabilities = capabilities,
-	on_attach = on_attach,
-}) ]]
+nvim_lsp.tailwindcss.setup({
+    capabilities = capabilities,
+    on_attach = on_attach,
+})
 
 -- JSON
 nvim_lsp.jsonls.setup({
