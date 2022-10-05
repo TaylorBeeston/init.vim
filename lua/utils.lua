@@ -49,7 +49,8 @@ vim.cmd("set noshowmode") -- let airline show the current mode
 vim.cmd("set nolazyredraw") -- don't render half of the screen
 vim.cmd("set completeopt=menu,menuone,noselect") -- Set completeopt to have a better completion experience
 vim.cmd("set shortmess+=c") -- don't give |ins-completion-menu| messages.
-vim.cmd("set cmdheight=2") -- Better display for messages
+vim.opt.cmdheight = 0 -- R I C E
+vim.opt.laststatus = 3 -- Global statusline
 vim.cmd("set updatetime=300") -- You will have bad experience for diagnostic messages when it's default 4000.
 vim.cmd("set signcolumn=yes") -- always show signcolumns
 
