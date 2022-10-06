@@ -12,16 +12,16 @@ require("lualine").setup({
         lualine_b = { "filename", "branch" },
         lualine_c = {
             {
-                require("noice.status").message.get,
-                cond = require("noice.status").message.has,
+                require("noice").api.statusline.message.get,
+                cond = require("noice").api.statusline.message.has,
             },
             {
-                require("noice.status").mode.get,
-                cond = require("noice.status").mode.has,
+                require("noice").api.statusline.mode.get,
+                cond = require("noice").api.statusline.mode.has,
             },
             {
-                require("noice.status").search.get,
-                cond = require("noice.status").search.has,
+                require("noice").api.statusline.search.get,
+                cond = require("noice").api.statusline.search.has,
             },
         },
         lualine_x = { "diagnostics", "lsp_progress" },

@@ -245,12 +245,7 @@ return require("packer").startup(function(use)
     })
     use("MunifTanjim/nui.nvim")
     use("stevearc/dressing.nvim")
-    use({
-        "rcarriga/nvim-notify",
-        config = function()
-            vim.notify = require("notify")
-        end,
-    })
+    use("rcarriga/nvim-notify")
     use("numtostr/FTerm.nvim")
     use("chriskempson/base16-vim")
     use("norcalli/nvim-base16.lua")
