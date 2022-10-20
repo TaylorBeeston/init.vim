@@ -1,3 +1,6 @@
+-- Nvim Lua Completion
+require("neodev").setup()
+
 -- LSP
 local lsp_installer = require("nvim-lsp-installer")
 local nvim_lsp = require("lspconfig")
@@ -5,7 +8,7 @@ local nvim_lsp = require("lspconfig")
 lsp_installer.setup({ automatic_installation = true, ui = { border = "rounded" } })
 
 -- cmp
-local capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities())
+local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 -- Generic LSP Settings
 local on_attach = function(client, bufnr)
@@ -144,7 +147,7 @@ nvim_lsp.solidity_ls.setup({
 })
 
 -- Lua
-local lspconfig = {
+nvim_lsp.sumneko_lua.setup({
     capabilities = capabilities,
     on_attach = function(client, bufnr)
         on_attach(client, bufnr)
@@ -177,11 +180,7 @@ local lspconfig = {
             },
         },
     },
-}
-
-local luadev = require("lua-dev").setup({ lspconfig = lspconfig })
-
-nvim_lsp.sumneko_lua.setup(luadev)
+})
 
 -- Rust
 require("rust-tools").setup({

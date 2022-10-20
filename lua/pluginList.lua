@@ -15,7 +15,7 @@ return require("packer").startup(function(use)
     use("wbthomason/packer.nvim")
 
     -- init.lua helpers
-    use("folke/lua-dev.nvim")
+    use("folke/neodev.nvim")
 
     -- Fuzzy searching
     use({
