@@ -326,12 +326,13 @@ return require("packer").startup(function(use)
     })
     use("pocco81/HighStr.nvim")
     use({
-        "goolord/alpha-nvim",
-        requires = { "kyazdani42/nvim-web-devicons" },
+        "folke/drop.nvim",
+        event = "VimEnter",
         config = function()
-            require("alpha").setup(require("alpha.themes.startify").opts)
+            require("drop").setup({ theme = "leaves" })
         end,
     })
+    use({ "goolord/alpha-nvim", requires = { "kyazdani42/nvim-web-devicons" } })
     use({
         "beauwilliams/focus.nvim",
         config = function()
