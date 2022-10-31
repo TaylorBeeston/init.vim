@@ -229,7 +229,27 @@ return require("packer").startup(function(use)
     use({
         "folke/noice.nvim",
         config = function()
-            require("noice").setup()
+            require("noice").setup({
+                lsp = {
+                    hover = {
+                        enabled = true,
+                    },
+                    signature = {
+                        enabled = true,
+                    },
+                    message = {
+                        enabled = true,
+                    },
+                    override = {
+                        ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+                        ["vim.lsp.util.stylize_markdown"] = true,
+                        ["cmp.entry.get_documentation"] = true,
+                    },
+                },
+                presets = {
+                    lsp_doc_border = true,
+                },
+            })
         end,
         requires = {
             "MunifTanjim/nui.nvim",

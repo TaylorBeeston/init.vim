@@ -6,8 +6,10 @@ dashboard.section.header.val = require("helpers/headers").random()
 
 -- Set menu
 dashboard.section.buttons.val = {
+    dashboard.button("d", "  > Close Drop", ":lua require('drop').hide()<CR>"),
     dashboard.button("e", "  > New file", ":ene <BAR> startinsert <CR>"),
-    dashboard.button("f", "  > Find file", ":cd $HOME/Workspace | Telescope find_files<CR>"),
+    dashboard.button("x", "  > Open Explorer", ":lua require('drop').hide(); vim.cmd('RnvimrToggle')<CR>"),
+    dashboard.button("f", "  > Find file", ":lua require('drop').hide(); vim.cmd('Telescope find_files')<CR>"),
     dashboard.button("r", "  > Recent", ":Telescope oldfiles<CR>"),
     dashboard.button("s", "  > Settings", ":e $MYVIMRC | :cd %:p:h | split . | wincmd k | pwd<CR>"),
     dashboard.button("q", "  > Quit NVIM", ":qa<CR>"),
