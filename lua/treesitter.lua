@@ -13,6 +13,8 @@ require("nvim-treesitter.configs").setup({
         "json",
         "json5",
         "lua",
+        "markdown",
+        "markdown_inline",
         "norg",
         "prisma",
         "regex",
