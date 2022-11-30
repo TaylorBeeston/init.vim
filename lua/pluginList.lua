@@ -232,10 +232,10 @@ return require("packer").startup(function(use)
             require("noice").setup({
                 lsp = {
                     hover = {
-                        enabled = true,
+                        enabled = false,
                     },
                     signature = {
-                        enabled = true,
+                        enabled = false,
                     },
                     message = {
                         enabled = true,
@@ -269,7 +269,6 @@ return require("packer").startup(function(use)
     use("numtostr/FTerm.nvim")
     use("chriskempson/base16-vim")
     use("norcalli/nvim-base16.lua")
-    use("folke/tokyonight.nvim")
     use("rebelot/kanagawa.nvim")
     use({
         "lewis6991/gitsigns.nvim",
@@ -311,7 +310,6 @@ return require("packer").startup(function(use)
         "romgrk/barbar.nvim",
         requires = { "kyazdani42/nvim-web-devicons" },
     })
-    -- use "glepnir/galaxyline.nvim"
     use({
         "nvim-lualine/lualine.nvim",
         event = "VimEnter",
@@ -349,7 +347,7 @@ return require("packer").startup(function(use)
         "folke/drop.nvim",
         event = "VimEnter",
         config = function()
-            require("drop").setup({ theme = "leaves" })
+            require("drop").setup({ theme = "snow" })
         end,
     })
     use({ "goolord/alpha-nvim", requires = { "kyazdani42/nvim-web-devicons" } })
@@ -379,6 +377,19 @@ return require("packer").startup(function(use)
             "MunifTanjim/nui.nvim",
         },
     })
+    use({
+        "nvim-zh/colorful-winsep.nvim",
+        config = function()
+            require("colorful-winsep").setup()
+        end,
+    })
+    use({
+        "petertriho/nvim-scrollbar",
+        config = function()
+            require("scrollbar").setup()
+        end,
+    })
+    use({ "tamton-aquib/duck.nvim" })
 
     -- use :SCROLL to test color schemes
     use("https://github.com/vim-scripts/ScrollColors")
