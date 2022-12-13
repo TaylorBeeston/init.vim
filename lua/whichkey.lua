@@ -79,6 +79,7 @@ wk.register({
 
     -- Telescope
     ef = { "<cmd>Telescope find_files<cr>", "Search by Filename" },
+    er = { "<cmd>Telescope oldfiles<cr>", "Search by Recent Files" },
     rg = { "<cmd>Telescope live_grep<cr>", "Ripgrep" },
     fb = { "<cmd>Telescope buffers<cr>", "Find Buffer" },
     fh = { "<cmd>Telescope help_tags<cr>", "Find Help" },
