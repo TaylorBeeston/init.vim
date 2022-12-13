@@ -109,6 +109,12 @@ wk.register({
         k = { require("duck").cook, "Cook Duck" },
     },
 
+    c = {
+        name = "Cellular Automaton",
+        m = { "<cmd>CellularAutomaton make_it_rain<CR>", "Make it Rain" },
+        g = { "<cmd>CellularAutomaton game_of_life<CR>", "Game of Life" },
+    },
+
     gfr = {
         function()
             get_input({

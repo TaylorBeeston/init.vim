@@ -347,7 +347,7 @@ return require("packer").startup(function(use)
         "folke/drop.nvim",
         event = "VimEnter",
         config = function()
-            require("drop").setup({ theme = "snow" })
+            require("drop").setup({ theme = "xmas" })
         end,
     })
     use({ "goolord/alpha-nvim", requires = { "kyazdani42/nvim-web-devicons" } })
@@ -378,18 +378,15 @@ return require("packer").startup(function(use)
         },
     })
     use({
-        "nvim-zh/colorful-winsep.nvim",
-        config = function()
-            require("colorful-winsep").setup()
-        end,
-    })
-    use({
         "petertriho/nvim-scrollbar",
         config = function()
             require("scrollbar").setup()
         end,
     })
-    use({ "tamton-aquib/duck.nvim" })
+
+    -- Fun and Games
+    use("tamton-aquib/duck.nvim")
+    use("eandrju/cellular-automaton.nvim")
 
     -- use :SCROLL to test color schemes
     use("https://github.com/vim-scripts/ScrollColors")
