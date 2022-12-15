@@ -104,6 +104,11 @@ wk.register({
         g = { "<cmd>Telescope gh gist<cr>", "Gists" },
     },
 
+    n = {
+        name = "+Notify",
+        d = { require("notify").dismiss, "Dismiss Notification" },
+    },
+
     d = {
         name = "Duck",
         d = { require("duck").hatch, "Hatch Duck" },
