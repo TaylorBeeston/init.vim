@@ -347,7 +347,27 @@ return require("packer").startup(function(use)
         "folke/drop.nvim",
         event = "VimEnter",
         config = function()
-            require("drop").setup({ theme = "xmas" })
+            local colors = require("kanagawa.colors").setup()
+
+            require("drop").setup({
+                theme = {
+                    symbols = {
+                        "♥",
+                        "💜",
+                        "💖",
+                        "💗",
+                        "💘",
+                        "🤍",
+                        "💕",
+                        "💞",
+                        "💝",
+                        "",
+                        "",
+                        "",
+                    },
+                    colors = { colors.samuraiRed, colors.sakuraPink, colors.fujiWhite, colors.oniViolet },
+                },
+            })
         end,
     })
     use({ "goolord/alpha-nvim", requires = { "kyazdani42/nvim-web-devicons" } })
