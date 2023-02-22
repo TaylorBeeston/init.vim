@@ -76,5 +76,6 @@
         "/home/taylor/.local/share/nvim/site/pack/packer/start/tokyonight.nvim",
         "/home/taylor/.local/share/nvim/site/pack/packer/start/which-key.nvim",
         "${3rd}/luassert/library"
-    ]
+    ],
+    "workspace.checkThirdParty": false
 }
