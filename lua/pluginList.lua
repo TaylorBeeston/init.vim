@@ -412,16 +412,6 @@ return require("packer").startup(function(use)
     -- Fun and Games
     use("tamton-aquib/duck.nvim")
     use("eandrju/cellular-automaton.nvim")
-    use({
-        "giusgad/pets.nvim",
-        requires = {
-            "edluffy/hologram.nvim",
-            "MunifTanjim/nui.nvim",
-        },
-        config = function()
-            require("pets").setup()
-        end,
-    })
 
     -- use :SCROLL to test color schemes
     use("https://github.com/vim-scripts/ScrollColors")
