@@ -22,7 +22,7 @@ local on_attach = function(client, bufnr)
     buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
 
     -- vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "double" })
-    vim.diagnostic.config({ virtual_text = { source = "if_many", prefix = "●", border = "rounded" } })
+    vim.diagnostic.config({ virtual_text = false })
 
     -- Mappings.
     local opts = { noremap = true, silent = true }

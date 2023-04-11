@@ -402,6 +402,12 @@ return require("packer").startup(function(use)
             require("scrollbar").setup()
         end,
     })
+    use({
+        "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
+        config = function()
+            require("lsp_lines").setup()
+        end,
+    })
 
     -- Fun and Games
     use("tamton-aquib/duck.nvim")
