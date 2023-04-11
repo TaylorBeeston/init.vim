@@ -6,7 +6,7 @@ if vim.lsp.buf.format == nil then
       autocmd!
       autocmd BufWritePre *.js,*.mjs,*.cjs,*.jsx,*.ts,*.mts,*.cts,*.tsx,*.rs,*.css,*.scss,*.lua,*.astro,*.py lua vim.lsp.buf.formatting_sync(nil, 3000)
     augroup END
-    ]]   ,
+    ]],
         true
     )
 else
@@ -16,7 +16,7 @@ else
       autocmd!
       autocmd BufWritePre *.js,*.mjs,*.cjs,*.jsx,*.ts,*.mts,*.cts,*.tsx,*.rs,*.css,*.scss,*.lua,*.astro,*.py lua vim.lsp.buf.format({ timeout_ms = 1000 })
     augroup END
-    ]]   ,
+    ]],
         true
     )
 end
@@ -53,7 +53,7 @@ require("bufferline").setup({
             return " " .. icon .. count
         end,
     },
-    icon_pinned = "車",
+    icons = { pinned = { button = "車" } },
     highlights = {
         error_selected = {
             guifg = "#cc6666",

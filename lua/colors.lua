@@ -1,3 +1,6 @@
+-- Set colorscheme
+vim.cmd("colorscheme kanagawa")
+
 local colors = require("kanagawa.colors").setup()
 
 -- True Color Support if it's available in terminal
@@ -36,7 +39,7 @@ vim.g.indent_blankline_context_patterns = {
 vim.cmd("hi DiffAdd ctermfg=NONE guifg=NONE")
 
 -- Pretty completion colors
-local colorOverrides = {
+local colorOverrides = function() return {
     CmpItemKindDefault = { fg = colors.dep },
 
     CmpItemKindField = { bg = colors.oniViolet },
@@ -71,9 +74,6 @@ local colorOverrides = {
     CmpItemKindInterface = { bg = colors.autumnGreen },
     CmpItemKindColor = { bg = colors.autumnRed },
     CmpItemKindTypeParameter = { bg = colors.autumnYellow },
-}
+} end
 
 require("kanagawa").setup({ overrides = colorOverrides, dimInactive = true, globalStatus = true })
-
--- Set colorscheme
-vim.cmd("colorscheme kanagawa")

@@ -205,4 +205,3 @@ require("rust-tools").setup({
 
 -- DAP
 require("mason-nvim-dap").setup({ ensure_installed = { "python", "js", "chrome", "firefox" }, automatic_setup = true })
-require("mason-nvim-dap").setup_handlers({})
