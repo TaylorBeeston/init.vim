@@ -15,24 +15,24 @@ cmp.setup({
         fields = { "kind", "abbr", "menu" },
         format = function(entry, vim_item)
             local kind = require("lspkind").cmp_format({
-                mode = "symbol_text",
-                maxwidth = 50,
-                menu = {
-                    nvim_lsp = "LSP",
-                    nvim_lsp_document_symbol = "LSP",
-                    buffer = "BUF",
-                    fuzzy_buffer = "FUZ",
-                    path = "PATH",
-                    -- cmp_tabnine = "AI",
-                    luasnip = "SNIP",
-                    emoji = "EMOJI",
-                    cmdline = "CMD",
-                },
-            })(entry, vim_item)
+                    mode = "symbol_text",
+                    maxwidth = 50,
+                    menu = {
+                        nvim_lsp = "LSP",
+                        nvim_lsp_document_symbol = "LSP",
+                        buffer = "BUF",
+                        fuzzy_buffer = "FUZ",
+                        path = "PATH",
+                        -- cmp_tabnine = "AI",
+                        luasnip = "SNIP",
+                        emoji = "EMOJI",
+                        cmdline = "CMD",
+                    },
+                })(entry, vim_item)
 
             local strings = vim.split(kind.kind, "%s", { trimempty = true })
             kind.kind = " " .. strings[1] .. " "
-            kind.menu = "    " .. (kind.menu or "") .. " (" .. strings[2] .. ")"
+            kind.menu = "    " .. (kind.menu or "") .. " (" .. (strings[2] or "") .. ")"
 
             return kind
         end,
@@ -43,7 +43,7 @@ cmp.setup({
         end,
     },
     mapping = cmp.mapping.preset.insert({
-        ["<C-u>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), { "i", "c" }),
+        ["<C-u>"] = cmp.mapping(cmp.mapping.scroll_docs( -4), { "i", "c" }),
         ["<C-d>"] = cmp.mapping(cmp.mapping.scroll_docs(4), { "i", "c" }),
         ["<C-Space>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
         ["<C-y>"] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
@@ -65,7 +65,7 @@ cmp.setup({
             end
         end,
         ["<S-Tab>"] = function(fallback)
-            if luasnip.jumpable(-1) then
+            if luasnip.jumpable( -1) then
                 vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Plug>luasnip-jump-prev", true, true, true), "")
             elseif neogen.jumpable() then
                 vim.fn.feedkeys(
@@ -92,8 +92,8 @@ cmp.setup({
         },
     },
     sources = cmp.config.sources({
-        { name = "luasnip", priority = 1000000 },
-        { name = "nvim_lsp", priority = 100 },
+        { name = "luasnip",      priority = 1000000 },
+        { name = "nvim_lsp",     priority = 100 },
         { name = "path" },
         -- {name = "cmp_tabnine"},
         { name = "treesitter" },
