@@ -53,7 +53,7 @@ require("bufferline").setup({
             return " " .. icon .. count
         end,
     },
-    icons = { pinned = { button = "車" } },
+    icons = { pinned = { button = "車", filename = true } },
     highlights = {
         error_selected = {
             guifg = "#cc6666",
