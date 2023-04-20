@@ -1,0 +1,141 @@
+snippet p Print
+ 	print($0)
+
+snippet pv Print variable
+ 	print('$1:', $1)
+
+snippet pfire Print 🔥
+ 	print('🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥')
+
+snippet ppeng Print 🐧
+ 	print('🐧🐧🐧🐧🐧🐧🐧🐧🐧🐧🐧🐧🐧🐧🐧🐧🐧🐧')
+
+snippet pspark Print 🎇
+ 	print('🎆🎆🎆🎆🎆🎆🎆🎆🎆🎆🎆🎆🎆🎆🎆🎆🎆🎆🎆')
+
+snippet cf Django CharField
+ 	$1 = models.CharField(max_length=$2)
+
+snippet if Django IntegerField
+ 	$1 = models.IntegerField(default=$2)
+
+snippet choicef Django CharField with choices
+ 	$1_CHOICES = [
+	 	('$2', '$3'),
+	]
+
+	$4 = models.CharField(max_length=$5, choices=$1_CHOICES)
+
+snippet ser Django serializer
+ 	class $1Serializer(serializers.ModelSerializer):
+     	class Meta:
+         	model = $1
+         	fields = ['$0']
+
+snippet dmodel Django model template
+	class $1(models.Model):
+		creator = models.ForeignKey(User, on_delete=models.CASCADE)
+		date_created = models.DateTimeField('Date Created', auto_now_add=True)
+
+		name = models.CharField(max_length=500)
+
+		def __str__(self):
+			return self.name
+
+snippet initserializers Django initialize serializers.py
+	from rest_framework import serializers
+
+	from django.contrib.auth.models import User
+	from .models import $1
+
+
+	class $1Serializer(serializers.ModelSerializer):
+		# user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
+
+		class Meta:
+			model = $1
+			# fields = ['id', ] # all by default
+
+snippet initviews Django initialize views.py
+	from rest_framework import viewsets, permissions, status
+	from rest_framework.response import Response
+	from rest_framework.views import APIView
+	from django.http import JsonResponse
+	from django.shortcuts import get_object_or_404
+
+	from core.CaseTransforms.CamelCaseRenderer import CamelCaseRenderer
+	from core.CaseTransforms.SnakeCaseParser import SnakeCaseParser
+	from core.helpers.view_helpers import process_incoming_data
+
+	from .models import $1
+	from .serializers import $1Serializer
+
+
+	# Create your views here.
+	class $1Api(viewsets.ModelViewSet):
+		permission_classes = (permissions.AllowAny,)
+		parser_classes = [SnakeCaseParser]
+		renderer_classes = [CamelCaseRenderer]
+
+		serializer_class = $1Serializer
+		queryset = $1.objects.all()
+
+		def get_queryset(self):
+			# queryset = self.queryset.filter(user=self.request.user)
+			return queryset
+
+
+		def retrieve(self, request, pk=None):
+			queryset = self.get_queryset()
+			task = get_object_or_404(queryset, pk=pk)
+
+			return Response($1Serializer(task).data)
+
+		def destroy(self, request, *args, **kwargs):
+			instance = self.get_object()
+			self.perform_destroy(instance)
+			return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+	class CreateEdit$1Api(APIView):
+		parser_classes = [SnakeCaseParser]
+		renderer_classes = [CamelCaseRenderer]
+
+		def get_object(self, pk):
+			try:
+				return $1.objects.get(pk=pk)
+			except:
+				return $1()
+
+		# Called for GET requests
+		def get(self, request, pk=None, format=None):
+			task = self.get_object(pk)
+			serialized_task = $1Serializer(task)
+
+			return JsonResponse(serialized_task.data, safe=False)
+
+		# POST = create item
+		def post(self, request, pk=None):
+			data = process_incoming_data(request)
+
+			task = self.get_object(pk)
+			task.name = data['name']
+			# task.description = data['description']
+			task.user = request.user
+			task.save()
+
+			return JsonResponse({"status": 'Success'})
+
+		# PUT = edit item
+		def put(self, request, pk=None):
+			data = process_incoming_data(request)
+
+			task = self.get_object(pk)
+			task.name = data['name']
+			# task.description = data['description']
+			task.save()
+
+			return JsonResponse({"status": 'Success'})
+
+
+
