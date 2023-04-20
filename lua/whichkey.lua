@@ -146,6 +146,7 @@ wk.register({
     -- Generic
     K = { "<cmd>lua vim.lsp.buf.hover()<CR>", "Forcibly Hover" },
     fm = { fmtCmd, "Format Buffer" },
+    l = { "<cmd>lua require('lsp_lines').toggle()<CR>", "Toggle LSP Lines" },
 }, { prefix = "<leader>" })
 
 -- No prefix
