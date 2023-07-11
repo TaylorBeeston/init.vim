@@ -1,15 +1,13 @@
 -- Set colorscheme
 vim.cmd("colorscheme kanagawa")
 
-local colors = require("kanagawa.colors").setup()
-
 -- True Color Support if it's available in terminal
 vim.cmd([[
 if exists('+termguicolors') && ($TERM == "st-256color" || $TERM == "tmux-256color")
 	let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 	let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 	set termguicolors
-endif 
+endif
 ]])
 
 -- i3 Config Syntax Highlighting
@@ -39,41 +37,45 @@ vim.g.indent_blankline_context_patterns = {
 vim.cmd("hi DiffAdd ctermfg=NONE guifg=NONE")
 
 -- Pretty completion colors
-local colorOverrides = function() return {
-    CmpItemKindDefault = { fg = colors.dep },
+local colorOverrides = function(colors)
+    return {
+        CmpItemKindDefault = { fg = colors.palette.dep },
+        CmpItemKindField = { bg = colors.palette.oniViolet },
+        CmpItemKindProperty = { bg = colors.palette.autumnRed },
+        CmpItemKindEvent = { bg = colors.palette.autumnYellow },
+        CmpItemKindText = { bg = colors.palette.fujiGray },
+        CmpItemKindEnum = { bg = colors.palette.autumnRed },
+        CmpItemKindKeyword = { bg = colors.palette.autumnYellow },
+        CmpItemKindConstant = { bg = colors.palette.springGreen },
+        CmpItemKindConstructor = { bg = colors.palette.autumnRed },
+        CmpItemKindReference = { bg = colors.palette.autumnYellow },
+        CmpItemKindFunction = { bg = colors.palette.samuraiRed },
+        CmpItemKindStruct = { bg = colors.palette.autumnRed },
+        CmpItemKindClass = { bg = colors.palette.autumnYellow },
+        CmpItemKindModule = { bg = colors.palette.dragonBlue },
+        CmpItemKindOperator = { bg = colors.palette.winterGreen },
+        CmpItemKindVariable = { bg = colors.palette.autumnGreen },
+        CmpItemKindFile = { bg = colors.palette.autumnRed },
+        CmpItemKindUnit = { bg = colors.palette.autumnGreen },
+        CmpItemKindSnippet = { bg = colors.palette.autumnRed },
+        CmpItemKindFolder = { bg = colors.palette.autumnYellow },
+        CmpItemKindMethod = { bg = colors.palette.roninYellow },
+        CmpItemKindValue = { bg = colors.palette.autumnRed },
+        CmpItemKindEnumMember = { bg = colors.palette.autumnYellow },
+        CmpItemKindInterface = { bg = colors.palette.autumnGreen },
+        CmpItemKindColor = { bg = colors.palette.autumnRed },
+        CmpItemKindTypeParameter = { bg = colors.palette.autumnYellow },
+        BufferCurrentSign = { fg = colors.palette.sumiInk6 },
+        BufferVisibleSign = { fg = colors.palette.sumiInk6 },
+        BufferVisible = { fg = colors.palette.sumiInk6 },
+    }
+end
 
-    CmpItemKindField = { bg = colors.oniViolet },
-    CmpItemKindProperty = { bg = colors.autumnRed },
-    CmpItemKindEvent = { bg = colors.autumnYellow },
+require("kanagawa").setup({
+    overrides = colorOverrides,
+    dimInactive = true,
+    globalStatus = true,
+})
 
-    CmpItemKindText = { bg = colors.fujiGray },
-    CmpItemKindEnum = { bg = colors.autumnRed },
-    CmpItemKindKeyword = { bg = colors.autumnYellow },
-
-    CmpItemKindConstant = { bg = colors.springGreen },
-    CmpItemKindConstructor = { bg = colors.autumnRed },
-    CmpItemKindReference = { bg = colors.autumnYellow },
-
-    CmpItemKindFunction = { bg = colors.samuraiRed },
-    CmpItemKindStruct = { bg = colors.autumnRed },
-    CmpItemKindClass = { bg = colors.autumnYellow },
-    CmpItemKindModule = { bg = colors.dragonBlue },
-    CmpItemKindOperator = { bg = colors.winterGreen },
-
-    CmpItemKindVariable = { bg = colors.autumnGreen },
-    CmpItemKindFile = { bg = colors.autumnRed },
-
-    CmpItemKindUnit = { bg = colors.autumnGreen },
-    CmpItemKindSnippet = { bg = colors.autumnRed },
-    CmpItemKindFolder = { bg = colors.autumnYellow },
-
-    CmpItemKindMethod = { bg = colors.roninYellow },
-    CmpItemKindValue = { bg = colors.autumnRed },
-    CmpItemKindEnumMember = { bg = colors.autumnYellow },
-
-    CmpItemKindInterface = { bg = colors.autumnGreen },
-    CmpItemKindColor = { bg = colors.autumnRed },
-    CmpItemKindTypeParameter = { bg = colors.autumnYellow },
-} end
-
-require("kanagawa").setup({ overrides = colorOverrides, dimInactive = true, globalStatus = true })
+-- Set colorscheme
+vim.cmd("colorscheme kanagawa")

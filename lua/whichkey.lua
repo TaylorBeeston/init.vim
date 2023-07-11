@@ -133,6 +133,12 @@ wk.register({
     fm = { fmtCmd, "Format Buffer" },
     l = { "<cmd>lua require('lsp_lines').toggle()<CR>", "Toggle LSP Lines" },
     td = { cycle_diagnostics, "Cycle Diagnostics" },
+    tih = {
+        function()
+            vim.lsp.inlay_hint(0)
+        end,
+        "Toggle inlay hints",
+    },
 }, { prefix = "<leader>" })
 
 -- No prefix

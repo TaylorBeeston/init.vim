@@ -89,4 +89,4 @@ vim.g.neovide_cursor_vfx_mode = "pixiedust"
 vim.cmd("au BufWritePost pluginList.lua PackerCompile")
 
 -- filetype.nvim
-vim.g.did_load_filetypes = 1
+-- vim.g.did_load_filetypes = 1

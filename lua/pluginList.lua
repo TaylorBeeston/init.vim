@@ -349,23 +349,7 @@ return require("packer").startup(function(use)
             local colors = require("kanagawa.colors").setup()
 
             require("drop").setup({
-                theme = {
-                    symbols = {
-                        "♥",
-                        "💜",
-                        "💖",
-                        "💗",
-                        "💘",
-                        "🤍",
-                        "💕",
-                        "💞",
-                        "💝",
-                        "",
-                        "",
-                        "",
-                    },
-                    colors = { colors.samuraiRed, colors.sakuraPink, colors.fujiWhite, colors.oniViolet },
-                },
+                theme = "summer",
             })
         end,
     })
@@ -568,5 +552,5 @@ return require("packer").startup(function(use)
 		requires = "nvim-lua/plenary.nvim",
 	}) ]]
     -- Performance
-    use("nathom/filetype.nvim")
+    -- use("nathom/filetype.nvim")
 end)

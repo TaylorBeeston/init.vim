@@ -19,6 +19,10 @@ local on_attach = function(client, bufnr)
         vim.api.nvim_buf_set_option(bufnr, ...)
     end
 
+    if vim.lsp.inlay_hint then
+        vim.lsp.inlay_hint(bufnr, true)
+    end
+
     buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
 
     -- vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "double" })
@@ -55,6 +59,7 @@ null_ls.setup({
         null_ls.builtins.code_actions.gitrebase,
         null_ls.builtins.formatting.stylua,
         null_ls.builtins.formatting.black,
+        null_ls.builtins.formatting.terraform_fmt,
     },
     capabilities = capabilities,
 })
@@ -83,6 +88,32 @@ nvim_lsp.tsserver.setup({
 
         ts_utils.setup_client(client)
     end,
+    settings = {
+        typescript = {
+            inlayHints = {
+                includeInlayParameterNameHints = "all",
+                includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+                includeInlayFunctionParameterTypeHints = true,
+                includeInlayVariableTypeHints = true,
+                includeInlayVariableTypeHintsWhenTypeMatchesName = false,
+                includeInlayPropertyDeclarationTypeHints = true,
+                includeInlayFunctionLikeReturnTypeHints = true,
+                includeInlayEnumMemberValueHints = true,
+            },
+        },
+        javascript = {
+            inlayHints = {
+                includeInlayParameterNameHints = "all",
+                includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+                includeInlayFunctionParameterTypeHints = true,
+                includeInlayVariableTypeHints = true,
+                includeInlayVariableTypeHintsWhenTypeMatchesName = false,
+                includeInlayPropertyDeclarationTypeHints = true,
+                includeInlayFunctionLikeReturnTypeHints = true,
+                includeInlayEnumMemberValueHints = true,
+            },
+        },
+    },
 })
 
 -- Astro
@@ -178,6 +209,16 @@ nvim_lsp.solidity_ls.setup({
     on_attach = on_attach,
 })
 
+-- Terraform
+nvim_lsp.terraformls.setup({
+    capabilities = capabilities,
+    on_attach = on_attach,
+})
+nvim_lsp.tflint.setup({
+    capabilities = capabilities,
+    on_attach = on_attach,
+})
+
 -- Lua
 nvim_lsp.lua_ls.setup({
     capabilities = capabilities,
@@ -189,6 +230,7 @@ nvim_lsp.lua_ls.setup({
     end,
     settings = {
         Lua = {
+            hint = { enable = true },
             runtime = {
                 -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
                 version = "LuaJIT",
