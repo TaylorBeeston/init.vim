@@ -502,6 +502,13 @@ return require("packer").startup(function(use)
     use("tpope/vim-fugitive")
     use({ "tpope/vim-rhubarb", requires = "tpope/vim-fugitive" })
     use("rhysd/git-messenger.vim")
+    use({
+        "NeogitOrg/neogit",
+        requires = "nvim-lua/plenary.nvim",
+        config = function()
+            require("neogit").setup({})
+        end,
+    })
 
     -- Github Commands
     -- Open GH with <leader>gh
