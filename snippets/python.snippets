@@ -13,6 +13,18 @@ snippet ppeng Print 🐧
 snippet pspark Print 🎇
  	print('🎆🎆🎆🎆🎆🎆🎆🎆🎆🎆🎆🎆🎆🎆🎆🎆🎆🎆🎆')
 
+snippet logv Log variable
+ 	print('$1:', $1);
+
+snippet logfire Log 🔥
+ 	print('🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥');
+
+snippet logpeng log 🐧
+ 	print('🐧🐧🐧🐧🐧🐧🐧🐧🐧🐧🐧🐧🐧🐧🐧🐧🐧🐧');
+
+snippet logspark log 🎇
+ 	print('🎆🎆🎆🎆🎆🎆🎆🎆🎆🎆🎆🎆🎆🎆🎆🎆🎆🎆🎆');
+
 snippet cf Django CharField
  	$1 = models.CharField(max_length=$2)
 
@@ -136,6 +148,4 @@ snippet initviews Django initialize views.py
 			task.save()
 
 			return JsonResponse({"status": 'Success'})
-
-
 
