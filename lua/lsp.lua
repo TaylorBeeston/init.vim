@@ -19,7 +19,9 @@ local on_attach = function(client, bufnr)
         vim.api.nvim_buf_set_option(bufnr, ...)
     end
 
-    if vim.lsp.inlay_hint then
+    vim.print(client)
+
+    if vim.lsp.inlay_hint and client.server_capabilities.inlayHintProvider then
         vim.lsp.inlay_hint(bufnr, true)
     end
 
