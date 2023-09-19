@@ -32,7 +32,7 @@ local on_attach = function(client, bufnr)
     local opts = { noremap = true, silent = true }
     buf_set_keymap("n", "<leader>rn", "<Cmd>lua vim.lsp.buf.rename()<CR>", opts)
     buf_set_keymap("n", "K", "<Cmd>lua vim.lsp.buf.hover()<CR>", opts)
-    buf_set_keymap("n", "gD", "<Cmd>lua vim.lsp.buf.declaration()<CR>", opts)
+    -- buf_set_keymap("n", "gD", "<Cmd>lua vim.lsp.buf.declaration()<CR>", opts)
     buf_set_keymap("n", "gd", "<Cmd>lua vim.lsp.buf.definition()<CR>", opts)
     buf_set_keymap("n", "<leader>gd", "<Cmd>lua vim.lsp.buf.definition()<CR>", opts)
     buf_set_keymap("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
@@ -67,7 +67,7 @@ null_ls.setup({
 require("mason-null-ls").setup({ automatic_installation = true })
 
 -- JS/TS
-nvim_lsp.tsserver.setup({
+--[[ nvim_lsp.tsserver.setup({
     capabilities = capabilities,
     init_options = require("nvim-lsp-ts-utils").init_options,
     on_attach = function(client, bufnr)
@@ -114,8 +114,7 @@ nvim_lsp.tsserver.setup({
             },
         },
     },
-})
-
+}) ]]
 -- Astro
 nvim_lsp.astro.setup({
     capabilities = capabilities,

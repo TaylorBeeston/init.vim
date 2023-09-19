@@ -5,12 +5,6 @@ local fmtCmd = vim.lsp.buf.format == nil and "<cmd>lua vim.lsp.buf.formatting_sy
 local get_input = require("helpers/input")
 local cycle_diagnostics = require("helpers/diagnostics")
 
-local neogitOpen = function(popup)
-    return function()
-        require("neogit").open({ popup })
-    end
-end
-
 -- Leader Keybindings
 wk.register({
     -- Buffers
@@ -40,11 +34,11 @@ wk.register({
         J = { ":wincmd J<CR>", "Move Window Down" },
         K = { ":wincmd K<CR>", "Move Window Up" },
         L = { ":wincmd L<CR>", "Move Window Right" },
-        ["="] = { " :wincmd =<CR>", "Make All Windows The Same Size" },
-        [">"] = { " :wincmd ><CR>", "Increase Window Width" },
-        ["<"] = { " :wincmd <<CR>", "Decrease Window Width" },
-        ["+"] = { " :wincmd +<CR>", "Increase Window Height" },
-        ["-"] = { " :wincmd -<CR>", "Decrease Window Height" },
+        ["="] = { ":FocusToggle<CR>", "Make All Windows The Same Size" },
+        [">"] = { ":wincmd ><CR>", "Increase Window Width" },
+        ["<"] = { ":wincmd <<CR>", "Decrease Window Width" },
+        ["+"] = { ":wincmd +<CR>", "Increase Window Height" },
+        ["-"] = { ":wincmd -<CR>", "Decrease Window Height" },
     },
     -- Jest
     j = {
@@ -96,6 +90,7 @@ wk.register({
     ds = { "<cmd>Telescope lsp_document_symbols<cr>", "Document Symbols" },
     dws = { "<cmd>Telescope lsp_workspace_symbols<cr>", "Workspace Symbols" },
     trs = { "<cmd>Telescope treesitter<cr>", "Treesitter" },
+    gD = { "<cmd>TSToolsGoToSourceDefinition<cr>", "Go to source definition (TS-Only)" },
     gt = {
         name = "+Github",
         i = { "<cmd>Telescope gh issues<cr>", "Issues" },
@@ -103,24 +98,8 @@ wk.register({
         g = { "<cmd>Telescope gh gist<cr>", "Gists" },
     },
     n = {
-        name = "+Notify/Neogit",
+        name = "+Notify",
         d = { require("notify").dismiss, "Dismiss Notification" },
-        g = {
-            name = "+Neogit",
-            o = { neogitOpen(), "Open" },
-            c = { neogitOpen("commit"), "Commit" },
-            b = { neogitOpen("branch"), "Branch" },
-            r = { neogitOpen("rebase"), "Rebase" },
-            m = { neogitOpen("merge"), "Merge" },
-            L = { neogitOpen("log"), "Log" },
-            f = { neogitOpen("fetch"), "Fetch" },
-            p = { neogitOpen("pull"), "Pull" },
-            P = { neogitOpen("push"), "Push" },
-            Z = { neogitOpen("stash"), "Stash" },
-            X = { neogitOpen("reset"), "Reset" },
-            -- A = { neogitOpen("cherry_pick"), "Cherry Pick" }, -- TODO: Open this from ngo for now
-            _ = { neogitOpen("revert"), "Revert" },
-        },
     },
     o = {
         name = "+Octo",

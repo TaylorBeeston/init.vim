@@ -64,7 +64,26 @@ return require("packer").startup(function(use)
             })
         end,
     })
-    use({ "jose-elias-alvarez/nvim-lsp-ts-utils", requires = "neovim/nvim-lspconfig" })
+    -- use({ "jose-elias-alvarez/nvim-lsp-ts-utils", requires = "neovim/nvim-lspconfig" })
+    use({
+        "pmizio/typescript-tools.nvim",
+        requires = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+        config = function()
+            require("typescript-tools").setup({
+                settings = {
+                    separate_diagnostic_server = true,
+                    tsserver_file_preferences = {
+                        includeInlayParameterNameHints = "all",
+                        includeInlayEnumMemberValueHints = true,
+                        includeInlayFunctionLikeReturnTypeHints = true,
+                        includeInlayFunctionParameterTypeHints = true,
+                        includeInlayPropertyDeclarationTypeHints = true,
+                        includeInlayVariableTypeHints = true,
+                    },
+                },
+            })
+        end,
+    })
     use("simrat39/rust-tools.nvim")
     use({
         "simrat39/symbols-outline.nvim",
@@ -104,7 +123,34 @@ return require("packer").startup(function(use)
         end,
     })
     use({ "nvim-treesitter/playground", requires = "nvim-treesitter/nvim-treesitter" })
-    use({ "p00f/nvim-ts-rainbow", requires = "nvim-treesitter/nvim-treesitter" })
+    -- use({ "p00f/nvim-ts-rainbow", requires = "nvim-treesitter/nvim-treesitter" })
+    use({
+        "HiPhish/rainbow-delimiters.nvim",
+        requires = "nvim-treesitter/nvim-treesitter",
+        config = function()
+            local rainbow_delimiters = require("rainbow-delimiters")
+
+            require("rainbow-delimiters.setup")({
+                strategy = {
+                    [""] = rainbow_delimiters.strategy["global"],
+                    commonlisp = rainbow_delimiters.strategy["local"],
+                },
+                query = {
+                    [""] = "rainbow-delimiters",
+                    latex = "rainbow-blocks",
+                },
+                highlight = {
+                    "RainbowDelimiterRed",
+                    "RainbowDelimiterYellow",
+                    "RainbowDelimiterBlue",
+                    "RainbowDelimiterOrange",
+                    "RainbowDelimiterGreen",
+                    "RainbowDelimiterViolet",
+                    "RainbowDelimiterCyan",
+                },
+            })
+        end,
+    })
     use({ "JoosepAlviste/nvim-ts-context-commentstring", requires = "nvim-treesitter/nvim-treesitter" })
     use({
         "windwp/nvim-ts-autotag",
@@ -349,15 +395,15 @@ return require("packer").startup(function(use)
             local colors = require("kanagawa.colors").setup()
 
             require("drop").setup({
-                theme = "summer",
+                theme = "leaves",
             })
         end,
     })
     use({ "goolord/alpha-nvim", requires = { "kyazdani42/nvim-web-devicons" } })
     use({
-        "beauwilliams/focus.nvim",
+        "nvim-focus/focus.nvim",
         config = function()
-            require("focus").setup()
+            require("focus").setup({ ui = { hybridnumber = true, absolutenumber_unfocussed = true } })
         end,
     })
     use("lukas-reineke/indent-blankline.nvim")
@@ -502,13 +548,6 @@ return require("packer").startup(function(use)
     use("tpope/vim-fugitive")
     use({ "tpope/vim-rhubarb", requires = "tpope/vim-fugitive" })
     use("rhysd/git-messenger.vim")
-    use({
-        "NeogitOrg/neogit",
-        requires = "nvim-lua/plenary.nvim",
-        config = function()
-            require("neogit").setup({})
-        end,
-    })
 
     -- Github Commands
     -- Open GH with <leader>gh
