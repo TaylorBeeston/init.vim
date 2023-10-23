@@ -84,6 +84,13 @@ return require("packer").startup(function(use)
             })
         end,
     })
+    use({
+        "tjdevries/ocaml.nvim",
+        run = ":lua require('ocaml').update()",
+        config = function()
+            require("ocaml").setup()
+        end,
+    })
     use("simrat39/rust-tools.nvim")
     use({
         "simrat39/symbols-outline.nvim",
@@ -403,10 +410,18 @@ return require("packer").startup(function(use)
     use({
         "nvim-focus/focus.nvim",
         config = function()
-            require("focus").setup({ ui = { hybridnumber = true, absolutenumber_unfocussed = true } })
+            require("focus").setup({
+                autoresize = { minwidth = 30 },
+                ui = { hybridnumber = true, absolutenumber_unfocussed = true },
+            })
         end,
     })
-    use("lukas-reineke/indent-blankline.nvim")
+    use({
+        "lukas-reineke/indent-blankline.nvim",
+        config = function()
+            require("ibl").setup()
+        end,
+    })
     use({
         "yamatsum/nvim-cursorline",
         config = function()
@@ -483,7 +498,7 @@ return require("packer").startup(function(use)
             })
         end,
         wants = { "nvim-treesitter" }, -- or require if not used so far
-        after = { "nvim-cmp" }, -- if a completion plugin is using tabs load it before
+        after = { "nvim-cmp" },  -- if a completion plugin is using tabs load it before
     })
 
     -- Close things like { and [ and --
@@ -516,6 +531,10 @@ return require("packer").startup(function(use)
             require("package-info").setup()
         end,
     })
+
+    -- ReScript
+    use("aspeddro/rescript-tools.nvim")
+    use("nkrkv/nvim-treesitter-rescript")
 
     -- Code snippets plugin
     use("epilande/vim-react-snippets")

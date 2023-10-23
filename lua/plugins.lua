@@ -4,7 +4,7 @@ if vim.lsp.buf.format == nil then
 		[[
     augroup NullLsFormatAutogroup
       autocmd!
-      autocmd BufWritePre *.js,*.mjs,*.cjs,*.jsx,*.ts,*.mts,*.cts,*.tsx,*.rs,*.css,*.scss,*.lua,*.astro,*.py,*.tf lua vim.lsp.buf.formatting_sync(nil, 3000)
+      autocmd BufWritePre *.js,*.mjs,*.cjs,*.jsx,*.ts,*.mts,*.cts,*.tsx,*.rs,*.css,*.scss,*.lua,*.astro,*.py,*.tf,*.ml,*.res lua vim.lsp.buf.formatting_sync(nil, 3000)
     augroup END
     ]],
 		true
@@ -14,7 +14,7 @@ else
 		[[
     augroup NullLsFormatAutogroup
       autocmd!
-      autocmd BufWritePre *.js,*.mjs,*.cjs,*.jsx,*.ts,*.mts,*.cts,*.tsx,*.rs,*.css,*.scss,*.lua,*.astro,*.py,*.tf lua vim.lsp.buf.format({ timeout_ms = 1000 })
+      autocmd BufWritePre *.js,*.mjs,*.cjs,*.jsx,*.ts,*.mts,*.cts,*.tsx,*.rs,*.css,*.scss,*.lua,*.astro,*.py,*.tf,*.ml,*.res lua vim.lsp.buf.format({ timeout_ms = 1000 })
     augroup END
     ]],
 		true
