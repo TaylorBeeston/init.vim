@@ -90,3 +90,9 @@ vim.cmd("au BufWritePost pluginList.lua PackerCompile")
 
 -- filetype.nvim
 -- vim.g.did_load_filetypes = 1
+
+vim.api.nvim_create_autocmd({ "VimLeave" }, {
+	callback = function()
+		vim.cmd("sleep 50m")
+	end,
+})

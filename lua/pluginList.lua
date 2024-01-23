@@ -158,7 +158,13 @@ return require("packer").startup(function(use)
             })
         end,
     })
-    use({ "JoosepAlviste/nvim-ts-context-commentstring", requires = "nvim-treesitter/nvim-treesitter" })
+    use({
+        "JoosepAlviste/nvim-ts-context-commentstring",
+        requires = "nvim-treesitter/nvim-treesitter",
+        config = function()
+            require("ts_context_commentstring").setup()
+        end,
+    })
     use({
         "windwp/nvim-ts-autotag",
         requires = "nvim-treesitter/nvim-treesitter",
@@ -250,6 +256,7 @@ return require("packer").startup(function(use)
     -- prior to use
     use({ "suan/vim-instant-markdown", ft = "markdown" }) -- Good Markdown support
     use("SidOfc/mkdx")
+    use({ "kiyoon/jupynium.nvim", run = "pip install --user ." })
 
     -- Test Running
     use("tpope/vim-dispatch")
@@ -268,11 +275,15 @@ return require("packer").startup(function(use)
     -- Documentation
     -- use {"kkoomen/vim-doge", run = vim.fn["doge#install()"]}
     use({
+        "moozd/aidoc.nvim",
+        config = function()
+            require("aidoc").setup({ width = 65, keymap = "<leader>d" })
+        end,
+    })
+    use({
         "danymat/neogen",
         config = function()
-            require("neogen").setup({
-                enabled = true,
-            })
+            require("neogen").setup({ enabled = true })
         end,
         requires = "nvim-treesitter/nvim-treesitter",
     })
@@ -402,7 +413,7 @@ return require("packer").startup(function(use)
             local colors = require("kanagawa.colors").setup()
 
             require("drop").setup({
-                theme = "leaves",
+                theme = "xmas",
             })
         end,
     })
@@ -448,7 +459,7 @@ return require("packer").startup(function(use)
         end,
     })
     use({
-        "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
+        "ErichDonGubler/lsp_lines.nvim",
         config = function()
             vim.diagnostic.config({ virtual_text = false })
             require("lsp_lines").setup()
