@@ -4,7 +4,7 @@ if vim.lsp.buf.format == nil then
         [[
     augroup NullLsFormatAutogroup
       autocmd!
-      autocmd BufWritePre *.js,*.mjs,*.cjs,*.jsx,*.ts,*.mts,*.cts,*.tsx,*.rs,*.css,*.scss,*.lua,*.astro,*.py,*.tf,*.ml,*.res,*.json lua vim.lsp.buf.formatting_sync(nil, 3000)
+      autocmd BufWritePre *.js,*.mjs,*.cjs,*.jsx,*.ts,*.mts,*.cts,*.tsx,*.rs,*.css,*.scss,*.lua,*.astro,*.py,*.tf,*.ml,*.res,*.json,*.c,*.cpp,*.sh lua vim.lsp.buf.formatting_sync(nil, 3000)
     augroup END
     ]],
         true
@@ -14,7 +14,7 @@ else
         [[
     augroup NullLsFormatAutogroup
       autocmd!
-      autocmd BufWritePre *.js,*.mjs,*.cjs,*.jsx,*.ts,*.mts,*.cts,*.tsx,*.rs,*.css,*.scss,*.lua,*.astro,*.py,*.tf,*.ml,*.res,*.json lua vim.lsp.buf.format({ timeout_ms = 1000 })
+      autocmd BufWritePre *.js,*.mjs,*.cjs,*.jsx,*.ts,*.mts,*.cts,*.tsx,*.rs,*.css,*.scss,*.lua,*.astro,*.py,*.tf,*.ml,*.res,*.json,*.c,*.cpp,*.sh lua vim.lsp.buf.format({ timeout_ms = 1000 })
     augroup END
     ]],
         true
@@ -111,3 +111,5 @@ vim.api.nvim_create_autocmd("WinLeave", {
         end
     end,
 })
+
+require("helpers/qf")

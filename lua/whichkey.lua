@@ -69,9 +69,7 @@ wk.register({
         },
     },
     -- Package Management And Config Helpers
-    up = { ":PackerUpdate<CR>", "Update Packages" },
-    pu = { ":PackerUpdate<CR>", "Update Packages" },
-    pr = { ":luafile %<CR>:PackerUpdate<CR>", "Source Current File and Update Packages" },
+    ll = { ":Lazy<CR>", "Lazy" },
     rf = { ":luafile %<CR>", "Source Current File" },
     -- Telescope
     ef = { "<cmd>Telescope find_files<cr>", "Search by Filename" },
@@ -212,7 +210,7 @@ wk.register({
     -- Ranger
     ex = { "<cmd>RnvimrToggle<cr>", "Explore Files" },
     -- Symbols Outline
-    so = { "<cmd>lua vim.lsp.buf.hover()<CR>", "Symbols Outline" },
+    so = { "<cmd>SymbolsOutline<CR>", "Symbols Outline" },
     -- Doc Comments
     doc = { "<cmd>lua require('neogen').generate()<CR>", "Generate Doc Comments" },
     -- Generic
