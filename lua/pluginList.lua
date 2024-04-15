@@ -662,7 +662,33 @@ require("lazy").setup({
     {
         "romgrk/barbar.nvim",
         event = { "BufReadPost", "BufNewFile" },
-        dependencies = { "kyazdani42/nvim-web-devicons" },
+        dependencies = { "lewis6991/gitsigns.nvim", "kyazdani42/nvim-web-devicons" },
+        init = function()
+            vim.g.barbar_auto_setup = false
+        end,
+        opts = {
+            options = {
+                show_buffer_close_icons = false,
+                show_close_icon = false,
+                diagnostics = "nvim_lsp",
+                diagnostics_indicator = function(count, level)
+                    local icon = level:match("error") and "  " or "  "
+                    return " " .. icon .. count
+                end,
+            },
+            -- highlight_alternate = true,
+            maximum_padding = 5,
+            icons = {
+                pinned = { button = "車", filename = true, separator = { left = "", right = "" } },
+                separator = { left = "", right = "" },
+                inactive = { separator = { left = "", right = "" } },
+            },
+            highlights = {
+                error_selected = {
+                    guifg = "#cc6666",
+                },
+            },
+        },
     },
     {
         "nvim-lualine/lualine.nvim",
@@ -763,7 +789,7 @@ require("lazy").setup({
     },
 
     -- Syntax checking/highlighting
-    { "mboughaba/i3config.vim",  event = { "BufReadPost", "BufNewFile" } },
+    { "mboughaba/i3config.vim",  ft = "i3config" },
 
     -- Motions
     { "chaoren/vim-wordmotion",  event = { "BufReadPost", "BufNewFile" } },

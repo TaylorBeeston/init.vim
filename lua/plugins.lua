@@ -21,31 +21,6 @@ else
     )
 end
 
--- Bufferline
-require("bufferline").setup({
-    options = {
-        show_buffer_close_icons = false,
-        show_close_icon = false,
-        diagnostics = "nvim_lsp",
-        diagnostics_indicator = function(count, level)
-            local icon = level:match("error") and "  " or "  "
-            return " " .. icon .. count
-        end,
-    },
-    -- highlight_alternate = true,
-    maximum_padding = 5,
-    icons = {
-        pinned = { button = "車", filename = true, separator = { left = "", right = "" } },
-        separator = { left = "", right = "" },
-        inactive = { separator = { left = "", right = "" } },
-    },
-    highlights = {
-        error_selected = {
-            guifg = "#cc6666",
-        },
-    },
-})
-
 -- Git Messenger
 vim.g.git_messenger_always_into_popup = 1
 
