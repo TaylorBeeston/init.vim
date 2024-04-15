@@ -1,5 +1,12 @@
 -- Nvim Lua Completion
-require("neodev").setup()
+require("neodev").setup({
+    override = function(_, library)
+        library.enabled = true
+        library.plugins = true
+        library.types = true
+        library.runtime = true
+    end,
+})
 
 -- LSP
 require("mason").setup()
@@ -20,19 +27,15 @@ local on_attach = function(client, bufnr)
     end
 
     if vim.lsp.inlay_hint and client.server_capabilities.inlayHintProvider then
-        vim.lsp.inlay_hint(bufnr, true)
+        vim.lsp.inlay_hint.enable(bufnr, true)
     end
 
     buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
-
-    -- vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "double" })
-    -- vim.diagnostic.config({ virtual_text = false })
 
     -- Mappings.
     local opts = { noremap = true, silent = true }
     buf_set_keymap("n", "<leader>rn", "<Cmd>lua vim.lsp.buf.rename()<CR>", opts)
     buf_set_keymap("n", "K", "<Cmd>lua vim.lsp.buf.hover()<CR>", opts)
-    -- buf_set_keymap("n", "gD", "<Cmd>lua vim.lsp.buf.declaration()<CR>", opts)
     buf_set_keymap("n", "gd", "<Cmd>lua vim.lsp.buf.definition()<CR>", opts)
     buf_set_keymap("n", "<leader>gd", "<Cmd>lua vim.lsp.buf.definition()<CR>", opts)
     buf_set_keymap("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
@@ -76,55 +79,6 @@ null_ls.setup({
 
 require("mason-null-ls").setup({ automatic_installation = true })
 
--- JS/TS
---[[ nvim_lsp.tsserver.setup({
-    capabilities = capabilities,
-    init_options = require("nvim-lsp-ts-utils").init_options,
-    on_attach = function(client, bufnr)
-        on_attach(client, bufnr)
-
-        -- Let NullLs handle formatting
-        client.server_capabilities.document_formatting = false
-
-        -- Better TS Experience
-        local ts_utils = require("nvim-lsp-ts-utils")
-
-        ts_utils.setup({
-            update_imports_on_move = true,
-            require_confirmation_on_move = true,
-            auto_inlay_hints = true,
-            inly_hints_highlight = "Comment",
-        })
-
-        ts_utils.setup_client(client)
-    end,
-    settings = {
-        typescript = {
-            inlayHints = {
-                includeInlayParameterNameHints = "all",
-                includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-                includeInlayFunctionParameterTypeHints = true,
-                includeInlayVariableTypeHints = true,
-                includeInlayVariableTypeHintsWhenTypeMatchesName = false,
-                includeInlayPropertyDeclarationTypeHints = true,
-                includeInlayFunctionLikeReturnTypeHints = true,
-                includeInlayEnumMemberValueHints = true,
-            },
-        },
-        javascript = {
-            inlayHints = {
-                includeInlayParameterNameHints = "all",
-                includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-                includeInlayFunctionParameterTypeHints = true,
-                includeInlayVariableTypeHints = true,
-                includeInlayVariableTypeHintsWhenTypeMatchesName = false,
-                includeInlayPropertyDeclarationTypeHints = true,
-                includeInlayFunctionLikeReturnTypeHints = true,
-                includeInlayEnumMemberValueHints = true,
-            },
-        },
-    },
-}) ]]
 -- Astro
 nvim_lsp.astro.setup({
     capabilities = capabilities,
@@ -148,11 +102,6 @@ nvim_lsp.bashls.setup({
     on_attach = on_attach,
 })
 
--- ESLint
---[[ nvim_lsp.eslint.setup {
-    capabilities = capabilities,
-    on_attach = on_attach
-} ]]
 -- CSS
 nvim_lsp.cssls.setup({
     capabilities = capabilities,
@@ -177,11 +126,6 @@ nvim_lsp.svelte.setup({
     on_attach = on_attach,
 })
 
--- GraphQL
---[[ nvim_lsp.graphql.setup {
-    capabilities = capabilities,
-    on_attach = on_attach
-} ]]
 -- Docker
 nvim_lsp.dockerls.setup({
     capabilities = capabilities,
@@ -258,26 +202,11 @@ nvim_lsp.lua_ls.setup({
     settings = {
         Lua = {
             hint = { enable = true },
-            runtime = {
-                -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
-                version = "LuaJIT",
-                -- Setup your lua path
-                path = vim.split(package.path, ";"),
-            },
             diagnostics = {
                 enable = true,
-                -- Get the language server to recognize the awesome globals
-                globals = { "awesome", "client", "root", "screen" },
             },
             telemetry = {
                 enable = false,
-            },
-            workspace = {
-                ignoreSubmodules = false,
-                -- Make the server aware of Neovim runtime files
-                library = {
-                    [vim.fn.expand("/usr/share/awesome/lib")] = true,
-                },
             },
         },
     },

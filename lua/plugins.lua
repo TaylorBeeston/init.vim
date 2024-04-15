@@ -21,27 +21,6 @@ else
     )
 end
 
--- Telescope
-require("telescope").setup({
-    pickers = {
-        live_grep = {
-            additional_args = function(opts)
-                return { "-g", "!pnpm-lock.yaml" }
-            end,
-        },
-    },
-})
-require("telescope").load_extension("gh")
-require("telescope").load_extension("fzf")
-
--- Colored Icons
-require("nvim-web-devicons").setup({
-    default = true,
-})
-
--- CSS Colors
--- require "colorizer".setup(nil, {css = true})
-
 -- Bufferline
 require("bufferline").setup({
     options = {
@@ -113,3 +92,12 @@ vim.api.nvim_create_autocmd("WinLeave", {
 })
 
 require("helpers/qf")
+
+vim.api.nvim_create_autocmd("VimEnter", {
+    group = vim.api.nvim_create_augroup("lazyvim_autoupdate", { clear = true }),
+    callback = function()
+        if require("lazy.status").has_updates then
+            require("lazy").update({ show = false })
+        end
+    end,
+})
