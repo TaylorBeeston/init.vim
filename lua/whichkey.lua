@@ -199,9 +199,9 @@ wk.register({
         function()
             get_input({
                 title = "Rename File",
-                default_value = vim.fn.expand("%"),
+                default_value = vim.fn.expand("%:t"),
                 on_submit = function(value)
-                    vim.cmd(":GMove " .. value)
+                    vim.cmd(":GRename " .. value)
                 end,
             })
         end,
