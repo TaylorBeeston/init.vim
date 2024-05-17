@@ -19,9 +19,9 @@ dashboard.section.buttons.val = {
 local fortune = require("alpha.fortune")
 dashboard.section.footer.val = fortune()
 
-dashboard.config.opts.setup = function()
+--[[ dashboard.config.opts.setup = function()
     require("duck").hatch()
-end
+end ]]
 
 -- Send config to alpha
 alpha.setup(dashboard.opts)

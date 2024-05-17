@@ -59,14 +59,14 @@ require("lazy").setup({
     { "williamboman/mason.nvim",           dependencies = "neovim/nvim-lspconfig", event = "VeryLazy" },
     { "williamboman/mason-lspconfig.nvim", dependencies = "neovim/nvim-lspconfig", event = "VeryLazy" },
     {
-        "jose-elias-alvarez/null-ls.nvim",
-        dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+        "nvimtools/none-ls.nvim",
+        dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig", "nvimtools/none-ls-extras.nvim" },
         event = { "BufReadPost", "BufNewFile" },
     },
     {
         "jay-babu/mason-null-ls.nvim",
         event = "VeryLazy",
-        dependencies = { "williamboman/mason.nvim", "jose-elias-alvarez/null-ls.nvim" },
+        dependencies = { "williamboman/mason.nvim", "nvimtools/none-ls.nvim" },
     },
     {
         "onsails/lspkind-nvim",
