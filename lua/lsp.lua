@@ -146,10 +146,10 @@ nvim_lsp.solidity_ls.setup({
 })
 
 -- OCaml
-nvim_lsp.ocamllsp.setup({
+--[[ nvim_lsp.ocamllsp.setup({
     capabilities = capabilities,
     on_attach = on_attach,
-})
+}) ]]
 
 -- Terraform
 nvim_lsp.terraformls.setup({
