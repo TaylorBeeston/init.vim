@@ -220,7 +220,7 @@ wk.register({
     td = { cycle_diagnostics, "Cycle Diagnostics" },
     tih = {
         function()
-            vim.lsp.inlay_hint.enable(0, not vim.lsp.inlay_hint.is_enabled(0))
+            vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = nil }))
         end,
         "Toggle inlay hints",
     },
