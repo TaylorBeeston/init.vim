@@ -84,6 +84,56 @@ nvim_lsp.cssls.setup({
 nvim_lsp.tailwindcss.setup({
     capabilities = capabilities,
     on_attach = on_attach,
+    filetypes = {
+            "aspnetcorerazor",
+            "astro",
+            "astro-markdown",
+            "blade",
+            "clojure",
+            "django-html",
+            "htmldjango",
+            "edge",
+            "eelixir",
+            "elixir",
+            "ejs",
+            "erb",
+            "eruby",
+            "gohtml",
+            "gohtmltmpl",
+            "haml",
+            "handlebars",
+            "hbs",
+            "html",
+            "html-eex",
+            "heex",
+            "jade",
+            "leaf",
+            "liquid",
+            "markdown",
+            "mdx",
+            "mustache",
+            "njk",
+            "nunjucks",
+            "php",
+            "razor",
+            "slim",
+            "twig",
+            "css",
+            "less",
+            "postcss",
+            "sass",
+            "scss",
+            "stylus",
+            "sugarss",
+            "javascript",
+            "javascriptreact",
+            "reason",
+            "rescript",
+            "typescriptreact",
+            "vue",
+            "svelte",
+            "templ",
+    },
 })
 
 -- JSON
@@ -142,6 +192,12 @@ nvim_lsp.vimls.setup({
 
 -- Solidity
 nvim_lsp.solidity_ls.setup({
+    capabilities = capabilities,
+    on_attach = on_attach,
+})
+
+-- WGSL
+nvim_lsp.wgsl_analyzer.setup({
     capabilities = capabilities,
     on_attach = on_attach,
 })

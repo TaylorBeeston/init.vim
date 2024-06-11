@@ -102,7 +102,7 @@ require("lazy").setup({
             })
         end,
     },
-    {
+    --[[ {
         "pmizio/typescript-tools.nvim",
         ft = { "js", "ts", "jsx", "tsx", "javascript", "typescript", "javascriptreact", "typescriptreact" },
         dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
@@ -121,6 +121,33 @@ require("lazy").setup({
                     },
                 },
             })
+        end,
+    }, ]]
+    {
+        "yioneko/nvim-vtsls",
+        ft = { "js", "ts", "jsx", "tsx", "javascript", "typescript", "javascriptreact", "typescriptreact" },
+        config = function()
+            require("lspconfig.configs").vtsls = require("vtsls")
+            .lspconfig                                             -- set default server config, optional but recommended
+
+            -- If the lsp setup is taken over by other plugin, it is the same to call the counterpart setup function
+            require("lspconfig").vtsls.setup({
+                on_attach = require("helpers.lsp").global_on_attach,
+                --[[ settings = {
+                    typescript = {
+                        inlayHints = {
+                            parameterNames = { enabled = "literals" },
+                            parameterTypes = { enabled = true },
+                            variableTypes = { enabled = true },
+                            propertyDeclarationTypes = { enabled = true },
+                            functionLikeReturnTypes = { enabled = true },
+                            enumMemberValues = { enabled = true },
+                        },
+                    },
+                }, ]]
+            })
+
+            require("vtsls").config({})
         end,
     },
     {
@@ -163,7 +190,6 @@ require("lazy").setup({
                 },
                 indent = { enable = true },
                 rainbow = { enable = true },
-                autotag = { enable = true },
             })
         end,
         build = function()
@@ -206,7 +232,6 @@ require("lazy").setup({
                 },
                 indent = { enable = true },
                 rainbow = { enable = true },
-                autotag = { enable = true },
             })
         end,
     },
@@ -296,8 +321,12 @@ require("lazy").setup({
             "hbs",
         },
         dependencies = "nvim-treesitter/nvim-treesitter",
+        event = { "BufReadPost", "BufNewFile" },
         config = function()
             require("nvim-ts-autotag").setup({
+                opts = {
+                    enable_close_on_slash = true,
+                },
                 filetypes = {
                     "html",
                     "javascript",

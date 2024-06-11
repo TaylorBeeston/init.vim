@@ -88,7 +88,18 @@ wk.register({
     ds = { "<cmd>Telescope lsp_document_symbols<cr>", "Document Symbols" },
     dws = { "<cmd>Telescope lsp_workspace_symbols<cr>", "Workspace Symbols" },
     trs = { "<cmd>Telescope treesitter<cr>", "Treesitter" },
-    gD = { "<cmd>TSToolsGoToSourceDefinition<cr>", "Go to source definition (TS-Only)" },
+    gD = {
+        function()
+            require("vtsls").commands.goto_source_definition()
+        end,
+        "Go to source definition (TS-Only)",
+    },
+    ru = {
+        function()
+            require("vtsls").commands.remove_unused()
+        end,
+        "[R]emove [U]nused (TS-Only)",
+    },
     gt = {
         name = "+Github",
         i = { "<cmd>Telescope gh issues<cr>", "Issues" },
