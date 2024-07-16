@@ -172,6 +172,11 @@ require("lazy").setup({
         dependencies = "neovim/nvim-lspconfig",
         cmd = "CodeActionMenu",
     },
+    {
+        "mrcjkb/haskell-tools.nvim",
+        version = "^3", -- Recommended
+        lazy = false, -- This plugin is already lazy
+    },
 
     -- Treesitter
     {
@@ -802,8 +807,15 @@ require("lazy").setup({
     },
 
     -- Fun and Games
-    { "tamton-aquib/duck.nvim",          event = "VeryLazy" },
-    { "eandrju/cellular-automaton.nvim", event = { "BufNewFile", "BufReadPost" } },
+    { "tamton-aquib/duck.nvim",  event = "VeryLazy" },
+    {
+        "eandrju/cellular-automaton.nvim",
+        event = { "BufNewFile", "BufReadPost" },
+        config = function()
+            local sand = require("animations.fallingsand")
+            require("cellular-automaton").register_animation(sand)
+        end,
+    },
 
     -- F u n c t i o n a l i t y
 
@@ -913,7 +925,9 @@ require("lazy").setup({
         "folke/which-key.nvim",
         event = { "BufReadPost", "BufNewFile" },
         config = function()
-            require("which-key").setup()
+            require("which-key").setup({
+                preset = "helix",
+            })
         end,
     },
 }, {
