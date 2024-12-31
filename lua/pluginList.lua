@@ -61,7 +61,7 @@ require("lazy").setup({
     {
         "nvimtools/none-ls.nvim",
         dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig", "nvimtools/none-ls-extras.nvim" },
-        event = { "BufReadPost", "BufNewFile" },
+        event = { "BufReadPre", "BufNewFile" },
     },
     {
         "jay-babu/mason-null-ls.nvim",
@@ -71,7 +71,7 @@ require("lazy").setup({
     {
         "onsails/lspkind-nvim",
         dependencies = "neovim/nvim-lspconfig",
-        event = { "BufReadPost", "BufNewFile" },
+        event = { "BufReadPre", "BufNewFile" },
         config = function()
             require("lspkind").init({
                 Text = "",
@@ -150,14 +150,14 @@ require("lazy").setup({
             require("vtsls").config({})
         end,
     },
-    {
+    --[[ {
         "tjdevries/ocaml.nvim",
         ft = { "ocaml", "dune", "opam", "oasis", "omake", "ocamlbuild_tags", "sexplib" },
         build = ":lua require('ocaml').update()",
         config = function()
             require("ocaml").setup()
         end,
-    },
+    }, ]]
     { "simrat39/rust-tools.nvim", ft = "rust" },
     {
         "simrat39/symbols-outline.nvim",
@@ -242,7 +242,7 @@ require("lazy").setup({
     },
     {
         "nvim-treesitter/nvim-treesitter-context",
-        event = { "BufReadPost", "BufNewFile" },
+        event = { "BufReadPre", "BufNewFile" },
         dependencies = "nvim-treesitter/nvim-treesitter",
         config = function()
             require("treesitter-context").setup({
@@ -266,11 +266,12 @@ require("lazy").setup({
     {
         "nvim-treesitter/playground",
         dependencies = "nvim-treesitter/nvim-treesitter",
-        event = { "BufReadPost", "BufNewFile" },
+        event = { "BufReadPre", "BufNewFile" },
+        cmd = { "TSPlaygroundToggle" },
     },
     {
         "HiPhish/rainbow-delimiters.nvim",
-        event = { "BufReadPost", "BufNewFile" },
+        event = { "BufReadPre", "BufNewFile" },
         dependencies = "nvim-treesitter/nvim-treesitter",
         config = function()
             local rainbow_delimiters = require("rainbow-delimiters")
@@ -298,7 +299,7 @@ require("lazy").setup({
     },
     {
         "JoosepAlviste/nvim-ts-context-commentstring",
-        event = { "BufReadPost", "BufNewFile" },
+        event = { "BufReadPre", "BufNewFile" },
         dependencies = "nvim-treesitter/nvim-treesitter",
         config = function()
             require("ts_context_commentstring").setup()
@@ -326,11 +327,11 @@ require("lazy").setup({
             "hbs",
         },
         dependencies = "nvim-treesitter/nvim-treesitter",
-        event = { "BufReadPost", "BufNewFile" },
+        event = { "BufReadPre", "BufNewFile" },
         config = function()
             require("nvim-ts-autotag").setup({
                 opts = {
-                    enable_close_on_slash = true,
+                    enable_close_on_slash = false,
                 },
                 filetypes = {
                     "html",
@@ -356,13 +357,13 @@ require("lazy").setup({
     },
     {
         "haringsrob/nvim_context_vt",
-        event = { "BufReadPost", "BufNewFile" },
+        event = { "BufReadPre", "BufNewFile" },
         dependencies = "nvim-treesitter/nvim-treesitter",
     },
     {
         "nvim-treesitter/nvim-treesitter-textobjects",
         dependencies = "nvim-treesitter/nvim-treesitter",
-        event = { "BufReadPost", "BufNewFile" },
+        event = { "BufReadPre", "BufNewFile" },
         config = function()
             require("nvim-treesitter.configs").setup({
                 textobjects = {
@@ -395,7 +396,7 @@ require("lazy").setup({
     -- Autocompletion
     {
         "hrsh7th/nvim-cmp",
-        event = { "BufReadPost", "BufNewFile" },
+        event = { "BufReadPre", "BufNewFile" },
         dependencies = {
             "hrsh7th/cmp-nvim-lsp",
             "hrsh7th/cmp-nvim-lsp-document-symbol",
@@ -408,12 +409,12 @@ require("lazy").setup({
             {
                 "tzachar/cmp-fuzzy-buffer",
                 dependencies = { "tzachar/fuzzy.nvim" },
-                event = { "BufReadPost", "BufNewFile" },
+                event = { "BufReadPre", "BufNewFile" },
             },
             "windwp/nvim-autopairs",
             {
                 "L3MON4D3/LuaSnip",
-                event = { "BufReadPost", "BufNewFile" },
+                event = { "BufReadPre", "BufNewFile" },
                 config = function()
                     require("luasnip.loaders.from_snipmate").load()
                 end,
@@ -566,14 +567,23 @@ require("lazy").setup({
     },
     { "SidOfc/mkdx",              ft = "markdown" },
     {
+        "iamcco/markdown-preview.nvim",
+        cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+        build = "cd app && pnpm install",
+        init = function()
+            vim.g.mkdp_filetypes = { "markdown" }
+        end,
+        ft = { "markdown" },
+    },
+    {
         "kiyoon/jupynium.nvim",
         ft = "python",
         build = "pip install --user .",
     },
 
     -- Test Running
-    { "tpope/vim-dispatch", event = { "BufReadPost", "BufNewFile" } },
-    { "vim-test/vim-test",  event = { "BufReadPost", "BufNewFile" } },
+    { "tpope/vim-dispatch", event = { "BufReadPre", "BufNewFile" } },
+    { "vim-test/vim-test",  event = { "BufReadPre", "BufNewFile" } },
     {
         "David-Kunz/jester",
         ft = { "js", "ts", "jsx", "tsx", "javascript", "typescript", "javascriptreact", "typescriptreact" },
@@ -616,13 +626,13 @@ require("lazy").setup({
     },
 
     -- Documentation
-    {
+    --[[ {
         "moozd/aidoc.nvim",
-        event = { "BufReadPost", "BufNewFile" },
+        event = { "BufReadPre", "BufNewFile" },
         config = function()
             require("aidoc").setup({ width = 65, keymap = "<leader>d" })
         end,
-    },
+    }, ]]
 
     -- UI
     {
@@ -658,19 +668,19 @@ require("lazy").setup({
     },
     {
         "b0o/incline.nvim",
-        event = { "BufReadPost", "BufNewFile" },
+        event = { "BufReadPre", "BufNewFile" },
         config = function()
             require("inclineSetup")
         end,
     },
     "MunifTanjim/nui.nvim",
-    { "stevearc/dressing.nvim", event = { "BufReadPost", "BufNewFile" } },
+    { "stevearc/dressing.nvim", event = { "BufReadPre", "BufNewFile" } },
     "rcarriga/nvim-notify",
     { "numtostr/FTerm.nvim",    event = "VeryLazy" },
     "rebelot/kanagawa.nvim",
     {
         "lewis6991/gitsigns.nvim",
-        event = { "BufReadPost", "BufNewFile" },
+        event = { "BufReadPre", "BufNewFile" },
         dependencies = { "nvim-lua/plenary.nvim" },
         config = function()
             require("gitsigns").setup({
@@ -708,11 +718,11 @@ require("lazy").setup({
     },
     { "yamatsum/nvim-nonicons", dependencies = "kyazdani42/nvim-web-devicons" },
     { "kevinhwang91/rnvimr",    cmd = "RnvimrToggle" },
-    { "kevinhwang91/nvim-bqf",  event = { "BufReadPost", "BufNewFile" } },
-    { "fladson/vim-kitty",      event = { "BufReadPost", "BufNewFile" } },
+    { "kevinhwang91/nvim-bqf",  event = { "BufReadPre", "BufNewFile" } },
+    { "fladson/vim-kitty",      event = { "BufReadPre", "BufNewFile" } },
     {
         "romgrk/barbar.nvim",
-        event = { "BufReadPost", "BufNewFile" },
+        event = { "BufReadPre", "BufNewFile" },
         dependencies = { "lewis6991/gitsigns.nvim", "kyazdani42/nvim-web-devicons" },
         init = function()
             vim.g.barbar_auto_setup = false
@@ -750,7 +760,7 @@ require("lazy").setup({
         end,
     },
     { "arkav/lualine-lsp-progress", event = "VeryLazy" },
-    { "pocco81/HighStr.nvim",       event = { "BufReadPost", "BufNewFile" } },
+    { "pocco81/HighStr.nvim",       event = { "BufReadPre", "BufNewFile" } },
     {
         "folke/drop.nvim",
         event = "VimEnter",
@@ -765,7 +775,7 @@ require("lazy").setup({
     { "goolord/alpha-nvim", dependencies = { "kyazdani42/nvim-web-devicons" } },
     {
         "nvim-focus/focus.nvim",
-        event = { "BufReadPost", "BufNewFile" },
+        event = { "BufReadPre", "BufNewFile" },
         config = function()
             require("focus").setup({
                 autoresize = { minwidth = 30 },
@@ -775,14 +785,14 @@ require("lazy").setup({
     },
     {
         "lukas-reineke/indent-blankline.nvim",
-        event = { "BufReadPost", "BufNewFile" },
+        event = { "BufReadPre", "BufNewFile" },
         config = function()
             require("ibl").setup()
         end,
     },
     {
         "yamatsum/nvim-cursorline",
-        event = { "BufReadPost", "BufNewFile" },
+        event = { "BufReadPre", "BufNewFile" },
         config = function()
             require("nvim-cursorline").setup({
                 cursorword = { enable = true, min_length = 3, hl = { underline = true } },
@@ -792,14 +802,14 @@ require("lazy").setup({
     { "chrisbra/csv.vim",   ft = "csv" },
     {
         "petertriho/nvim-scrollbar",
-        event = { "BufReadPost", "BufNewFile" },
+        event = { "BufReadPre", "BufNewFile" },
         config = function()
             require("scrollbar").setup()
         end,
     },
     {
         "ErichDonGubler/lsp_lines.nvim",
-        event = { "BufReadPost", "BufNewFile" },
+        event = { "BufReadPre", "BufNewFile" },
         config = function()
             vim.diagnostic.config({ virtual_text = false })
             require("lsp_lines").setup()
@@ -810,7 +820,7 @@ require("lazy").setup({
     { "tamton-aquib/duck.nvim",  event = "VeryLazy" },
     {
         "eandrju/cellular-automaton.nvim",
-        event = { "BufNewFile", "BufReadPost" },
+        event = { "BufNewFile", "BufReadPre" },
         config = function()
             local sand = require("animations.fallingsand")
             require("cellular-automaton").register_animation(sand)
@@ -822,7 +832,7 @@ require("lazy").setup({
     -- Tab in insert mode to escape parentheses hell
     {
         "abecodes/tabout.nvim",
-        event = { "BufNewFile", "BufReadPost" },
+        event = { "BufNewFile", "BufReadPre" },
         config = function()
             require("tabout").setup({
                 tabkey = "<Tab>", -- key to trigger tabout, set to an empty string to disable
@@ -850,8 +860,8 @@ require("lazy").setup({
     { "mboughaba/i3config.vim",  ft = "i3config" },
 
     -- Motions
-    { "chaoren/vim-wordmotion",  event = { "BufReadPost", "BufNewFile" } },
-    { "ggandor/lightspeed.nvim", event = { "BufNewFile", "BufReadPost" } },
+    { "chaoren/vim-wordmotion",  event = { "BufReadPre", "BufNewFile" } },
+    { "ggandor/lightspeed.nvim", event = { "BufNewFile", "BufReadPre" } },
 
     -- HTML
     {
@@ -878,31 +888,31 @@ require("lazy").setup({
     { "nkrkv/nvim-treesitter-rescript", ft = "rescript" },
 
     -- Smooth scrolling with <C u> and <C d>
-    { "psliwka/vim-smoothie",           event = { "BufReadPost", "BufNewFile" } },
+    { "psliwka/vim-smoothie",           event = { "BufReadPre", "BufNewFile" } },
     -- Exchange text objects with cx
-    { "tommcdo/vim-exchange",           event = { "BufReadPost", "BufNewFile" } },
+    { "tommcdo/vim-exchange",           event = { "BufReadPre", "BufNewFile" } },
 
     -- Toggle comments with gcc
     -- use 'tomtom/tcomment_vim'
-    { "b3nj5m1n/kommentary",            event = { "BufNewFile", "BufReadPost" } },
+    { "b3nj5m1n/kommentary",            event = { "BufNewFile", "BufReadPre" } },
 
     -- Work with surrounds e.g. cs"' will change double quotes to single quotes
     -- ysiw" will surround the current word with double quotes
-    { "tpope/vim-surround",             event = { "BufReadPost", "BufNewFile" } },
+    { "tpope/vim-surround",             event = { "BufReadPre", "BufNewFile" } },
 
     -- Unimpaired
-    { "tpope/vim-unimpaired",           event = { "BufReadPost", "BufNewFile" } },
+    { "tpope/vim-unimpaired",           event = { "BufReadPre", "BufNewFile" } },
 
     -- Git Commands
-    { "tpope/vim-fugitive",             event = "VeryLazy" },
-    { "tpope/vim-rhubarb",              dependencies = "tpope/vim-fugitive",    event = "VeryLazy" },
-    { "rhysd/git-messenger.vim",        event = { "BufReadPost", "BufNewFile" } },
+    { "tpope/vim-fugitive",             event = "VimEnter" },
+    { "tpope/vim-rhubarb",              dependencies = "tpope/vim-fugitive",   event = "VeryLazy" },
+    { "rhysd/git-messenger.vim",        event = { "BufReadPre", "BufNewFile" } },
 
     -- Github Commands
     -- Open GH with <leader>gh
     -- Open GH blame with <leader>gb
     -- Open GH Repo with <leader>go
-    { "ruanyl/vim-gh-line",             event = { "BufReadPost", "BufNewFile" } },
+    { "ruanyl/vim-gh-line",             event = { "BufReadPre", "BufNewFile" } },
 
     -- Octo
     {
@@ -914,16 +924,16 @@ require("lazy").setup({
     },
 
     -- Repeat more than just native commands
-    { "tpope/vim-repeat", event = { "BufReadPost", "BufNewFile" } },
+    { "tpope/vim-repeat", event = { "BufReadPre", "BufNewFile" } },
 
     -- Personal wiki!
     -- See https://github.com/vimwiki/vimwiki
-    { "vimwiki/vimwiki",  event = { "BufReadPost", "BufNewFile" } },
+    { "vimwiki/vimwiki",  event = { "BufReadPre", "BufNewFile" } },
 
     -- View Mappings
     {
         "folke/which-key.nvim",
-        event = { "BufReadPost", "BufNewFile" },
+        event = { "BufReadPre", "BufNewFile" },
         config = function()
             require("which-key").setup({
                 preset = "helix",

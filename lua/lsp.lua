@@ -47,6 +47,7 @@ null_ls.setup({
             extra_filetypes = { "glsl", "wgsl" },
         }),
         null_ls.builtins.formatting.shfmt,
+        null_ls.builtins.formatting.gdformat,
     },
     capabilities = capabilities,
 })
@@ -206,6 +207,12 @@ nvim_lsp.glsl_analyzer.setup({
 
 -- WGSL
 nvim_lsp.wgsl_analyzer.setup({
+    capabilities = capabilities,
+    on_attach = on_attach,
+})
+
+-- GD Shader
+nvim_lsp.gdshader_lsp.setup({
     capabilities = capabilities,
     on_attach = on_attach,
 })
