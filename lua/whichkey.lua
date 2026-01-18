@@ -1,3 +1,5 @@
+vim = vim
+
 local wk = require("which-key")
 local fmtCmd = vim.lsp.buf.format == nil and "<cmd>lua vim.lsp.buf.formatting_sync(nil, 5000)<CR>"
     or "<cmd>lua vim.lsp.buf.format({ timeout_ms = 5000 })<CR>"
@@ -7,15 +9,38 @@ local cycle_diagnostics = require("helpers/diagnostics")
 
 -- Leader Keybindings
 wk.add({
+    {
+        "<C-;>",
+        function()
+            local text = require("codeium.virtual_text").accept()
+            if text then
+                vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(text, true, true, true), "i", true)
+            end
+            print(text)
+        end,
+        desc = "Codeium Accept",
+        mode = "i",
+    },
+    {
+        "<C-l>",
+        function()
+            require("codeium.virtual_text").clear()
+        end,
+        desc = "Codeium Clear",
+        mode = "i",
+    },
     { "<leader><S-Tab>", ":bp<CR>",                                   desc = "Cycle through buffers" },
     { "<leader><Tab>",   ":bd<CR>",                                   desc = "Close buffer" },
     { "<leader>K",       "<cmd>lua vim.lsp.buf.hover()<CR>",          desc = "Forcibly Hover" },
     { "<leader>bc",      "<cmd>Telescope git_bcommits<cr>",           desc = "Buffer Git Commits" },
     { "<leader>br",      "<cmd>Telescope git_branches<cr>",           desc = "Git Branches" },
-    { "<leader>c",       group = "Cellular Automaton" },
+    { "<leader>c",       group = "Companion/Cellular Automaton" },
     { "<leader>cg",      "<cmd>CellularAutomaton game_of_life<CR>",   desc = "Game of Life" },
     { "<leader>ch",      "<cmd>Telescope command_history<cr>",        desc = "Command History" },
     { "<leader>cm",      "<cmd>CellularAutomaton make_it_rain<CR>",   desc = "Make it Rain" },
+    { "<leader>cc",      group = "Code Companion" },
+    { "<leader>cca",     "<cmd>CodeCompanionActions<CR>",             desc = "Code Companion Actions" },
+    { "<leader>ccc",     "<cmd>CodeCompanionChat<CR>",                desc = "Code Companion Chat" },
     { "<leader>d",       group = "Duck" },
     { "<leader>dd",      require("duck").hatch,                       desc = "Hatch Duck" },
     { "<leader>dk",      require("duck").cook,                        desc = "Cook Duck" },
@@ -79,12 +104,12 @@ wk.add({
         ":lua require('jester').run({ terminal_cmd = \"lua require('FTerm').open()\"})<CR>",
         desc = "Run nearest test(s) in floating terminal",
     },
-    { "<leader>km",   "<cmd>Telescope keymaps<cr>",                 desc = "Keymaps" },
-    { "<leader>l",    "<cmd>lua require('lsp_lines').toggle()<CR>", desc = "Toggle LSP Lines" },
-    { "<leader>ll",   ":Lazy<CR>",                                  desc = "Lazy" },
-    { "<leader>n",    group = "Notify" },
-    { "<leader>nd",   require("notify").dismiss,                    desc = "Dismiss Notification" },
-    { "<leader>o",    group = "Octo" },
+    { "<leader>km", "<cmd>Telescope keymaps<cr>",                 desc = "Keymaps" },
+    { "<leader>l",  "<cmd>lua require('lsp_lines').toggle()<CR>", desc = "Toggle LSP Lines" },
+    { "<leader>ll", ":Lazy<CR>",                                  desc = "Lazy" },
+    { "<leader>n",  group = "Notify" },
+    { "<leader>nd", require("notify").dismiss,                    desc = "Dismiss Notification" },
+    --[[ { "<leader>o",    group = "Octo" },
     { "<leader>o?",   "<cmd>Octo actions<CR>",                      desc = "Show Available Actions" },
     { "<leader>oa",   group = "Assignee" },
     { "<leader>oaa",  "<cmd>Octo assignee add<CR>",                 desc = "Add" },
@@ -149,9 +174,9 @@ wk.add({
     { "<leader>orx",  "<cmd>Octo review close<CR>",                 desc = "Close" },
     { "<leader>ot",   group = "Thread" },
     { "<leader>otr",  "<cmd>Octo thread resolve<CR>",               desc = "Resolve" },
-    { "<leader>otu",  "<cmd>Octo thread unresolve<CR>",             desc = "Unresolve" },
-    { "<leader>rf",   ":luafile %<CR>",                             desc = "Source Current File" },
-    { "<leader>rg",   "<cmd>Telescope live_grep<cr>",               desc = "Ripgrep" },
+    { "<leader>otu",  "<cmd>Octo thread unresolve<CR>",             desc = "Unresolve" }, ]]
+    { "<leader>rf", ":luafile %<CR>",                             desc = "Source Current File" },
+    { "<leader>rg", "<cmd>Telescope live_grep<cr>",               desc = "Ripgrep" },
     {
         "<leader>ru",
         function()
@@ -160,7 +185,7 @@ wk.add({
         desc = "[R]emove [U]nused (TS-Only)",
     },
     { "<leader>sb", "<cmd>Telescope current_buffer_fuzzy_find<cr>", desc = "Search Buffer" },
-    { "<leader>so", "<cmd>SymbolsOutline<CR>",                      desc = "Symbols Outline" },
+    { "<leader>so", "<cmd>Outline<CR>",                             desc = "Symbols Outline" },
     { "<leader>t",  group = "tab" },
     { "<leader>tb", ":tabp<CR>",                                    desc = "Previous Tab" },
     { "<leader>tc", ":tab new<CR>",                                 desc = "New Empty Tab" },
@@ -194,25 +219,23 @@ wk.add({
     { "<leader>wq",  ":wincmd q<CR>",                 desc = "Close Window" },
     { "<leader>ws",  ":sp<CR>",                       desc = "Horizontal Split" },
     { "<leader>wv",  "<cmd>vs<cr>",                   desc = "Vertical Split" },
-})
 
--- No prefix
-wk.add({
-    { "<A-,>",       ":bp<CR>",          desc = "Buffer previous" },
-    { "<A-.>",       ":bn<CR>",          desc = "Buffer next" },
-    { "<A-0>",       ":BufferLast<CR>",  desc = "Go to last buffer" },
-    { "<A-1>",       ":BufferGoto1<CR>", desc = "Go to buffer 1" },
-    { "<A-2>",       ":BufferGoto2<CR>", desc = "Go to buffer 2" },
-    { "<A-3>",       ":BufferGoto3<CR>", desc = "Go to buffer 3" },
-    { "<A-4>",       ":BufferGoto4<CR>", desc = "Go to buffer 4" },
-    { "<A-5>",       ":BufferGoto5<CR>", desc = "Go to buffer 5" },
-    { "<A-6>",       ":BufferGoto6<CR>", desc = "Go to buffer 6" },
-    { "<A-7>",       ":BufferGoto7<CR>", desc = "Go to buffer 7" },
-    { "<A-8>",       ":BufferGoto8<CR>", desc = "Go to buffer 8" },
-    { "<A-9>",       ":BufferGoto9<CR>", desc = "Go to buffer 9" },
-    { "<A-c>",       ":BufferClose<CR>", desc = "Close buffer" },
-    { "<A-i>",       ":BufferPin<CR>",   desc = "Pin/unpin buffer" },
-    { "<A-p>",       ":BufferPick<CR>",  desc = "Magic buffer-picking mode" },
-    { "<LeftMouse>", "<Nop>",            desc = "" },
-    { "zz",          "za",               desc = "Toggle fold" },
+    -- No prefix
+    { "<A-,>",       ":bp<CR>",                       desc = "Buffer previous" },
+    { "<A-.>",       ":bn<CR>",                       desc = "Buffer next" },
+    { "<A-0>",       ":BufferLast<CR>",               desc = "Go to last buffer" },
+    { "<A-1>",       ":BufferGoto1<CR>",              desc = "Go to buffer 1" },
+    { "<A-2>",       ":BufferGoto2<CR>",              desc = "Go to buffer 2" },
+    { "<A-3>",       ":BufferGoto3<CR>",              desc = "Go to buffer 3" },
+    { "<A-4>",       ":BufferGoto4<CR>",              desc = "Go to buffer 4" },
+    { "<A-5>",       ":BufferGoto5<CR>",              desc = "Go to buffer 5" },
+    { "<A-6>",       ":BufferGoto6<CR>",              desc = "Go to buffer 6" },
+    { "<A-7>",       ":BufferGoto7<CR>",              desc = "Go to buffer 7" },
+    { "<A-8>",       ":BufferGoto8<CR>",              desc = "Go to buffer 8" },
+    { "<A-9>",       ":BufferGoto9<CR>",              desc = "Go to buffer 9" },
+    { "<A-c>",       ":BufferClose<CR>",              desc = "Close buffer" },
+    { "<A-i>",       ":BufferPin<CR>",                desc = "Pin/unpin buffer" },
+    { "<A-p>",       ":BufferPick<CR>",               desc = "Magic buffer-picking mode" },
+    { "<LeftMouse>", "<Nop>",                         desc = "" },
+    { "zz",          "za",                            desc = "Toggle fold" },
 })

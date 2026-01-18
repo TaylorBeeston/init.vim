@@ -1,20 +1,10 @@
--- Nvim Lua Completion
-require("neodev").setup({
-    override = function(_, library)
-        library.enabled = true
-        library.plugins = true
-        library.types = true
-        library.runtime = true
-    end,
-})
-
--- LSP
+-- LSP (Neovim 0.11+ native API)
+-- Note: lazydev.nvim handles Lua LSP setup automatically via ftplugin
 require("mason").setup()
 require("mason-lspconfig").setup({ automatic_installation = true })
-local nvim_lsp = require("lspconfig")
 
--- cmp
-local capabilities = require("cmp_nvim_lsp").default_capabilities()
+-- blink.cmp capabilities
+local capabilities = require("blink.cmp").get_lsp_capabilities()
 
 local on_attach = require("helpers.lsp").global_on_attach
 
@@ -22,285 +12,302 @@ local on_attach = require("helpers.lsp").global_on_attach
 local null_ls = require("null-ls")
 
 null_ls.setup({
-    sources = {
-        null_ls.builtins.formatting.prettier.with({
-            extra_args = { "--plugin-search-dir=." },
-            extra_filetypes = { "astro" },
-        }),
-        require("none-ls.diagnostics.eslint_d"),
-        null_ls.builtins.diagnostics.actionlint,
-        -- null_ls.builtins.diagnostics.clang_check,
-        null_ls.builtins.diagnostics.fish,
-        null_ls.builtins.diagnostics.hadolint,
-        -- null_ls.builtins.diagnostics.jsonlint,
-        null_ls.builtins.diagnostics.selene,
-        null_ls.builtins.diagnostics.markdownlint,
-        -- null_ls.builtins.diagnostics.shellcheck,
-        -- null_ls.builtins.code_actions.eslint_d,
-        require("none-ls.code_actions.eslint_d"),
-        -- null_ls.builtins.formatting.rustfmt.with({ filetypes = { "rust" } }),
-        null_ls.builtins.code_actions.gitrebase,
-        null_ls.builtins.formatting.stylua,
-        null_ls.builtins.formatting.black,
-        null_ls.builtins.formatting.terraform_fmt,
-        null_ls.builtins.formatting.clang_format.with({
-            extra_filetypes = { "glsl", "wgsl" },
-        }),
-        null_ls.builtins.formatting.shfmt,
-        null_ls.builtins.formatting.gdformat,
-    },
-    capabilities = capabilities,
+	sources = {
+		null_ls.builtins.formatting.prettier.with({
+			extra_args = { "--plugin-search-dir=." },
+			extra_filetypes = { "astro" },
+		}),
+		require("none-ls.diagnostics.eslint_d"),
+		null_ls.builtins.diagnostics.actionlint,
+		-- null_ls.builtins.diagnostics.clang_check,
+		null_ls.builtins.diagnostics.fish,
+		null_ls.builtins.diagnostics.hadolint,
+		-- null_ls.builtins.diagnostics.jsonlint,
+		null_ls.builtins.diagnostics.selene,
+		null_ls.builtins.diagnostics.markdownlint,
+		-- null_ls.builtins.diagnostics.shellcheck,
+		-- null_ls.builtins.code_actions.eslint_d,
+		require("none-ls.code_actions.eslint_d"),
+		-- null_ls.builtins.formatting.rustfmt.with({ filetypes = { "rust" } }),
+		null_ls.builtins.code_actions.gitrebase,
+		null_ls.builtins.formatting.stylua,
+		null_ls.builtins.formatting.black,
+		null_ls.builtins.formatting.gofmt,
+		null_ls.builtins.formatting.terraform_fmt,
+		null_ls.builtins.formatting.clang_format.with({
+			extra_filetypes = { "glsl", "wgsl" },
+		}),
+		null_ls.builtins.formatting.shfmt,
+		null_ls.builtins.formatting.gdformat,
+	},
+	capabilities = capabilities,
 })
 
 require("mason-null-ls").setup({ automatic_installation = true })
 
--- Astro
-nvim_lsp.astro.setup({
-    capabilities = capabilities,
-    on_attach = function(client, bufnr)
-        on_attach(client, bufnr)
-
-        -- Let NullLs handle formatting
-        client.server_capabilities.document_formatting = false
-    end,
-})
-
--- C/C++
-nvim_lsp.clangd.setup({
-    capabilities = capabilities,
-    on_attach = on_attach,
-})
-
--- Bash
-nvim_lsp.bashls.setup({
-    capabilities = capabilities,
-    on_attach = on_attach,
-})
-
--- CSS
-nvim_lsp.cssls.setup({
-    capabilities = capabilities,
-    on_attach = on_attach,
-})
-
--- Tailwind
-nvim_lsp.tailwindcss.setup({
-    capabilities = capabilities,
-    on_attach = on_attach,
-    filetypes = {
-        "aspnetcorerazor",
-        "astro",
-        "astro-markdown",
-        "blade",
-        "clojure",
-        "django-html",
-        "htmldjango",
-        "edge",
-        "eelixir",
-        "elixir",
-        "ejs",
-        "erb",
-        "eruby",
-        "gohtml",
-        "gohtmltmpl",
-        "haml",
-        "handlebars",
-        "hbs",
-        "html",
-        "html-eex",
-        "heex",
-        "jade",
-        "leaf",
-        "liquid",
-        "markdown",
-        "mdx",
-        "mustache",
-        "njk",
-        "nunjucks",
-        "php",
-        "razor",
-        "slim",
-        "twig",
-        "css",
-        "less",
-        "postcss",
-        "sass",
-        "scss",
-        "stylus",
-        "sugarss",
-        "javascript",
-        "javascriptreact",
-        "reason",
-        "rescript",
-        "typescriptreact",
-        "vue",
-        "svelte",
-        "templ",
-    },
-})
-
--- JSON
-nvim_lsp.jsonls.setup({
-    capabilities = capabilities,
-    on_attach = on_attach,
-})
-
--- Svelte
-nvim_lsp.svelte.setup({
-    capabilities = capabilities,
-    on_attach = on_attach,
-})
-
--- Docker
-nvim_lsp.dockerls.setup({
-    capabilities = capabilities,
-    on_attach = on_attach,
-})
-
--- Python
-local util = require("lspconfig/util")
-
-local path = util.path
+-- Helper to get python path for virtualenvs
 local function get_python_path(workspace)
-    -- Use activated virtualenv.
-    if vim.env.VIRTUAL_ENV then
-        return path.join(vim.env.VIRTUAL_ENV, "bin", "python")
-    end
+	-- Use activated virtualenv.
+	if vim.env.VIRTUAL_ENV then
+		return vim.fs.joinpath(vim.env.VIRTUAL_ENV, "bin", "python")
+	end
 
-    -- Find and use virtualenv in workspace directory.
-    for _, pattern in ipairs({ "*", ".*" }) do
-        local match = vim.fn.glob(path.join(workspace, pattern, "pyvenv.cfg"))
-        if match ~= "" then
-            return path.join(path.dirname(match), "bin", "python")
-        end
-    end
+	-- Find and use virtualenv in workspace directory.
+	for _, pattern in ipairs({ "*", ".*" }) do
+		local match = vim.fn.glob(vim.fs.joinpath(workspace, pattern, "pyvenv.cfg"))
+		if match ~= "" then
+			return vim.fs.joinpath(vim.fs.dirname(match), "bin", "python")
+		end
+	end
 
-    -- Fallback to system Python.
-    return vim.fn.exepath("python3") or vim.fn.exepath("python") or "python"
+	-- Fallback to system Python.
+	return vim.fn.exepath("python3") or vim.fn.exepath("python") or "python"
 end
 
-nvim_lsp.pyright.setup({
-    before_init = function(_, config)
-        config.settings.python.pythonPath = get_python_path(config.root_dir)
-    end,
-    capabilities = capabilities,
-    on_attach = on_attach,
-})
+-- LSP Server Configurations using vim.lsp.config (Neovim 0.11+)
+
+-- Astro
+vim.lsp.config.astro = {
+	capabilities = capabilities,
+	on_attach = function(client, bufnr)
+		on_attach(client, bufnr)
+		client.server_capabilities.document_formatting = false
+	end,
+}
+
+-- C/C++
+vim.lsp.config.clangd = {
+	capabilities = capabilities,
+	on_attach = on_attach,
+}
+
+-- Go
+vim.lsp.config.gopls = {
+	capabilities = capabilities,
+	on_attach = on_attach,
+}
+
+-- Bash
+vim.lsp.config.bashls = {
+	capabilities = capabilities,
+	on_attach = on_attach,
+}
+
+-- CSS
+vim.lsp.config.cssls = {
+	capabilities = capabilities,
+	on_attach = on_attach,
+}
+
+-- Tailwind
+vim.lsp.config.tailwindcss = {
+	capabilities = capabilities,
+	on_attach = on_attach,
+	filetypes = {
+		"aspnetcorerazor",
+		"astro",
+		"astro-markdown",
+		"blade",
+		"clojure",
+		"django-html",
+		"htmldjango",
+		"edge",
+		"eelixir",
+		"elixir",
+		"ejs",
+		"erb",
+		"eruby",
+		"gohtml",
+		"gohtmltmpl",
+		"haml",
+		"handlebars",
+		"hbs",
+		"html",
+		"html-eex",
+		"heex",
+		"jade",
+		"leaf",
+		"liquid",
+		"markdown",
+		"mdx",
+		"mustache",
+		"njk",
+		"nunjucks",
+		"php",
+		"razor",
+		"slim",
+		"twig",
+		"css",
+		"less",
+		"postcss",
+		"sass",
+		"scss",
+		"stylus",
+		"sugarss",
+		"javascript",
+		"javascriptreact",
+		"reason",
+		"rescript",
+		"typescriptreact",
+		"vue",
+		"svelte",
+		"templ",
+	},
+}
+
+-- JSON
+vim.lsp.config.jsonls = {
+	capabilities = capabilities,
+	on_attach = on_attach,
+}
+
+-- Svelte
+vim.lsp.config.svelte = {
+	capabilities = capabilities,
+	on_attach = on_attach,
+}
+
+-- Docker
+vim.lsp.config.dockerls = {
+	capabilities = capabilities,
+	on_attach = on_attach,
+}
+
+-- Python
+vim.lsp.config.pyright = {
+	before_init = function(_, config)
+		config.settings.python.pythonPath = get_python_path(config.root_dir)
+	end,
+	capabilities = capabilities,
+	on_attach = on_attach,
+}
 
 -- VimL
-nvim_lsp.vimls.setup({
-    capabilities = capabilities,
-    on_attach = on_attach,
-})
+vim.lsp.config.vimls = {
+	capabilities = capabilities,
+	on_attach = on_attach,
+}
 
 -- Solidity
-nvim_lsp.solidity_ls.setup({
-    capabilities = capabilities,
-    on_attach = on_attach,
-})
+vim.lsp.config.solidity_ls = {
+	capabilities = capabilities,
+	on_attach = on_attach,
+}
 
 -- GLSL
-nvim_lsp.glsl_analyzer.setup({
-    capabilities = capabilities,
-    on_attach = on_attach,
-})
+vim.lsp.config.glsl_analyzer = {
+	capabilities = capabilities,
+	on_attach = on_attach,
+}
 
 -- WGSL
-nvim_lsp.wgsl_analyzer.setup({
-    capabilities = capabilities,
-    on_attach = on_attach,
-})
+vim.lsp.config.wgsl_analyzer = {
+	capabilities = capabilities,
+	on_attach = on_attach,
+}
 
 -- GD Shader
-nvim_lsp.gdshader_lsp.setup({
-    capabilities = capabilities,
-    on_attach = on_attach,
-})
+vim.lsp.config.gdshader_lsp = {
+	capabilities = capabilities,
+	on_attach = on_attach,
+}
+
+-- QML
+vim.lsp.config.qmlls = {
+	capabilities = capabilities,
+	on_attach = on_attach,
+}
 
 -- Hyprlang
-nvim_lsp.hyprls.setup({
-    capabilities = capabilities,
-    on_attach = on_attach,
-})
-
--- OCaml
---[[ nvim_lsp.ocamllsp.setup({
-    capabilities = capabilities,
-    on_attach = on_attach,
-}) ]]
+vim.lsp.config.hyprls = {
+	capabilities = capabilities,
+	on_attach = on_attach,
+}
 
 -- Terraform
-nvim_lsp.terraformls.setup({
-    capabilities = capabilities,
-    on_attach = on_attach,
-})
-nvim_lsp.tflint.setup({
-    capabilities = capabilities,
-    on_attach = on_attach,
-})
+vim.lsp.config.terraformls = {
+	capabilities = capabilities,
+	on_attach = on_attach,
+}
+
+vim.lsp.config.tflint = {
+	capabilities = capabilities,
+	on_attach = on_attach,
+}
 
 -- Lua
-nvim_lsp.lua_ls.setup({
-    capabilities = capabilities,
-    on_attach = function(client, bufnr)
-        on_attach(client, bufnr)
-
-        -- Let NullLs handle formatting
-        client.server_capabilities.document_formatting = false
-    end,
-    settings = {
-        Lua = {
-            hint = { enable = true },
-            diagnostics = {
-                enable = true,
-            },
-            telemetry = {
-                enable = false,
-            },
-        },
-    },
-})
-
--- Rust
-require("rust-tools").setup({
-    server = {
-        capabilities = capabilities,
-        on_attach = function(client, bufnr)
-            on_attach(client, bufnr)
-
-            -- Let NullLs handle formatting
-            client.server_capabilities.document_formatting = false
-        end,
-    },
-})
+vim.lsp.config.lua_ls = {
+	capabilities = capabilities,
+	on_attach = function(client, bufnr)
+		on_attach(client, bufnr)
+		client.server_capabilities.document_formatting = false
+	end,
+	settings = {
+		Lua = {
+			hint = { enable = true },
+			diagnostics = {
+				enable = true,
+			},
+			telemetry = {
+				enable = false,
+			},
+		},
+	},
+}
 
 -- ReScript
---Setup rescript LSP
-require("lspconfig").rescriptls.setup({
-    -- Using mason.nvim plugin
-    cmd = { "rescript-lsp", "--stdio" },
-    -- or pass the path to server.js
-    -- cmd = {
-    --   'node',
-    --   '/home/username/path/to/server/out/server.js',
-    --   '--stdio'
-    -- }
-    on_attach = on_attach,
-    commands = {
-        ResOpenCompiled = {
-            require("rescript-tools").open_compiled,
-            description = "Open Compiled JS",
-        },
-        ResCreateInterface = {
-            require("rescript-tools").create_interface,
-            description = "Create Interface file",
-        },
-        ResSwitchImplInt = {
-            require("rescript-tools").switch_impl_intf,
-            description = "Switch Implementation/Interface",
-        },
-    },
+vim.lsp.config.rescriptls = {
+	cmd = { "rescript-lsp", "--stdio" },
+	on_attach = on_attach,
+	commands = {
+		ResOpenCompiled = {
+			require("rescript-tools").open_compiled,
+			description = "Open Compiled JS",
+		},
+		ResCreateInterface = {
+			require("rescript-tools").create_interface,
+			description = "Create Interface file",
+		},
+		ResSwitchImplInt = {
+			require("rescript-tools").switch_impl_intf,
+			description = "Switch Implementation/Interface",
+		},
+	},
+}
+
+-- Enable all configured LSP servers
+vim.lsp.enable({
+	"astro",
+	"clangd",
+	"gopls",
+	"bashls",
+	"cssls",
+	"tailwindcss",
+	"jsonls",
+	"svelte",
+	"dockerls",
+	"pyright",
+	"vimls",
+	"solidity_ls",
+	"glsl_analyzer",
+	"wgsl_analyzer",
+	"gdshader_lsp",
+	"qmlls",
+	"hyprls",
+	"terraformls",
+	"tflint",
+	"lua_ls",
+	"rescriptls",
 })
+
+-- Rust: rustaceanvim handles LSP setup automatically via ftplugin
+-- Configure via vim.g.rustaceanvim if needed (see :h rustaceanvim)
+vim.g.rustaceanvim = {
+	server = {
+		capabilities = capabilities,
+		on_attach = on_attach,
+	},
+}
 
 -- DAP
 require("mason-nvim-dap").setup({ ensure_installed = { "python", "js", "chrome", "firefox" }, automatic_setup = true })
