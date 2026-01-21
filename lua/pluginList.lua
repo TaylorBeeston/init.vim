@@ -130,9 +130,6 @@ require("lazy").setup({
 	{
 		"hedyhli/outline.nvim",
 		cmd = { "Outline", "OutlineOpen" },
-		keys = {
-			{ "<leader>o", "<cmd>Outline<CR>", desc = "Toggle Outline" },
-		},
 		opts = {},
 	},
 	-- Note: nvim-code-action-menu removed - use built-in vim.lsp.buf.code_action() instead
@@ -140,6 +137,36 @@ require("lazy").setup({
 		"mrcjkb/haskell-tools.nvim",
 		version = "^3", -- Recommended
 		lazy = false, -- This plugin is already lazy
+	},
+	{
+		"romus204/referencer.nvim",
+		lazy = false,
+		config = function()
+			require("referencer").setup({
+				enable = true,
+			})
+		end,
+	},
+	{
+		"dmmulroy/ts-error-translator.nvim",
+		event = { "BufReadPre", "BufNewFile" },
+		config = function()
+			require("ts-error-translator").setup({
+				-- Auto-attach to LSP servers for TypeScript diagnostics (default: true)
+				auto_attach = true,
+
+				-- LSP server names to translate diagnostics for (default shown below)
+				servers = {
+					"astro",
+					"svelte",
+					"ts_ls",
+					"tsserver", -- deprecated, use ts_ls
+					"typescript-tools",
+					"volar",
+					"vtsls",
+				},
+			})
+		end,
 	},
 
 	-- Treesitter
@@ -374,17 +401,6 @@ require("lazy").setup({
 				["<C-e>"] = { "hide" },
 				["<C-y>"] = { "select_and_accept" },
 				["<CR>"] = { "accept", "fallback" },
-				["<Tab>"] = {
-					function(cmp)
-						if cmp.snippet_active() then
-							return cmp.accept()
-						else
-							return cmp.select_next()
-						end
-					end,
-					"snippet_forward",
-					"fallback",
-				},
 				["<S-Tab>"] = { "select_prev", "snippet_backward", "fallback" },
 				["<Up>"] = { "select_prev", "fallback" },
 				["<Down>"] = { "select_next", "fallback" },
@@ -424,69 +440,56 @@ require("lazy").setup({
 
 	-- AI
 	{
-		"NickvanDyke/opencode.nvim",
-		dependencies = {
-			-- Recommended for `ask()` and `select()`.
-			-- Required for `snacks` provider.
-			---@module 'snacks' <- Loads `snacks.nvim` types for configuration intellisense.
-			{ "folke/snacks.nvim", opts = { input = {}, picker = {}, terminal = {} } },
-		},
+		"sudo-tee/opencode.nvim",
 		config = function()
-			---@type opencode.Opts
-			vim.g.opencode_opts = {
-				provider = {
-					enabled = "snacks",
-				},
-			}
-
-			-- Required for `opts.events.reload`.
-			vim.o.autoread = true
-
-			-- Recommended/example keymaps.
-			vim.keymap.set({ "n", "x" }, "<C-a>", function()
-				require("opencode").ask("@this: ", { submit = true })
-			end, { desc = "Ask opencode…" })
-			vim.keymap.set({ "n", "x" }, "<C-x>", function()
-				require("opencode").select()
-			end, { desc = "Execute opencode action…" })
-			vim.keymap.set({ "n", "t" }, "<C-.>", function()
-				require("opencode").toggle()
-			end, { desc = "Toggle opencode" })
-
-			vim.keymap.set({ "n", "x" }, "go", function()
-				return require("opencode").operator("@this ")
-			end, { desc = "Add range to opencode", expr = true })
-			vim.keymap.set("n", "goo", function()
-				return require("opencode").operator("@this ") .. "_"
-			end, { desc = "Add line to opencode", expr = true })
-
-			vim.keymap.set("n", "<S-C-u>", function()
-				require("opencode").command("session.half.page.up")
-			end, { desc = "Scroll opencode up" })
-			vim.keymap.set("n", "<S-C-d>", function()
-				require("opencode").command("session.half.page.down")
-			end, { desc = "Scroll opencode down" })
-
-			-- You may want these if you stick with the opinionated "<C-a>" and "<C-x>" above — otherwise consider "<leader>o…".
-			vim.keymap.set("n", "+", "<C-a>", { desc = "Increment under cursor", noremap = true })
-			vim.keymap.set("n", "-", "<C-x>", { desc = "Decrement under cursor", noremap = true })
+			require("opencode").setup({})
 		end,
-	},
-
-	{
-		"Exafunction/windsurf.nvim",
 		lazy = false,
 		dependencies = {
 			"nvim-lua/plenary.nvim",
-			"hrsh7th/nvim-cmp",
-		},
-		config = function()
-			require("codeium").setup({
-				virtual_text = {
-					enabled = true,
-					default_filetype_enabled = true,
+			{
+				"MeanderingProgrammer/render-markdown.nvim",
+				opts = {
+					anti_conceal = { enabled = false },
+					file_types = { "markdown", "opencode_output" },
 				},
+				ft = { "markdown", "Avante", "copilot-chat", "opencode_output" },
+			},
+			-- Optional, for file mentions and commands completion, pick only one
+			"saghen/blink.cmp",
+			-- 'hrsh7th/nvim-cmp',
+
+			-- Optional, for file mentions picker, pick only one
+			"folke/snacks.nvim",
+			-- 'nvim-telescope/telescope.nvim',
+			-- 'ibhagwan/fzf-lua',
+			-- 'nvim_mini/mini.nvim',
+		},
+	},
+
+	{
+		"monkoose/neocodeium",
+		lazy = false,
+		config = function()
+			local neocodeium = require("neocodeium")
+			local blink_ok, blink = pcall(require, "blink.cmp")
+			neocodeium.setup({
+				filter = function()
+					if blink_ok then
+						return not blink.is_visible()
+					end
+					return true
+				end,
 			})
+
+			if blink_ok then
+				vim.api.nvim_create_autocmd("User", {
+					pattern = "BlinkCmpMenuOpen",
+					callback = function()
+						neocodeium.clear()
+					end,
+				})
+			end
 		end,
 	},
 
@@ -833,33 +836,13 @@ require("lazy").setup({
 
 	-- F u n c t i o n a l i t y
 
-	-- Tab in insert mode to escape parentheses hell
+	-- Indent Guessing
 	{
-		"abecodes/tabout.nvim",
-		event = { "BufNewFile", "BufReadPre" },
+		"nmac427/guess-indent.nvim",
+		event = { "BufReadPre", "BufNewFile" },
 		config = function()
-			require("tabout").setup({
-				tabkey = "<Tab>", -- key to trigger tabout, set to an empty string to disable
-				backwards_tabkey = "<S-Tab>", -- key to trigger backwards tabout, set to an empty string to disable
-				act_as_tab = true, -- shift content if tab out is not possible
-				act_as_shift_tab = false, -- reverse shift content if tab out is not possible (if your keyboard/terminal supports <S-Tab>)
-				enable_backwards = true, -- well ...
-				completion = true, -- if the tabkey is used in a completion pum
-				tabouts = {
-					{ open = "'", close = "'" },
-					{ open = '"', close = '"' },
-					{ open = "`", close = "`" },
-					{ open = "(", close = ")" },
-					{ open = "[", close = "]" },
-					{ open = "{", close = "}" },
-				},
-				ignore_beginning = true, --[[ if the cursor is at the beginning of a filled element it will rather tab out than shift the content ]]
-				exclude = {}, -- tabout will ignore these filetypes
-				default_tab = "<Tab>",
-				default_shift_tab = "<S-Tab>",
-			})
+			require("guess-indent").setup()
 		end,
-		dependencies = { "nvim-treesitter/nvim-treesitter", "hrsh7th/nvim-cmp" },
 	},
 
 	-- Syntax checking/highlighting

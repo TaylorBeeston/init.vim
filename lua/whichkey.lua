@@ -8,27 +8,23 @@ local get_input = require("helpers/input")
 local cycle_diagnostics = require("helpers/diagnostics")
 
 -- Leader Keybindings
-wk.add({
-    {
-        "<C-;>",
-        function()
-            local text = require("codeium.virtual_text").accept()
-            if text then
-                vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(text, true, true, true), "i", true)
-            end
-            print(text)
-        end,
-        desc = "Codeium Accept",
-        mode = "i",
-    },
-    {
-        "<C-l>",
-        function()
-            require("codeium.virtual_text").clear()
-        end,
-        desc = "Codeium Clear",
-        mode = "i",
-    },
+	wk.add({
+		{
+			"<Tab>",
+			function()
+				require("neocodeium").accept()
+			end,
+			desc = "NeoCodeium Accept",
+			mode = "i",
+		},
+		{
+			"<C-l>",
+			function()
+				require("neocodeium").clear()
+			end,
+			desc = "NeoCodeium Clear",
+			mode = "i",
+		},
     { "<leader><S-Tab>", ":bp<CR>",                                   desc = "Cycle through buffers" },
     { "<leader><Tab>",   ":bd<CR>",                                   desc = "Close buffer" },
     { "<leader>K",       "<cmd>lua vim.lsp.buf.hover()<CR>",          desc = "Forcibly Hover" },
